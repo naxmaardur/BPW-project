@@ -7,7 +7,11 @@ public class RunTimeAnimatorListContainer
 {
     [SerializeField]
     private RuntimeAnimatorController[] _animators; 
-
+    
+    public int AnimatorsCount()
+    {
+        return _animators.Length;
+    }
     public RuntimeAnimatorController GetAnimator(int pos)
     {
         if (_animators.Length - 1 < pos) { return null; }

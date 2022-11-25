@@ -17,9 +17,19 @@ public class PlayerMovementState : BaseState
 
     public override bool CheckSwitchStates()
     {
+        if(_context.ControlerContext.IsShouldCastSet && GetSubState != _states.Dodge())
+        {
+            SwitchState(_states.Casting());
+            return true;
+        }
         if (_context.ControlerContext.IsShouldAttackSet && GetSubState != _states.Dodge())
         {
             SwitchState(_states.Attacking());
+            return true;
+        }
+        if(_context.ControlerContext.Health <= 0)
+        {
+            SwitchState(_states.Dying());
             return true;
         }
 

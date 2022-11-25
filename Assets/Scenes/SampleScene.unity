@@ -136,7 +136,8 @@ GameObject:
   - component: {fileID: 202029997}
   - component: {fileID: 202029996}
   - component: {fileID: 202029995}
-  m_Layer: 0
+  - component: {fileID: 202030000}
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 341ce8c121d4c3746bc246d26d1d4e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  automaticPickUP: 1
+  automaticPickUP: 0
   item: {fileID: 11400000, guid: 126170c49a462d546892ef9589885305, type: 2}
 --- !u!65 &202029996
 BoxCollider:
@@ -235,6 +236,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &202030000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202029994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74226860d821c2849ac33fc424e18b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlights: []
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,6 +667,7 @@ GameObject:
   - component: {fileID: 1845586030}
   - component: {fileID: 1845586029}
   - component: {fileID: 1845586031}
+  - component: {fileID: 1845586032}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -756,6 +771,7 @@ MonoBehaviour:
   _movementPressed: 0
   _shouldDodge: 0
   turnSmoothVelocity: 0
+  invincible: 0
 --- !u!143 &1845586030
 CharacterController:
   m_ObjectHideFlags: 0
@@ -794,6 +810,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1845586032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845586021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c308c9ede81d5814eacb0e01f418e14f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reach: 3.5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &2109873784
 GameObject:
   m_ObjectHideFlags: 0

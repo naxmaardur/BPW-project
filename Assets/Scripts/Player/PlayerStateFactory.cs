@@ -15,6 +15,7 @@ public class PlayerStateFactory : StateFactory
         _states["dodge"] = new PlayerDodgeState(_stateMachine, this);
         _states["Movement"] = new PlayerMovementState(_stateMachine, this);
         _states["Attacking"] = new PlayerAttackingState(_stateMachine, this);
+        _states["Casting"] = new PlayerCastingState(_stateMachine, this);
         _states["Dying"] = new PlayerDyingState(_stateMachine, this);
     }
 
@@ -48,6 +49,10 @@ public class PlayerStateFactory : StateFactory
     public BaseState Attacking()
     {
         return _states["Attacking"];
+    }
+    public BaseState Casting()
+    {
+        return _states["Casting"];
     }
     public BaseState Dying()
     {

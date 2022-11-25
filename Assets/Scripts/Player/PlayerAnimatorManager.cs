@@ -24,7 +24,7 @@ public class PlayerAnimatorManager
     public bool ChangeRunTimeAnimatorTo(int animatorID)
     {
         RuntimeAnimatorController runtimeAnimatorController = _animatorContainer.GetAnimator(animatorID);
-        if(runtimeAnimatorController == null) { return false; }
+        if (runtimeAnimatorController == null) { return false; }
         _animator.runtimeAnimatorController = runtimeAnimatorController;
         return true;
     }
@@ -47,7 +47,7 @@ public class PlayerAnimatorManager
     }
 
     public Vector3 GetDeltaPosition { get { return _animator.deltaPosition; } }
-       
+
     public void SetMovementX(float value)
     {
         _animator.SetFloat("MovementX", value);
@@ -81,12 +81,17 @@ public class PlayerAnimatorManager
     }
     public int GetAttackComboPos()
     {
-       return _animator.GetInteger("AttackComboPos");
+        return _animator.GetInteger("AttackComboPos");
     }
 
     public void TriggerDodge()
     {
         _animator.SetTrigger("Dodge");
+    }
+
+    public void TriggerCast()
+    {
+        _animator.SetTrigger("Cast");
     }
 
     public void SetAttack(bool value)
@@ -103,6 +108,23 @@ public class PlayerAnimatorManager
         return (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime) % 1;
     }
 
+
+    public bool TransitioningToAttack()
+    {
+        AnimatorTransitionInfo transitionInfo = _animator.GetAnimatorTransitionInfo(0);
+        return transitionInfo.IsUserName("ToAttack");
+    }
+    public bool TransitioningFromAttack()
+    {
+        AnimatorTransitionInfo transitionInfo = _animator.GetAnimatorTransitionInfo(0);
+        return transitionInfo.IsUserName("FromAttack");
+    }
+
+    public bool TransitioningToCast()
+    {
+        AnimatorTransitionInfo transitionInfo = _animator.GetAnimatorTransitionInfo(0);
+        return transitionInfo.IsUserName("ToCast");
+    }
     public bool IsDodgePlaying()
     {
         return _animator.GetCurrentAnimatorStateInfo(0).IsName("Dive Forward");

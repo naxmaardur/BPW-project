@@ -41,6 +41,7 @@ public class PlayerDodgeState : BaseState
 
     public override void EnterState()
     {
+        _context.ControlerContext.invincible = true;
         _context.ControlerContext.playerAnimator.TriggerDodge();
         _checkCooldown = 0.7f + Time.time;
     }
@@ -64,5 +65,9 @@ public class PlayerDodgeState : BaseState
 
     protected override void UpdateState()
     {
+        if (_context.ControlerContext.playerAnimator.GetAnimationCompletionPecentage() > 0.70f && _context.ControlerContext.invincible)
+        {
+            _context.ControlerContext.invincible = false;
+        }
     }
 }

@@ -16,8 +16,15 @@ public class PlayerRunState : BaseState
     {
         if (_context.ControlerContext.IsShouldDodgeSet)
         {
-            SwitchState(_states.Dodge());
-            return true;
+            if (GetSuperState != _states.Casting())
+            {
+                SwitchState(_states.Dodge());
+                return true;
+            }
+            else
+            {
+                _context.ControlerContext.ResetShouldDodge();
+            }
         }
         if (_context.ControlerContext.IsShouldSneakSet)
         {

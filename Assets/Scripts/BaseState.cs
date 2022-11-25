@@ -10,6 +10,7 @@ public abstract class BaseState
     private BaseState _currentSubState;
     protected bool _IsRootState;
     public BaseState GetSubState { get { return _currentSubState; } }
+    public BaseState GetSuperState { get { return _currentSuperState; } }
 
     protected BaseState(StateMachine currentContext, StateFactory playerStateFactory)
     {

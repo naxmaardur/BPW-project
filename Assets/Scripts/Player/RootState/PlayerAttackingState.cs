@@ -20,11 +20,28 @@ public class PlayerAttackingState : BaseState
 
     public override bool CheckSwitchStates()
     {
-        if (_checkCooldown > Time.time) { return false; }
-            if (_context.ControlerContext.IsShouldAttackSet) { return false; }
+
+        if (_context.ControlerContext.Health <= 0)
+        {
+            SwitchState(_states.Dying());
+            return true;
+        }
+        if(GetSubState == _states.Dodge())
+        {
+            SwitchState(_states.Movement());
+            return true;
+        }
+        if (_context.ControlerContext.playerAnimator.TransitioningToAttack()) { return false; }
+
+        if (_context.ControlerContext.IsShouldAttackSet) { return false; }
         if (_context.ControlerContext.playerAnimator.IsAnimationPlaying()) { return false; }
+        if (_context.ControlerContext.IsShouldCastSet)
+        {
+            SwitchState(_states.Casting());
+            return true;
+        }
         SwitchState(_states.Movement());
-        return false;
+        return true;
     }
 
     public override void EnterState()
@@ -65,7 +82,6 @@ public class PlayerAttackingState : BaseState
 
     protected override void ExitState()
     {
-        //_context.ResetShouldAttack();
         _context.ControlerContext.playerAnimator.SetAttack(false);
         _lastAttackEnd = Time.time;
     }

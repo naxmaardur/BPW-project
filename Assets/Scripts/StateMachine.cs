@@ -15,8 +15,8 @@ public abstract class StateMachine
 
     public virtual void OnCheckSwitchStates()
     {
-        _currentState.CheckSwitchStates();
         _currentState.GetSubState.CheckSwitchStates();
+        _currentState.CheckSwitchStates();
     }
 
 
