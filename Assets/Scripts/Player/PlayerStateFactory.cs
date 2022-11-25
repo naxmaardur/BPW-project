@@ -2,78 +2,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateFactory
+public class PlayerStateFactory : StateFactory
 {
-    PlayerStateMachine _context;
-    Dictionary<_StatesEnum, PlayerBaseState> _states = new Dictionary<_StatesEnum, PlayerBaseState>();
-
-
-    enum _StatesEnum
-    {
-        //Sub states
-        idel,
-        walk,
-        run,
-        sneak,
-        dodge,
-        //Root States
-        Movement,
-        Attacking,
-        Dying
-    }
-
-
-
+    new PlayerStateMachine _stateMachine;
     public PlayerStateFactory(PlayerStateMachine currentContext)
     {
-        _context = currentContext;
-        _states[_StatesEnum.idel] = new PlayerIdleState(_context, this);
-        _states[_StatesEnum.walk] = new PlayerWalkState(_context, this);
-        _states[_StatesEnum.run] = new PlayerRunState(_context, this);
-        _states[_StatesEnum.sneak] = new PlayerSneakState(_context, this);
-        _states[_StatesEnum.dodge] = new PlayerDodgeState(_context, this);
-        _states[_StatesEnum.Movement] = new PlayerMovementState(_context, this);
-        _states[_StatesEnum.Attacking] = new PlayerAttackingState(_context, this);
-        _states[_StatesEnum.Dying] = new PlayerDyingState(_context, this);
+        _stateMachine = currentContext;
+        _states["idle"] = new PlayerIdleState(_stateMachine, this);
+        _states["walk"] = new PlayerWalkState(_stateMachine, this);
+        _states["run"] = new PlayerRunState(_stateMachine, this);
+        _states["sneak"] = new PlayerSneakState(_stateMachine, this);
+        _states["dodge"] = new PlayerDodgeState(_stateMachine, this);
+        _states["Movement"] = new PlayerMovementState(_stateMachine, this);
+        _states["Attacking"] = new PlayerAttackingState(_stateMachine, this);
+        _states["Dying"] = new PlayerDyingState(_stateMachine, this);
     }
 
 
-    public PlayerBaseState Idel()
+    public BaseState Idle()
     {
-        return _states[_StatesEnum.idel];
+        return _states["idle"];
     }
 
 
-    public PlayerBaseState Walk()
+    public BaseState Walk()
     {
-        return _states[_StatesEnum.walk];
+        return _states["walk"];
     }
 
-    public PlayerBaseState Run()
+    public BaseState Run()
     {
-        return _states[_StatesEnum.run];
+        return _states["run"];
     }
 
-    public PlayerBaseState Sneak()
+    public BaseState Sneak()
     {
-        return _states[_StatesEnum.sneak];
+        return _states["sneak"];
     }
 
-    public PlayerBaseState Movement()
+    public BaseState Movement()
     {
-        return _states[_StatesEnum.Movement];
+        return _states["Movement"];
     }
 
-    public PlayerBaseState Attacking()
+    public BaseState Attacking()
     {
-        return _states[_StatesEnum.Attacking];
+        return _states["Attacking"];
     }
-    public PlayerBaseState Dying()
+    public BaseState Dying()
     {
-        return _states[_StatesEnum.Dying];
+        return _states["Dying"];
     }
-    public PlayerBaseState Dodge()
+    public BaseState Dodge()
     {
-        return _states[_StatesEnum.dodge];
+        return _states["dodge"];
     }
 }

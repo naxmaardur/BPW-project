@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDodgeState : PlayerBaseState
+public class PlayerDodgeState : BaseState
 {
 
     PlayerStateMachine _context;
@@ -17,29 +17,29 @@ public class PlayerDodgeState : PlayerBaseState
     public override bool CheckSwitchStates()
     {
         //throw new System.NotImplementedException();
-        if (_context.playerAnimator.IsDodgePlaying()) { return false; }
+        if (_context.ControlerContext.playerAnimator.IsDodgePlaying()) { return false; }
 
-        if (_context.IsShouldSneakSet)
+        if (_context.ControlerContext.IsShouldSneakSet)
         {
             SwitchState(_states.Sneak());
             return true;
         }
-        if (_context.IsMovementPressed)
+        if (_context.ControlerContext.IsMovementPressed)
         {
-            if (_context.IsRunPressed)
+            if (_context.ControlerContext.IsRunPressed)
                 SwitchState(_states.Run());
             else
                 SwitchState(_states.Walk());
             return true;
         }
 
-        SwitchState(_states.Idel());
+        SwitchState(_states.Idle());
         return true;
     }
 
     public override void EnterState()
     {
-        _context.playerAnimator.TriggerDodge();
+        _context.ControlerContext.playerAnimator.TriggerDodge();
         _checkCooldown = 0.7f + Time.time;
     }
 
@@ -49,7 +49,7 @@ public class PlayerDodgeState : PlayerBaseState
 
     protected override void ExitState()
     {
-        _context.ResetShouldDodge();
+        _context.ControlerContext.ResetShouldDodge();
     }
 
     protected override void FixedUpdateState()

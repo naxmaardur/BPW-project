@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovementState : PlayerBaseState
+public class PlayerMovementState : BaseState
 {
     PlayerStateMachine _context;
     PlayerStateFactory _states;
@@ -17,7 +17,7 @@ public class PlayerMovementState : PlayerBaseState
 
     public override bool CheckSwitchStates()
     {
-        if (_context.IsShouldAttackSet && GetSubState != _states.Dodge())
+        if (_context.ControlerContext.IsShouldAttackSet && GetSubState != _states.Dodge())
         {
             SwitchState(_states.Attacking());
             return true;
@@ -35,17 +35,17 @@ public class PlayerMovementState : PlayerBaseState
 
     public override void InitializeSubState()
     {
-        if (!_context.IsMovementPressed)
+        if (!_context.ControlerContext.IsMovementPressed)
         {
-            SetSubState(_states.Idel());
-            _states.Idel().EnterState();
+            SetSubState(_states.Idle());
+            _states.Idle().EnterState();
         }
-        else if (_context.IsRunPressed)
+        else if (_context.ControlerContext.IsRunPressed)
         {
             SetSubState(_states.Run());
             _states.Run().EnterState();
         }
-        else if (_context.IsShouldSneakSet)
+        else if (_context.ControlerContext.IsShouldSneakSet)
         {
             SetSubState(_states.Sneak());
             _states.Sneak().EnterState();
@@ -70,7 +70,7 @@ public class PlayerMovementState : PlayerBaseState
     protected override void OnAnimatorMoveState()
     {
         Vector3 rootMotion = _rootMotion;
-        Vector3 deltaPos = _context.playerAnimator.GetDeltaPosition;
+        Vector3 deltaPos = _context.ControlerContext.playerAnimator.GetDeltaPosition;
         deltaPos.y = 0;
         rootMotion += deltaPos;
         _rootMotion = rootMotion;
@@ -79,24 +79,24 @@ public class PlayerMovementState : PlayerBaseState
     protected override void UpdateState()
     {
         if (CheckSwitchStates()) {return;}
-        if (GetSubState != _states.Idel())
+        if (GetSubState != _states.Idle())
         {
             HandleRotation();
         }
-        _context.Move(_rootMotion);
+        _context.ControlerContext.Move(_rootMotion);
         _rootMotion = Vector3.zero;
 
     }
 
     public void HandleRotation()
     {
-        float movementfloat = Mathf.Clamp01(Mathf.Abs(_context.GetCurrentMovement.x) + Mathf.Abs(_context.GetCurrentMovement.y));
+        float movementfloat = Mathf.Clamp01(Mathf.Abs(_context.ControlerContext.GetCurrentMovement.x) + Mathf.Abs(_context.ControlerContext.GetCurrentMovement.y));
         float turningMod = 0.2f;
         if(GetSubState == _states.Run()) { turningMod = 0.5f; }
-        float turnSpeed = _context.TurningSpeed + turningMod * movementfloat;
+        float turnSpeed = _context.ControlerContext.TurningSpeed + turningMod * movementfloat;
 
-        float targetAngle = Mathf.Atan2(_context.GetCurrentMovement.x, _context.GetCurrentMovement.y) * Mathf.Rad2Deg + _context.GetCam.eulerAngles.y;
-        float angle = Mathf.SmoothDampAngle(_context.transform.eulerAngles.y, targetAngle, ref _context.turnSmoothVelocity, turnSpeed);
-        _context.transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        float targetAngle = Mathf.Atan2(_context.ControlerContext.GetCurrentMovement.x, _context.ControlerContext.GetCurrentMovement.y) * Mathf.Rad2Deg + _context.ControlerContext.GetCam.eulerAngles.y;
+        float angle = Mathf.SmoothDampAngle(_context.ControlerContext.transform.eulerAngles.y, targetAngle, ref _context.ControlerContext.turnSmoothVelocity, turnSpeed);
+        _context.ControlerContext.transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
 }

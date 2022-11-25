@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDyingState : PlayerBaseState
+public class PlayerDyingState : BaseState
 {
     PlayerStateMachine _context;
     PlayerStateFactory _states;

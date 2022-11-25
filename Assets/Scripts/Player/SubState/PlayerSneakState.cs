@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSneakState : PlayerBaseState
+public class PlayerSneakState : BaseState
 {
     PlayerStateMachine _context;
     PlayerStateFactory _states;
@@ -14,19 +14,19 @@ public class PlayerSneakState : PlayerBaseState
 
     public override bool CheckSwitchStates()
     {
-        if (_context.IsShouldDodgeSet)
+        if (_context.ControlerContext.IsShouldDodgeSet)
         {
             SwitchState(_states.Dodge());
             return true;
         }
-        if (!_context.IsShouldSneakSet)
+        if (!_context.ControlerContext.IsShouldSneakSet)
         {
-            if (!_context.IsMovementPressed)
+            if (!_context.ControlerContext.IsMovementPressed)
             {
-                SwitchState(_states.Idel());
+                SwitchState(_states.Idle());
                 return true;
             }
-            if (!_context.IsRunPressed)
+            if (!_context.ControlerContext.IsRunPressed)
             {
                 SwitchState(_states.Walk());
                 return true;
@@ -42,7 +42,7 @@ public class PlayerSneakState : PlayerBaseState
 
     public override void EnterState()
     {
-        _context.playerAnimator.SetSneaking(true);
+        _context.ControlerContext.playerAnimator.SetSneaking(true);
     }
 
     public override void InitializeSubState()
@@ -51,7 +51,7 @@ public class PlayerSneakState : PlayerBaseState
 
     protected override void ExitState()
     {
-        _context.playerAnimator.SetSneaking(false);
+        _context.ControlerContext.playerAnimator.SetSneaking(false);
     }
 
     protected override void FixedUpdateState()

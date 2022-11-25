@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWalkState : PlayerBaseState
+public class PlayerWalkState : BaseState
 {
     PlayerStateMachine _context;
     PlayerStateFactory _states;
@@ -14,22 +14,22 @@ public class PlayerWalkState : PlayerBaseState
 
     public override bool CheckSwitchStates()
     {
-        if (_context.IsShouldDodgeSet)
+        if (_context.ControlerContext.IsShouldDodgeSet)
         {
             SwitchState(_states.Dodge());
             return true;
         }
-        if (_context.IsShouldSneakSet)
+        if (_context.ControlerContext.IsShouldSneakSet)
         {
             SwitchState(_states.Sneak());
             return true;
         }
-        if (!_context.IsMovementPressed)
+        if (!_context.ControlerContext.IsMovementPressed)
         {
-            SwitchState(_states.Idel());
+            SwitchState(_states.Idle());
             return true;
         }
-        if (_context.IsRunPressed)
+        if (_context.ControlerContext.IsRunPressed)
         {
             SwitchState(_states.Run());
             return true;

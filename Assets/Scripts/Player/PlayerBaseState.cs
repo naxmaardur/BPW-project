@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class PlayerBaseState
 {
-    protected PlayerStateMachine _ctx;
+   /* protected PlayerStateMachine _ctx;
     protected PlayerStateFactory _factory;
     private PlayerBaseState _currentSuperState;
     private PlayerBaseState _currentSubState;
@@ -68,5 +68,5 @@ public abstract class PlayerBaseState
     {
         _currentSubState = newSubState;
         newSubState.SetSuperState(this);
-    }
+    }*/
 }
