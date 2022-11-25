@@ -78,7 +78,6 @@ public class PlayerMovementState : BaseState
 
     protected override void UpdateState()
     {
-        if (CheckSwitchStates()) {return;}
         if (GetSubState != _states.Idle())
         {
             HandleRotation();

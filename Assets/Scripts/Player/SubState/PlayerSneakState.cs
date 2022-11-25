@@ -66,6 +66,5 @@ public class PlayerSneakState : BaseState
 
     protected override void UpdateState()
     {
-        CheckSwitchStates();
     }
 }

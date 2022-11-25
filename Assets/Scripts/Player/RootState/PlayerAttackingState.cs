@@ -20,7 +20,8 @@ public class PlayerAttackingState : BaseState
 
     public override bool CheckSwitchStates()
     {
-        if(_context.ControlerContext.IsShouldAttackSet) { return false; }
+        if (_checkCooldown > Time.time) { return false; }
+            if (_context.ControlerContext.IsShouldAttackSet) { return false; }
         if (_context.ControlerContext.playerAnimator.IsAnimationPlaying()) { return false; }
         SwitchState(_states.Movement());
         return false;
@@ -102,7 +103,6 @@ public class PlayerAttackingState : BaseState
             {
                 NextCombo();
             }
-            CheckSwitchStates(); 
         }
         _context.ControlerContext.Move(_rootMotion);
         _rootMotion = Vector3.zero;

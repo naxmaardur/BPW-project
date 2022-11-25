@@ -86,6 +86,7 @@ public class PlayerControler : MonoBehaviour
     {
         if (_attackPressed && !_shouldAttack && _canAttack && _lastAttackCompleted) { _shouldAttack = true; _canAttack = false; }
         _PlayerStateMachine.OnUpdate();
+        _PlayerStateMachine.OnCheckSwitchStates();
     }
 
     private void OnAnimatorMove()

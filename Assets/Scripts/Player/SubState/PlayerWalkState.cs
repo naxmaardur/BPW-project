@@ -64,6 +64,5 @@ public class PlayerWalkState : BaseState
 
     protected override void UpdateState()
     {
-        CheckSwitchStates();
     }
 }

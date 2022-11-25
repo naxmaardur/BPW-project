@@ -13,9 +13,26 @@ public abstract class StateMachine
 
     }
 
-    public abstract void OnCheckSwitchStates();
-    public abstract void OnFixedUpdate();
-    public abstract void OnUpdate();
-    public abstract void OnAnimatorMoveState();
+    public virtual void OnCheckSwitchStates()
+    {
+        _currentState.CheckSwitchStates();
+        _currentState.GetSubState.CheckSwitchStates();
+    }
+
+
+    public virtual void OnFixedUpdate()
+    {
+        _currentState.FixedUpdateStates();
+    }
+
+    public virtual void OnUpdate()
+    {
+        _currentState.UpdateStates();
+    }
+
+    public virtual void OnAnimatorMoveState()
+    {
+        _currentState.OnAnimatorMoveStates();
+    }
 
 }

@@ -16,8 +16,10 @@ public class PlayerDodgeState : BaseState
 
     public override bool CheckSwitchStates()
     {
-        //throw new System.NotImplementedException();
-        if (_context.ControlerContext.playerAnimator.IsDodgePlaying()) { return false; }
+        if (_checkCooldown > Time.time){ return false; }
+
+            //throw new System.NotImplementedException();
+            if (_context.ControlerContext.playerAnimator.IsDodgePlaying()) { return false; }
 
         if (_context.ControlerContext.IsShouldSneakSet)
         {
@@ -62,6 +64,5 @@ public class PlayerDodgeState : BaseState
 
     protected override void UpdateState()
     {
-        if(_checkCooldown <= Time.time) { CheckSwitchStates(); }
     }
 }

@@ -68,6 +68,5 @@ public class PlayerIdleState : BaseState
 
     protected override void UpdateState()
     {
-        CheckSwitchStates();
     }
 }
