@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerPickUpManager
 {
     PlayerControler _context;
+   
+
 
     public PlayerPickUpManager(PlayerControler ctx)
     {
@@ -43,6 +45,7 @@ public class PlayerPickUpManager
     public bool PickUpWeapon(PickUpItem item)
     {
         if (item.ItemId > _context.AnimatorListContainer.AnimatorsCount() - 1) return false;
+        _context.ChangeWeaponTo(item.ItemId);
         return _context.playerAnimator.ChangeRunTimeAnimatorTo(item.ItemId);
     }
 

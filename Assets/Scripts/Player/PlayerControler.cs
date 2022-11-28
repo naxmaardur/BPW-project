@@ -11,6 +11,15 @@ public class PlayerControler : MonoBehaviour, IDamageable
     PlayerPickUpManager _pickUpManager;
     InteractionEventManager _interactionEventManager;
 
+    HitBox _currentWeaponHitBox;
+
+    [SerializeField]
+    Transform _weaponPoint;
+    [SerializeField]
+    Transform _magicPoint;
+    Transform _weaponTransform;
+    Transform _magicTransform;
+
     PlayerInput _input;
     Vector2 _currentMovement;
     Vector2 _currentLookInput;
@@ -33,6 +42,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
     public bool invincible = false;
 
+    public HitBox CurrentWeaponHitBox { get { return _currentWeaponHitBox; } }
     public RunTimeAnimatorListContainer AnimatorListContainer { get { return _animatorListContainer; } }
     public PlayerAnimatorManager playerAnimator { get { return _playerAnimator; } }
     public bool IsMovementPressed { get { return _movementPressed; } }
@@ -51,12 +61,13 @@ public class PlayerControler : MonoBehaviour, IDamageable
     public bool IsShouldAttackSet { get { return _shouldAttack; } }
     public bool IsShouldCastSet { get { return _shouldCast; } }
 
+    [SerializeField]
     float _health;
     float _maxHealth = 100;
 
     public float Health { get { return _health; } set { _health = value; Mathf.Clamp(_health, 0, _maxHealth); } }
 
-    private void Awake()
+    public void onAwake()
     {
         _interactionEventManager = new InteractionEventManager();
         Health = _maxHealth;
@@ -93,6 +104,8 @@ public class PlayerControler : MonoBehaviour, IDamageable
         _input.Player.Cast.performed += ctx => { _CastPressed = true; };
         _input.Player.Cast.canceled += ctx => { _CastPressed = false; _canCast = true; };
         StartCoroutine(playerAnimator.Updatefloats());
+        ChangeWeaponTo(0);
+       
     }
 
     // Start is called before the first frame update
@@ -102,7 +115,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
     }
 
     // Update is called once per frame
-    void Update()
+    public void OnUpdate()
     {
         if (_attackPressed && !_shouldAttack && _canAttack && _lastAttackCompleted && !_shouldCast)
         { _shouldAttack = true; _canAttack = false; }
@@ -111,11 +124,22 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
         _PlayerStateMachine.OnUpdate();
         _PlayerStateMachine.OnCheckSwitchStates();
+
+        AlignEquipedObjectsWithPoints();
     }
 
     private void OnAnimatorMove()
     {
         _PlayerStateMachine.OnAnimatorMoveState();
+    }
+
+    private void AlignEquipedObjectsWithPoints()
+    {
+        _weaponTransform.position = _weaponPoint.position;
+        _weaponTransform.rotation = _weaponPoint.rotation;
+        if(_magicTransform == null){ return; }
+        _magicTransform.position = _magicPoint.position;
+        _magicTransform.rotation = _magicPoint.rotation;
     }
 
     public void Move(Vector3 velocity)
@@ -144,6 +168,15 @@ public class PlayerControler : MonoBehaviour, IDamageable
     {
         return _pickUpManager.PickUpItem(item);
     }
+
+    public void ChangeWeaponTo(int id)
+    {
+        GameObject tempNewWeaponContainer = Instantiate(GameMaster.Instance.EquipableItemContainer.GetWeaponById(id), Vector3.zero, Quaternion.identity);
+        _currentWeaponHitBox = tempNewWeaponContainer.GetComponent<HitBox>();
+        if (_weaponTransform != null){Destroy(_weaponTransform.gameObject);}
+        _weaponTransform = tempNewWeaponContainer.transform;
+        _currentWeaponHitBox.Owner = gameObject;
+    } 
 
     public void AddHealth(float value)
     {

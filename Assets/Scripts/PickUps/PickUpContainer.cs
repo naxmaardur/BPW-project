@@ -16,17 +16,16 @@ public class PickUpContainer : MonoBehaviour
             PlayerControler player = other.GetComponent<PlayerControler>();
             if (player != null)
             {
-                PickUp(player);
+                if (player.PickUpItem(item))
+                {
+                    Destroy(this.gameObject);
+                }
             }
         }
     }
 
-
-    public void PickUp(PlayerControler player)
+    public bool PickUpWithoutDestroy(PlayerControler player)
     {
-        if (player.PickUpItem(item))
-        {
-            Destroy(this.gameObject);
-        }
+        return player.PickUpItem(item);
     }
 }

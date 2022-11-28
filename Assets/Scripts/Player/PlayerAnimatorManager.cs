@@ -98,6 +98,11 @@ public class PlayerAnimatorManager
     {
         _animator.SetBool("Attack", value);
     }
+    public bool GetAttack()
+    {
+        return _animator.GetBool("Attack");
+    }
+
     public bool IsAnimationPlaying()
     {
         return (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime) % 1 < 0.99f && !_animator.IsInTransition(0);

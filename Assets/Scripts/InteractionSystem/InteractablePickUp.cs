@@ -18,7 +18,11 @@ public class InteractablePickUp : Interactable
     }
     public override void Interaction(GameObject interactor)
     {
-        _pickUp.PickUp(interactor.GetComponent<PlayerControler>());
+        if (_pickUp.PickUpWithoutDestroy(interactor.GetComponent<PlayerControler>()))
+        {
+            Isactive(false);
+            Destroy(this.gameObject);
+        }
     }
     public override void Isactive(bool b)
     {
