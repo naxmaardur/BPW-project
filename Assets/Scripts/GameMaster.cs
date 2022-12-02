@@ -11,10 +11,15 @@ public class GameMaster : Singleton<GameMaster>
 
     PlayerControler _player;
 
+    public delegate void UpdateHitboxes();
+    public static event UpdateHitboxes OnUpdateGlobalHitboxes;
+
+
     private void Awake()
     {
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        _equipableItemContainer.OnAwake();
         _player = FindObjectOfType<PlayerControler>();
         _player?.onAwake();
     }
@@ -30,5 +35,6 @@ public class GameMaster : Singleton<GameMaster>
     void Update()
     {
         _player?.OnUpdate();
+        OnUpdateGlobalHitboxes?.Invoke();
     }
 }

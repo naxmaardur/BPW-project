@@ -113,6 +113,11 @@ public class PlayerAnimatorManager
         return (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime) % 1;
     }
 
+    public bool IsAnimationPlayingWithName(string name)
+    {
+        return _animator.GetCurrentAnimatorStateInfo(0).IsName(name);
+    }
+
 
     public bool TransitioningToAttack()
     {

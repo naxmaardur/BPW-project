@@ -12,26 +12,32 @@ public class HitBox : MonoBehaviour
 
     [SerializeField]
     protected float _damage = 10f;
-    BoxCollider _collider;
-    GameObject _owner;
+    protected BoxCollider _collider;
+    protected GameObject _owner;
     [SerializeField]
-    bool _HitboxEnabled;
-    List<Collider> _HaveBeenHit = new();
+    protected bool _HitboxEnabled;
+    protected List<Collider> _HaveBeenHit = new();
     public GameObject Owner { get { return _owner; } set { if(_owner == null) { _owner = value; } } }
-    Vector3 _scale;
+    protected Vector3 _scale;
     private void Awake()
+    {
+        OnAwake();
+    }
+
+    protected virtual void OnAwake()
     {
         _collider = GetComponent<BoxCollider>();
         _collider.enabled = false;
         CalculateScale();
     }
-    void CalculateScale()
+
+    protected void CalculateScale()
     {
         _scale = new Vector3(_collider.size.x * transform.lossyScale.x,
             _collider.size.y * transform.lossyScale.y,
             _collider.size.z * transform.lossyScale.z);
     }
-    public void OnUpdate()
+    public virtual void OnUpdate()
     {
         if (!_HitboxEnabled) { return; }
 
@@ -45,11 +51,17 @@ public class HitBox : MonoBehaviour
             IDamageable dam = col.gameObject.GetComponent<IDamageable>();
             if (dam != null)
             {
-                dam.Damage(_damage);
-                _HaveBeenHit.Add(col);
+                OnHit(dam, col);
             }
         }
     }
+
+    protected virtual void OnHit(IDamageable dam, Collider col)
+    {
+        dam.Damage(_damage);
+        _HaveBeenHit.Add(col);
+    }
+
     public void ResetHitList()
     {
         _HaveBeenHit.Clear();

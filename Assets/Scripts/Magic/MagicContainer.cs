@@ -4,17 +4,59 @@ using UnityEngine;
 
 public class MagicContainer : MonoBehaviour
 {
-    [SerializeField]
     MagicSpell _spell;
     GameObject _owner;
+    Transform _castingPosition;
+    [SerializeField]
+    MeshRenderer _meshRenderer;
+    int _spellCharges;
 
-    public GameObject Owner { get { return _owner; } set {if(_owner == null) { _owner = value; } } }
+    public GameObject Owner { get { return _owner; } set { if (_owner == null) { _owner = value; } } }
+    public Transform CastingPosition { get { return _castingPosition; } set { if (_castingPosition == null) { _castingPosition = value; } } }
+    public MagicSpell Spell { get { return _spell; } set { if (_spell == null) { _spell = value; } } }
 
+    public int SpellCharges { get { return _spellCharges; } }
+
+    private void Awake()
+    {
+        SetGemCollor(Color.gray);
+    }
 
     public void OnCast()
     {
         if(Owner == null) { return; }
-        _spell.Cast(Owner);
+        if(_spell == null) { return; }
+        _spellCharges--;
+        _spell.Cast(Owner,_castingPosition);
+        if (_spellCharges <= 0) { RemoveSpell();}
     }
+
+    public void RemoveSpell()
+    {
+        _spell = null;
+        SetGemCollor(Color.gray);
+    }
+
+    public void SetGemCollor(Color color)
+    {
+        _meshRenderer.material.color = color;
+    }
+    
+
+    public void SetSpellCharges(int value)
+    {
+        _spellCharges = value;
+    }
+
+    public void EnableContainer()
+    {
+        _meshRenderer.enabled = true;
+    }
+
+    public void DisableContainer()
+    {
+        _meshRenderer.enabled = false;
+    }
+
 
 }

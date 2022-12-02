@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public abstract class MagicSpell
 {
-    public abstract void Cast(GameObject gameObject);
+    public Color color = Color.gray;
+    public abstract void Cast(GameObject gameObject, Transform castingLocation);
 }

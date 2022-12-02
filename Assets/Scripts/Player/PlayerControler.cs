@@ -12,6 +12,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
     InteractionEventManager _interactionEventManager;
 
     HitBox _currentWeaponHitBox;
+    MagicContainer _magicContainer;
 
     [SerializeField]
     Transform _weaponPoint;
@@ -19,6 +20,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
     Transform _magicPoint;
     Transform _weaponTransform;
     Transform _magicTransform;
+
 
     PlayerInput _input;
     Vector2 _currentMovement;
@@ -42,7 +44,15 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
     public bool invincible = false;
 
+    public delegate void HealthUpdate(float health);
+    public static HealthUpdate OnHealthUpdate;
+
+    public delegate void SpellUpdate(MagicContainer container);
+    public static SpellUpdate OnSpellUpdate;
+
+
     public HitBox CurrentWeaponHitBox { get { return _currentWeaponHitBox; } }
+    public MagicContainer MagicContainer {get { return _magicContainer; } }
     public RunTimeAnimatorListContainer AnimatorListContainer { get { return _animatorListContainer; } }
     public PlayerAnimatorManager playerAnimator { get { return _playerAnimator; } }
     public bool IsMovementPressed { get { return _movementPressed; } }
@@ -66,9 +76,11 @@ public class PlayerControler : MonoBehaviour, IDamageable
     float _maxHealth = 100;
 
     public float Health { get { return _health; } set { _health = value; Mathf.Clamp(_health, 0, _maxHealth); } }
+    public float MaxHealth { get { return _maxHealth; } }
 
     public void onAwake()
     {
+       
         _interactionEventManager = new InteractionEventManager();
         Health = _maxHealth;
         _PlayerStateMachine = new PlayerStateMachine(this);
@@ -105,7 +117,15 @@ public class PlayerControler : MonoBehaviour, IDamageable
         _input.Player.Cast.canceled += ctx => { _CastPressed = false; _canCast = true; };
         StartCoroutine(playerAnimator.Updatefloats());
         ChangeWeaponTo(0);
-       
+        GameObject MCO = (GameObject)Resources.Load("Prefabs/spells/Spellcontainer", typeof(GameObject));
+        MCO = Instantiate(MCO, Vector3.zero, Quaternion.identity);
+        _magicTransform = MCO.transform;
+        _magicContainer = MCO.GetComponent<MagicContainer>();
+        _magicContainer.Owner = this.gameObject;
+        GameObject castingPoint = Instantiate(new GameObject(), transform);
+        castingPoint.transform.localPosition = new Vector3(0.095f, 0.5f, 0.987f);
+        _magicContainer.CastingPosition = castingPoint.transform;
+        _magicContainer.DisableContainer();
     }
 
     // Start is called before the first frame update
@@ -161,6 +181,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
     {
         if (invincible) { return; }
         Health -= damage;
+        OnHealthUpdate?.Invoke(Health);
     }
 
 
@@ -181,10 +202,11 @@ public class PlayerControler : MonoBehaviour, IDamageable
     public void AddHealth(float value)
     {
         Health += value;
+        OnHealthUpdate?.Invoke(Health);
     }
 
 
-    private void OnGUI()
+    /*private void OnGUI()
     {
         GUILayout.Label("1" + _PlayerStateMachine.CurrentState.GetType());
         GUILayout.Label("2" + _PlayerStateMachine.CurrentState.GetSubState.GetType());
@@ -193,5 +215,5 @@ public class PlayerControler : MonoBehaviour, IDamageable
         GUILayout.Label("_attackPressed " + _attackPressed);
         GUILayout.Label("_lastAttackCompleted " + _lastAttackCompleted);
 
-    }
+    }*/
 }

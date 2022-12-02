@@ -7,6 +7,7 @@ public class PlayerCastingState : BaseState
     PlayerStateMachine _context;
     PlayerStateFactory _states;
     Vector3 _rootMotion;
+    bool _hascast;
     public PlayerCastingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory)
     {
         _IsRootState = true;
@@ -21,9 +22,10 @@ public class PlayerCastingState : BaseState
             SwitchState(_states.Dying());
             return true;
         }
+        if (!_hascast) { return false; }
         if (_context.ControlerContext.playerAnimator.TransitioningToCast()) { return false; }
         if (_context.ControlerContext.playerAnimator.TransitioningFromAttack()) { return false; }// needed for some reason
-        if (_context.ControlerContext.playerAnimator.IsAnimationPlaying()) { return false; }
+        if (_context.ControlerContext.playerAnimator.IsAnimationPlayingWithName("Cast")) { return false; }
         if (_context.ControlerContext.IsShouldAttackSet) { SwitchState(_states.Attacking()); return true; }
         SwitchState(_states.Movement());
         return true;
@@ -31,6 +33,8 @@ public class PlayerCastingState : BaseState
 
     public override void EnterState()
     {
+        _hascast = false;
+        _context.ControlerContext.MagicContainer.EnableContainer();
         _rootMotion = Vector3.zero;
         InitializeSubState();
         _context.ControlerContext.playerAnimator.TriggerCast();
@@ -64,6 +68,7 @@ public class PlayerCastingState : BaseState
 
     protected override void ExitState()
     {
+        _context.ControlerContext.MagicContainer.DisableContainer();
         _context.ControlerContext.ResetShouldCast();
         //_context.ResetShouldAttack();
         //_context.ControlerContext.playerAnimator.SetAttack(false);
@@ -86,6 +91,15 @@ public class PlayerCastingState : BaseState
     {
         _context.ControlerContext.Move(_rootMotion);
         _rootMotion = Vector3.zero;
+        if (_context.ControlerContext.playerAnimator.TransitioningToCast()) { return; }
+        if (!_context.ControlerContext.playerAnimator.IsAnimationPlayingWithName("Cast")) { return; }
+        if (!_hascast && _context.ControlerContext.playerAnimator.GetAnimationCompletionPecentage() >= 0.4f)
+        {
+            _hascast = true;
+            _context.ControlerContext.MagicContainer.OnCast();
+            PlayerControler.OnSpellUpdate(_context.ControlerContext.MagicContainer);
+        }
+
     }
 
 }

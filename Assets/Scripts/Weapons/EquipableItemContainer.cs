@@ -9,14 +9,23 @@ public class EquipableItemContainer
     GameObject[] weapons;
 
     [SerializeField]
-    GameObject[] Spells;
+    MagicSpell[] Spells;
+
+    public void OnAwake()
+    {
+       Spells = new MagicSpell[] 
+       { 
+           new SpawnEffectSpell("Prefabs/spells/IceLanceEffect",Color.blue), 
+           new SpawnEffectSpell("Prefabs/spells/EarthShatterEffect", Color.green) 
+       };
+    }
 
     public GameObject GetWeaponById(int id)
     {
         return weapons[id];
     }
 
-    public GameObject GetSpellById(int id)
+    public MagicSpell GetSpellById(int id)
     {
         return Spells[id];
     }
