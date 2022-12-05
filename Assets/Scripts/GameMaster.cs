@@ -19,7 +19,7 @@ public class GameMaster : Singleton<GameMaster>
     {
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        _equipableItemContainer.OnAwake();
+        _equipableItemContainer = new();
         _player = FindObjectOfType<PlayerControler>();
         _player?.onAwake();
     }

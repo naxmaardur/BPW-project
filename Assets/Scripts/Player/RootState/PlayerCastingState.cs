@@ -24,7 +24,7 @@ public class PlayerCastingState : BaseState
         }
         if (!_hascast) { return false; }
         if (_context.ControlerContext.playerAnimator.TransitioningToCast()) { return false; }
-        if (_context.ControlerContext.playerAnimator.TransitioningFromAttack()) { return false; }// needed for some reason
+        if (_context.ControlerContext.playerAnimator.TransitioningFromAttack()) { return false; }
         if (_context.ControlerContext.playerAnimator.IsAnimationPlayingWithName("Cast")) { return false; }
         if (_context.ControlerContext.IsShouldAttackSet) { SwitchState(_states.Attacking()); return true; }
         SwitchState(_states.Movement());
@@ -97,7 +97,7 @@ public class PlayerCastingState : BaseState
         {
             _hascast = true;
             _context.ControlerContext.MagicContainer.OnCast();
-            PlayerControler.OnSpellUpdate(_context.ControlerContext.MagicContainer);
+            _context.ControlerContext.OnSpellUpdate(_context.ControlerContext.MagicContainer);
         }
 
     }

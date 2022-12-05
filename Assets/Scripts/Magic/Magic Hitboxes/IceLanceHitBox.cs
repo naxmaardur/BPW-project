@@ -34,7 +34,7 @@ public class IceLanceHitBox : HitBox
         foreach (Collider col in hits)
         {
             if (col.gameObject == _owner) continue;
-            if (_HaveBeenHit.Contains(col)) continue;
+            if (_HaveBeenHit.Contains(col.gameObject)) continue;
             HasHitObject();
             IDamageable dam = col.gameObject.GetComponent<IDamageable>();
             if (dam != null)

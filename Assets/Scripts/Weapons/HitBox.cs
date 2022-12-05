@@ -16,7 +16,7 @@ public class HitBox : MonoBehaviour
     protected GameObject _owner;
     [SerializeField]
     protected bool _HitboxEnabled;
-    protected List<Collider> _HaveBeenHit = new();
+    protected List<GameObject> _HaveBeenHit = new();
     public GameObject Owner { get { return _owner; } set { if(_owner == null) { _owner = value; } } }
     protected Vector3 _scale;
     private void Awake()
@@ -47,7 +47,7 @@ public class HitBox : MonoBehaviour
         foreach(Collider col in hits)
         {
             if (col.gameObject == _owner) continue;
-            if (_HaveBeenHit.Contains(col)) continue;
+            if (_HaveBeenHit.Contains(col.gameObject)) continue;
             IDamageable dam = col.gameObject.GetComponent<IDamageable>();
             if (dam != null)
             {
@@ -59,7 +59,7 @@ public class HitBox : MonoBehaviour
     protected virtual void OnHit(IDamageable dam, Collider col)
     {
         dam.Damage(_damage);
-        _HaveBeenHit.Add(col);
+        _HaveBeenHit.Add(col.gameObject);
     }
 
     public void ResetHitList()

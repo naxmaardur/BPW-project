@@ -935,6 +935,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1096032917}
+  - component: {fileID: 1096032918}
   m_Layer: 5
   m_Name: Healthbar
   m_TagString: Untagged
@@ -964,6 +965,44 @@ RectTransform:
   m_AnchoredPosition: {x: 4.700012, y: -4.5}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &1096032918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096032916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 742957015178a4a499d461f6edfa8271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthSpriteObject: {fileID: 991723026}
+  _healthLingeringSpriteObject: {fileID: 1479239423}
+  _healthCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1370921456
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1346,11 +1385,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e529be93680a114db3a1977424ae3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _equipableItemContainer:
-    weapons:
-    - {fileID: 3824418390121537456, guid: e2ac869e1192991448461273c38db5a2, type: 3}
-    - {fileID: 8487617132549152319, guid: aee977dd82783754781d4014e3556dc3, type: 3}
-    - {fileID: 83580770449947268, guid: 10ab1c174be0274408d20930b7b16136, type: 3}
 --- !u!4 &1495390627
 Transform:
   m_ObjectHideFlags: 0

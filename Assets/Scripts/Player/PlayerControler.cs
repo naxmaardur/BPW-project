@@ -45,10 +45,10 @@ public class PlayerControler : MonoBehaviour, IDamageable
     public bool invincible = false;
 
     public delegate void HealthUpdate(float health);
-    public static HealthUpdate OnHealthUpdate;
+    public HealthUpdate OnHealthUpdate;
 
     public delegate void SpellUpdate(MagicContainer container);
-    public static SpellUpdate OnSpellUpdate;
+    public SpellUpdate OnSpellUpdate;
 
 
     public HitBox CurrentWeaponHitBox { get { return _currentWeaponHitBox; } }
