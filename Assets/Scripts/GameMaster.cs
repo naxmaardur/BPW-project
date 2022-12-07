@@ -14,6 +14,8 @@ public class GameMaster : Singleton<GameMaster>
     public delegate void UpdateHitboxes();
     public static event UpdateHitboxes OnUpdateGlobalHitboxes;
 
+    int _attackTokens = 5;
+
 
     private void Awake()
     {
@@ -36,5 +38,18 @@ public class GameMaster : Singleton<GameMaster>
     {
         _player?.OnUpdate();
         OnUpdateGlobalHitboxes?.Invoke();
+    }
+
+
+    public bool RequestAttackToken()
+    {
+        if(_attackTokens <= 0) { return false; }
+        _attackTokens--;
+        return true;
+    }
+
+    public void ReturnAttackToken()
+    {
+        _attackTokens++;
     }
 }

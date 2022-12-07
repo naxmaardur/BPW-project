@@ -5,20 +5,18 @@ using UnityEngine;
 public class PlayerWalkState : BaseState
 {
     PlayerStateMachine _context;
-    PlayerStateFactory _states;
-    public PlayerWalkState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory)
+    public PlayerWalkState(PlayerStateMachine currentContext) : base(currentContext)
     {
         _context = currentContext;
-        _states = playerStateFactory;
     }
 
     public override bool CheckSwitchStates()
     {
         if (_context.ControlerContext.IsShouldDodgeSet)
         {
-            if (GetSuperState != _states.Casting())
+            if (GetSuperState != _context.States.Casting())
             {
-                SwitchState(_states.Dodge());
+                SwitchState(_context.States.Dodge());
                 return true;
             }
             else
@@ -28,17 +26,17 @@ public class PlayerWalkState : BaseState
         }
         if (_context.ControlerContext.IsShouldSneakSet)
         {
-            SwitchState(_states.Sneak());
+            SwitchState(_context.States.Sneak());
             return true;
         }
         if (!_context.ControlerContext.IsMovementPressed)
         {
-            SwitchState(_states.Idle());
+            SwitchState(_context.States.Idle());
             return true;
         }
         if (_context.ControlerContext.IsRunPressed)
         {
-            SwitchState(_states.Run());
+            SwitchState(_context.States.Run());
             return true;
         }
         return false;

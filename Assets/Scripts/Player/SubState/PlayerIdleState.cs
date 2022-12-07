@@ -6,10 +6,9 @@ public class PlayerIdleState : BaseState
 {
     PlayerStateMachine _context;
     PlayerStateFactory _states;
-    public PlayerIdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory)
+    public PlayerIdleState(PlayerStateMachine currentContext) : base(currentContext)
     {
         _context = currentContext;
-        _states = playerStateFactory;
     }
 
     public override bool CheckSwitchStates()
@@ -17,9 +16,9 @@ public class PlayerIdleState : BaseState
 
         if (_context.ControlerContext.IsShouldDodgeSet)
         {
-            if (GetSuperState != _states.Casting())
+            if (GetSuperState != _context.States.Casting())
             {
-                SwitchState(_states.Dodge());
+                SwitchState(_context.States.Dodge());
                 return true;
             }
             else
@@ -34,15 +33,15 @@ public class PlayerIdleState : BaseState
 
         if (_context.ControlerContext.IsShouldSneakSet)
         {
-            SwitchState(_states.Sneak());
+            SwitchState(_context.States.Sneak());
             return true;
         }
         if (_context.ControlerContext.IsMovementPressed)
         {
             if (_context.ControlerContext.IsRunPressed)
-                SwitchState(_states.Run());
+                SwitchState(_context.States.Run());
             else
-                SwitchState(_states.Walk());
+                SwitchState(_context.States.Walk());
             return true;
         }
         return false;

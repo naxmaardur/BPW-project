@@ -7,6 +7,7 @@ public abstract class StateMachine
     protected StateFactory _states;
     protected BaseState _currentState;
     public BaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
+    public StateFactory States { get { return _states; } }
     public StateMachine()
     {
     }

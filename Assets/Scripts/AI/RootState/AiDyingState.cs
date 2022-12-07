@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDyingState : BaseState
+public class AiDyingState : BaseState
 {
-    PlayerStateMachine _context;
-
-    public PlayerDyingState(PlayerStateMachine currentContext) : base(currentContext)
+    AiStateMachine _context;
+    public AiDyingState(AiStateMachine currentContext) : base(currentContext)
     {
-        _IsRootState = true;
         _context = currentContext;
     }
-
     public override bool CheckSwitchStates()
     {
         throw new System.NotImplementedException();

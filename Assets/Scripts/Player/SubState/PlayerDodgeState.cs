@@ -6,12 +6,10 @@ public class PlayerDodgeState : BaseState
 {
 
     PlayerStateMachine _context;
-    PlayerStateFactory _states;
     float _checkCooldown;
-    public PlayerDodgeState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory)
+    public PlayerDodgeState(PlayerStateMachine currentContext) : base(currentContext)
     {
         _context = currentContext;
-        _states = playerStateFactory;
     }
 
     public override bool CheckSwitchStates()
@@ -23,19 +21,19 @@ public class PlayerDodgeState : BaseState
 
         if (_context.ControlerContext.IsShouldSneakSet)
         {
-            SwitchState(_states.Sneak());
+            SwitchState(_context.States.Sneak());
             return true;
         }
         if (_context.ControlerContext.IsMovementPressed)
         {
             if (_context.ControlerContext.IsRunPressed)
-                SwitchState(_states.Run());
+                SwitchState(_context.States.Run());
             else
-                SwitchState(_states.Walk());
+                SwitchState(_context.States.Walk());
             return true;
         }
 
-        SwitchState(_states.Idle());
+        SwitchState(_context.States.Idle());
         return true;
     }
 

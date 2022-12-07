@@ -5,29 +5,27 @@ using UnityEngine;
 public class PlayerCastingState : BaseState
 {
     PlayerStateMachine _context;
-    PlayerStateFactory _states;
     Vector3 _rootMotion;
     bool _hascast;
-    public PlayerCastingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory)
+    public PlayerCastingState(PlayerStateMachine currentContext) : base(currentContext)
     {
         _IsRootState = true;
         _context = currentContext;
-        _states = playerStateFactory;
     }
 
     public override bool CheckSwitchStates()
     {
         if (_context.ControlerContext.Health <= 0)
         {
-            SwitchState(_states.Dying());
+            SwitchState(_context.States.Dying());
             return true;
         }
         if (!_hascast) { return false; }
         if (_context.ControlerContext.playerAnimator.TransitioningToCast()) { return false; }
         if (_context.ControlerContext.playerAnimator.TransitioningFromAttack()) { return false; }
         if (_context.ControlerContext.playerAnimator.IsAnimationPlayingWithName("Cast")) { return false; }
-        if (_context.ControlerContext.IsShouldAttackSet) { SwitchState(_states.Attacking()); return true; }
-        SwitchState(_states.Movement());
+        if (_context.ControlerContext.IsShouldAttackSet) { SwitchState(_context.States.Attacking()); return true; }
+        SwitchState(_context.States.Movement());
         return true;
     }
 
@@ -45,23 +43,23 @@ public class PlayerCastingState : BaseState
 
         if (!_context.ControlerContext.IsMovementPressed)
         {
-            SetSubState(_states.Idle());
-            _states.Idle().EnterState();
+            SetSubState(_context.States.Idle());
+            _context.States.Idle().EnterState();
         }
         else if (_context.ControlerContext.IsShouldSneakSet)
         {
-            SetSubState(_states.Sneak());
-            _states.Sneak().EnterState();
+            SetSubState(_context.States.Sneak());
+            _context.States.Sneak().EnterState();
         }
         else if (_context.ControlerContext.IsRunPressed)
         {
-            SetSubState(_states.Run());
-            _states.Run().EnterState();
+            SetSubState(_context.States.Run());
+            _context.States.Run().EnterState();
         }
         else
         {
-            SetSubState(_states.Walk());
-            _states.Walk().EnterState();
+            SetSubState(_context.States.Walk());
+            _context.States.Walk().EnterState();
         }
 
     }

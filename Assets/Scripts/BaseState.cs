@@ -5,17 +5,15 @@ using UnityEngine;
 public abstract class BaseState
 {
     protected StateMachine _ctx;
-    protected StateFactory _factory;
     private BaseState _currentSuperState;
     private BaseState _currentSubState;
     protected bool _IsRootState;
     public BaseState GetSubState { get { return _currentSubState; } }
     public BaseState GetSuperState { get { return _currentSuperState; } }
 
-    protected BaseState(StateMachine currentContext, StateFactory playerStateFactory)
+    protected BaseState(StateMachine currentContext)
     {
         _ctx = currentContext;
-        _factory = playerStateFactory;
     }
 
     public abstract void EnterState();

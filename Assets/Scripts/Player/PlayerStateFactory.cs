@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class PlayerStateFactory : StateFactory
 {
-    new PlayerStateMachine _stateMachine;
     public PlayerStateFactory(PlayerStateMachine currentContext)
     {
-        _stateMachine = currentContext;
-        _states["idle"] = new PlayerIdleState(_stateMachine, this);
-        _states["walk"] = new PlayerWalkState(_stateMachine, this);
-        _states["run"] = new PlayerRunState(_stateMachine, this);
-        _states["sneak"] = new PlayerSneakState(_stateMachine, this);
-        _states["dodge"] = new PlayerDodgeState(_stateMachine, this);
-        _states["Movement"] = new PlayerMovementState(_stateMachine, this);
-        _states["Attacking"] = new PlayerAttackingState(_stateMachine, this);
-        _states["Casting"] = new PlayerCastingState(_stateMachine, this);
-        _states["Dying"] = new PlayerDyingState(_stateMachine, this);
+        _states["idle"] = new PlayerIdleState(currentContext);
+        _states["walk"] = new PlayerWalkState(currentContext);
+        _states["run"] = new PlayerRunState(currentContext);
+        _states["sneak"] = new PlayerSneakState(currentContext);
+        _states["dodge"] = new PlayerDodgeState(currentContext);
+        _states["Movement"] = new PlayerMovementState(currentContext);
+        _states["Attacking"] = new PlayerAttackingState(currentContext);
+        _states["Casting"] = new PlayerCastingState(currentContext);
+        _states["Dying"] = new PlayerDyingState(currentContext);
     }
 
 

@@ -5,31 +5,29 @@ using UnityEngine;
 public class PlayerMovementState : BaseState
 {
     PlayerStateMachine _context;
-    PlayerStateFactory _states;
 
     Vector3 _rootMotion;
-    public PlayerMovementState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory)
+    public PlayerMovementState(PlayerStateMachine currentContext) : base(currentContext)
     {
         _IsRootState = true;
         _context = currentContext;
-        _states = playerStateFactory;
     }
 
     public override bool CheckSwitchStates()
     {
-        if(_context.ControlerContext.IsShouldCastSet && GetSubState != _states.Dodge())
+        if(_context.ControlerContext.IsShouldCastSet && GetSubState != _context.States.Dodge())
         {
-            SwitchState(_states.Casting());
+            SwitchState(_context.States.Casting());
             return true;
         }
-        if (_context.ControlerContext.IsShouldAttackSet && GetSubState != _states.Dodge())
+        if (_context.ControlerContext.IsShouldAttackSet && GetSubState != _context.States.Dodge())
         {
-            SwitchState(_states.Attacking());
+            SwitchState(_context.States.Attacking());
             return true;
         }
         if(_context.ControlerContext.Health <= 0)
         {
-            SwitchState(_states.Dying());
+            SwitchState(_context.States.Dying());
             return true;
         }
 
@@ -46,23 +44,23 @@ public class PlayerMovementState : BaseState
     {
         if (!_context.ControlerContext.IsMovementPressed)
         {
-            SetSubState(_states.Idle());
-            _states.Idle().EnterState();
+            SetSubState(_context.States.Idle());
+            _context.States.Idle().EnterState();
         }
         else if (_context.ControlerContext.IsRunPressed)
         {
-            SetSubState(_states.Run());
-            _states.Run().EnterState();
+            SetSubState(_context.States.Run());
+            _context.States.Run().EnterState();
         }
         else if (_context.ControlerContext.IsShouldSneakSet)
         {
-            SetSubState(_states.Sneak());
-            _states.Sneak().EnterState();
+            SetSubState(_context.States.Sneak());
+            _context.States.Sneak().EnterState();
         }
         else
         {
-            SetSubState(_states.Walk());
-            _states.Walk().EnterState();
+            SetSubState(_context.States.Walk());
+            _context.States.Walk().EnterState();
         }
     }
 
@@ -87,7 +85,7 @@ public class PlayerMovementState : BaseState
 
     protected override void UpdateState()
     {
-        if (GetSubState != _states.Idle())
+        if (GetSubState != _context.States.Idle())
         {
             HandleRotation();
         }
@@ -100,7 +98,7 @@ public class PlayerMovementState : BaseState
     {
         float movementfloat = Mathf.Clamp01(Mathf.Abs(_context.ControlerContext.GetCurrentMovement.x) + Mathf.Abs(_context.ControlerContext.GetCurrentMovement.y));
         float turningMod = 0.2f;
-        if(GetSubState == _states.Run()) { turningMod = 0.5f; }
+        if(GetSubState == _context.States.Run()) { turningMod = 0.5f; }
         float turnSpeed = _context.ControlerContext.TurningSpeed + turningMod * movementfloat;
 
         float targetAngle = Mathf.Atan2(_context.ControlerContext.GetCurrentMovement.x, _context.ControlerContext.GetCurrentMovement.y) * Mathf.Rad2Deg + _context.ControlerContext.GetCam.eulerAngles.y;

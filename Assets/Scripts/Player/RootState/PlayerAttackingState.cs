@@ -5,16 +5,14 @@ using UnityEngine;
 public class PlayerAttackingState : BaseState
 {
     PlayerStateMachine _context;
-    PlayerStateFactory _states;
     float _lastAttackEnd = -200;
     float _maxTimeBetweenCombo = 1f;
     Vector3 _rootMotion;
     bool _shouldResetAttack = true;
-    public PlayerAttackingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory)
+    public PlayerAttackingState(PlayerStateMachine currentContext) : base(currentContext)
     {
         _IsRootState = true;
         _context = currentContext;
-        _states = playerStateFactory;
     }
 
     public override bool CheckSwitchStates()
@@ -22,12 +20,12 @@ public class PlayerAttackingState : BaseState
 
         if (_context.ControlerContext.Health <= 0)
         {
-            SwitchState(_states.Dying());
+            SwitchState(_context.States.Dying());
             return true;
         }
-        if(GetSubState == _states.Dodge())
+        if(GetSubState == _context.States.Dodge())
         {
-            SwitchState(_states.Movement());
+            SwitchState(_context.States.Movement());
             return true;
         }
         if (_context.ControlerContext.playerAnimator.TransitioningToAttack()) { return false; }
@@ -36,10 +34,11 @@ public class PlayerAttackingState : BaseState
         if (_context.ControlerContext.playerAnimator.IsAnimationPlaying()) { return false; }
         if (_context.ControlerContext.IsShouldCastSet)
         {
-            SwitchState(_states.Casting());
+            SwitchState(_context.States.Casting());
             return true;
         }
-        SwitchState(_states.Movement());
+        SwitchState(_context.States.Movement());
+        
         return true;
     }
 
@@ -57,23 +56,23 @@ public class PlayerAttackingState : BaseState
 
         if (!_context.ControlerContext.IsMovementPressed)
         {
-            SetSubState(_states.Idle());
-            _states.Idle().EnterState();
+            SetSubState(_context.States.Idle());
+            _context.States.Idle().EnterState();
         }
         else if (_context.ControlerContext.IsShouldSneakSet)
         {
-            SetSubState(_states.Sneak());
-            _states.Sneak().EnterState();
+            SetSubState(_context.States.Sneak());
+            _context.States.Sneak().EnterState();
         }
         else if (_context.ControlerContext.IsRunPressed)
         {
-            SetSubState(_states.Run());
-            _states.Run().EnterState();
+            SetSubState(_context.States.Run());
+            _context.States.Run().EnterState();
         }
         else
         {
-            SetSubState(_states.Walk());
-            _states.Walk().EnterState();
+            SetSubState(_context.States.Walk());
+            _context.States.Walk().EnterState();
         }
 
     }
