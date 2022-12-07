@@ -10,16 +10,19 @@ public class MagicContainer : MonoBehaviour
     [SerializeField]
     MeshRenderer _meshRenderer;
     int _spellCharges;
+    Color _color;
 
     public GameObject Owner { get { return _owner; } set { if (_owner == null) { _owner = value; } } }
     public Transform CastingPosition { get { return _castingPosition; } set { if (_castingPosition == null) { _castingPosition = value; } } }
     public MagicSpell Spell { get { return _spell; } set { if (_spell == null) { _spell = value; } } }
+    
+    public Color Color { get { return _color; } set { _color = value; _meshRenderer.material.color = value; } }
 
     public int SpellCharges { get { return _spellCharges; } }
 
     private void Awake()
     {
-        SetGemCollor(Color.gray);
+        Color = Color.gray;
     }
 
     public void OnCast()
@@ -34,7 +37,7 @@ public class MagicContainer : MonoBehaviour
     public void RemoveSpell()
     {
         _spell = null;
-        SetGemCollor(Color.gray);
+        Color = Color.gray;
     }
 
     public void SetGemCollor(Color color)

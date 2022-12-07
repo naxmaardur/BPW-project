@@ -7,11 +7,13 @@ public class PlayerUI : MonoBehaviour
 {
     PlayerControler _player;
     HealthBar _healthBar;
+    SpellIndicator _spellIndicator;
 
     private void Awake()
     {
         _player = FindObjectOfType<PlayerControler>();
         _healthBar = GetComponentInChildren<HealthBar>();
+        _spellIndicator = GetComponentInChildren<SpellIndicator>();
     }
 
     private void OnEnable()
@@ -36,6 +38,7 @@ public class PlayerUI : MonoBehaviour
 
     public void OnSpellUpdated(MagicContainer magicContainer)
     {
-
+        _spellIndicator.SetGemColor(magicContainer.Color);
+        _spellIndicator.SetSpellNotches(magicContainer.SpellCharges);
     }
 }

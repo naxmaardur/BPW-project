@@ -126,6 +126,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
         castingPoint.transform.localPosition = new Vector3(0.095f, 0.5f, 0.987f);
         _magicContainer.CastingPosition = castingPoint.transform;
         _magicContainer.DisableContainer();
+        OnSpellUpdate(_magicContainer);
     }
 
     // Start is called before the first frame update
