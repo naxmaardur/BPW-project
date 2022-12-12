@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 25
-  _poiseDamage: 45
+  _poiseDamage: 50
   _HitboxEnabled: 0
 --- !u!1001 &5913370592986614841
 PrefabInstance:

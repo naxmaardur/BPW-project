@@ -14,6 +14,7 @@ public class EnemyUIHandler : MonoBehaviour
     public void SetContext(AiControler context)
     {
         _context = context;
+        _context.OnHealthUpdate += OnHealthUpdate;
     }
 
 
@@ -26,7 +27,6 @@ public class EnemyUIHandler : MonoBehaviour
         _canvasGroup.alpha = 0;
     }
 
-    //TODO: link to event
     public void OnHealthUpdate(float health, float max)
     {
         _healthBar.ScaleHealthBasedOnValue(health, max);
@@ -42,7 +42,7 @@ public class EnemyUIHandler : MonoBehaviour
 
     private void Update()
     {
-        //transform.LookAt(gameObject);
+        transform.LookAt(GameMaster.Instance.Cam.transform);
         if(_fadeOut == null && _lastHealthUpdate < Time.time - 6)
         {
             _fadeOut = StartCoroutine(FadeOutUI());

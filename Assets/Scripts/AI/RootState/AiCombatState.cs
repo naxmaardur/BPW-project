@@ -5,6 +5,7 @@ using UnityEngine;
 public class AiCombatState : BaseState
 {
     AiStateMachine _context;
+    Vector3 _rootMotion;
     public AiCombatState(AiStateMachine currentContext) : base(currentContext)
     {
         _IsRootState = true;
@@ -13,36 +14,60 @@ public class AiCombatState : BaseState
 
     public override bool CheckSwitchStates()
     {
-        throw new System.NotImplementedException();
+        if (_context.ControlerContext.Health == 0)
+        {
+            SwitchState(_context.States.Dying());
+            return true;
+        }
+        if (_context.ControlerContext.Poise == 0)
+        {
+            SwitchState(_context.States.Stunded());
+            return true;
+        }
+        return false;
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        InitializeSubState();
+        _rootMotion = Vector3.zero;
     }
 
     public override void InitializeSubState()
     {
-        throw new System.NotImplementedException();
+        if(Vector3.Distance(_context.ControlerContext.PlayerTransfrom.position,_context.ControlerContext.transform.position) > 4)
+        {
+            SetSubState(_context.States.Follow());
+            GetSubState.EnterState();
+        }
+        else
+        {
+            SetSubState(_context.States.Fighting());
+            GetSubState.EnterState();
+        }
     }
 
     protected override void ExitState()
     {
-        throw new System.NotImplementedException();
+
     }
 
     protected override void FixedUpdateState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void OnAnimatorMoveState()
     {
-        throw new System.NotImplementedException();
+        Vector3 rootMotion = _rootMotion;
+        Vector3 deltaPos = _context.ControlerContext.AnimatorManager.GetDeltaPosition;
+        deltaPos.y = 0;
+        rootMotion += deltaPos;
+        _rootMotion = rootMotion;
     }
 
     protected override void UpdateState()
     {
-        throw new System.NotImplementedException();
+        _context.ControlerContext.Move(_rootMotion);
+        _rootMotion = Vector3.zero;
     }
 }

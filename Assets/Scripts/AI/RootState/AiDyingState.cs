@@ -18,6 +18,8 @@ public class AiDyingState : BaseState
     public override void EnterState()
     {
         _context.ControlerContext.AnimatorManager.TriggerDeath();
+        _context.ControlerContext.DisableCollision();
+        _context.ControlerContext.SpawnDeathDropObject();
     }
 
     public override void InitializeSubState()

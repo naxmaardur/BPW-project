@@ -5,18 +5,29 @@ using UnityEngine;
 public class AiFollowState : BaseState
 {
     AiStateMachine _context;
+    Vector3[] _path;
+    int _poistionInPath;
+    Vector3 _lastPoint;
     public AiFollowState(AiStateMachine currentContext) : base(currentContext)
     {
         _context = currentContext;
     }
     public override bool CheckSwitchStates()
     {
-        throw new System.NotImplementedException();
+        if(Vector3.Distance(_context.ControlerContext.transform.position, _context.ControlerContext.PlayerTransfrom.position) <= 4)
+        {
+            SwitchState(_context.States.Fighting());
+            return true;
+        }
+
+        return false;
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        _context.ControlerContext.AnimatorManager.SetRunforward(true);
+        _lastPoint = _context.ControlerContext.PlayerTransfrom.position;
+        _path = _context.ControlerContext.CalculatePath(_lastPoint);
     }
 
     public override void InitializeSubState()
@@ -26,21 +37,44 @@ public class AiFollowState : BaseState
 
     protected override void ExitState()
     {
-        throw new System.NotImplementedException();
+        _context.ControlerContext.AnimatorManager.SetRunforward(false);
     }
 
     protected override void FixedUpdateState()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     protected override void OnAnimatorMoveState()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     protected override void UpdateState()
     {
-        throw new System.NotImplementedException();
+        if(Vector3.Distance(_lastPoint, _context.ControlerContext.PlayerTransfrom.position) > 1)
+        {
+            _lastPoint = _context.ControlerContext.PlayerTransfrom.position;
+            _path = _context.ControlerContext.CalculatePath(_lastPoint);
+        }
+        if (_path == null) { return; }
+        if (Vector3.Distance(_path[_poistionInPath], _context.ControlerContext.transform.position) < 1)
+        {
+            _poistionInPath++;
+            if (_poistionInPath > _path.Length - 1) { _path = null; return; }
+        }
+        RotateToPoint(_path[_poistionInPath]);
+    }
+
+    void RotateToPoint(Vector3 point)
+    {
+        Vector3 direction = UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, point);
+        float movementfloat = Mathf.Clamp01(Mathf.Abs(direction.x) + Mathf.Abs(direction.y));
+        float turningMod = 1f;
+        float turnSpeed = _context.ControlerContext.TurningSpeed + turningMod * movementfloat;
+
+        float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+        float angle = Mathf.SmoothDampAngle(_context.ControlerContext.transform.eulerAngles.y, targetAngle, ref _context.ControlerContext.turnSmoothVelocity, turnSpeed);
+        _context.ControlerContext.transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
 }

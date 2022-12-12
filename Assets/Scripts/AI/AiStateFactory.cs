@@ -11,6 +11,7 @@ public class AiStateFactory: StateFactory
         _states["wander"] = new AiWanderState(currentContext);
         _states["patrol"] = new AiPatrolState(currentContext);
         _states["follow"] = new AiFollowState(currentContext);
+        _states["fighting"] = new AIFightingState(currentContext);
         _states["attack"] = new AiAttackingState(currentContext);
 
 
@@ -38,6 +39,11 @@ public class AiStateFactory: StateFactory
         return _states["patrol"];
     }
 
+    public BaseState Fighting()
+    {
+        return _states["fighting"];
+    }
+
     public BaseState Follow()
     {
         return _states["follow"];
@@ -62,7 +68,7 @@ public class AiStateFactory: StateFactory
     }
     public BaseState Attack()
     {
-        return _states["Attack"];
+        return _states["attack"];
     }
     public BaseState Stunded()
     {

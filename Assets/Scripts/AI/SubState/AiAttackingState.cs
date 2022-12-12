@@ -5,18 +5,30 @@ using UnityEngine;
 public class AiAttackingState : BaseState
 {
     AiStateMachine _context;
+    float _hitboxStartCooldown;
+    bool _hitBoxEnabled;
     public AiAttackingState(AiStateMachine currentContext) : base(currentContext)
     {
         _context = currentContext;
     }
     public override bool CheckSwitchStates()
     {
-        throw new System.NotImplementedException();
+        if (AttackIsPlaying()) { return false; }
+        SwitchState(_context.States.Combat());
+        return true;
+    }
+
+    bool AttackIsPlaying()
+    {
+        if(_context.ControlerContext.AnimatorManager.IsTransitionPlayingWithName("FromAttack")) { return false; }
+        return true;
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        _context.ControlerContext.AnimatorManager.TriggerAttack();
+        _hitboxStartCooldown = Time.time + 1;
+        _hitBoxEnabled = false;
     }
 
     public override void InitializeSubState()
@@ -26,21 +38,30 @@ public class AiAttackingState : BaseState
 
     protected override void ExitState()
     {
-        throw new System.NotImplementedException();
+        _context.ControlerContext.ReturnAttackToken();
+        _context.ControlerContext.HitBox.DisableHitBox();
     }
 
     protected override void FixedUpdateState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void OnAnimatorMoveState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void UpdateState()
     {
-        throw new System.NotImplementedException();
+        _context.ControlerContext.HitBox.OnUpdate();
+        if(!_hitBoxEnabled && Time.time < _hitboxStartCooldown)
+        {
+            _context.ControlerContext.HitBox.EnableHitBox();
+            _hitBoxEnabled = true;
+        }
+        if(_hitBoxEnabled && _context.ControlerContext.AnimatorManager.GetAnimationCompletionPecentage() > 75)
+        {
+            _context.ControlerContext.HitBox.DisableHitBox();
+        }
+    
     }
 }

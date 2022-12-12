@@ -51,8 +51,8 @@ public class AnimatorManager
                 return _animator.GetFloat("MovementX") == _targetX && _animator.GetFloat("MovementY") == _targetY;
             });
 
-            _animator.SetFloat("MovementX", _targetX, 0.1f, Time.deltaTime);
-            _animator.SetFloat("MovementY", _targetY, 0.1f, Time.deltaTime);
+           _animator.SetFloat("MovementX", _targetX, 0.1f, Time.deltaTime);
+           _animator.SetFloat("MovementY", _targetY, 0.1f, Time.deltaTime);
         }
     }
 

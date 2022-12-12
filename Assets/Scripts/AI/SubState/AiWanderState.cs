@@ -24,7 +24,7 @@ public class AiWanderState : BaseState
 
     public override void EnterState()
     {
-        _context.ControlerContext.AnimatorManager.Walkforward(true);
+        _context.ControlerContext.AnimatorManager.SetWalkforward(true);
         GetnewRandomPoint();
     }
 
@@ -35,7 +35,7 @@ public class AiWanderState : BaseState
 
     protected override void ExitState()
     {
-        _context.ControlerContext.AnimatorManager.Walkforward(false);
+        _context.ControlerContext.AnimatorManager.SetWalkforward(false);
     }
 
     protected override void FixedUpdateState()

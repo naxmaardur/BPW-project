@@ -41,6 +41,9 @@ public class PlayerControler : MonoBehaviour, IDamageable
     float _turningSpeed = 0.05f;
     public float turnSmoothVelocity = 0;
     Camera _camera;
+    bool _hasAwoken;
+    [SerializeField]
+    bool _inHiddingZone;
 
     public bool invincible = false;
 
@@ -71,6 +74,8 @@ public class PlayerControler : MonoBehaviour, IDamageable
     public bool IsShouldAttackSet { get { return _shouldAttack; } }
     public bool IsShouldCastSet { get { return _shouldCast; } }
 
+    public bool InHiddingZone { get { return _inHiddingZone; } set { _inHiddingZone = value; } }
+
     [SerializeField]
     float _health;
     float _maxHealth = 100;
@@ -81,9 +86,12 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
     public float Poise { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
+    
+
     public void onAwake()
     {
-       
+        if (_hasAwoken) { return; }
+        _hasAwoken = true;
         _interactionEventManager = new InteractionEventManager();
         Health = _maxHealth;
         _PlayerStateMachine = new PlayerStateMachine(this);
@@ -118,7 +126,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
         _input.Player.Cast.performed += ctx => { _CastPressed = true; };
         _input.Player.Cast.canceled += ctx => { _CastPressed = false; _canCast = true; };
-        StartCoroutine(playerAnimator.Updatefloats());
+        StartCoroutine(playerAnimator.Updatefloats()); 
         ChangeWeaponTo(0);
         GameObject MCO = (GameObject)Resources.Load("Prefabs/spells/Spellcontainer", typeof(GameObject));
         MCO = Instantiate(MCO, Vector3.zero, Quaternion.identity);
@@ -127,6 +135,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
         _magicContainer.Owner = this.gameObject;
         GameObject castingPoint = Instantiate(new GameObject(), transform);
         castingPoint.transform.localPosition = new Vector3(0.095f, 0.5f, 0.987f);
+        castingPoint.name = "CastingPoint";
         _magicContainer.CastingPosition = castingPoint.transform;
         _magicContainer.DisableContainer();
         OnSpellUpdate?.Invoke(_magicContainer);
@@ -205,6 +214,12 @@ public class PlayerControler : MonoBehaviour, IDamageable
     public void AddHealth(float value)
     {
         Health += value;
+    }
+
+
+    public bool IsSneaking()
+    {
+        return _PlayerStateMachine.CurrentState == _PlayerStateMachine.States.Sneak();
     }
 
 

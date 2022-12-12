@@ -26,7 +26,7 @@ public class AiPatrolState : BaseState
 
     public override void EnterState()
     {
-        _context.ControlerContext.AnimatorManager.Walkforward(true);
+        _context.ControlerContext.AnimatorManager.SetWalkforward(true);
         if (_path != null) { return; }
        if(_context.ControlerContext.patrolPath != null)
         {
@@ -51,7 +51,7 @@ public class AiPatrolState : BaseState
 
     protected override void ExitState()
     {
-        _context.ControlerContext.AnimatorManager.Walkforward(false);
+        _context.ControlerContext.AnimatorManager.SetWalkforward(false);
         if (_pathIndex > _path.Length -1)
         {
             if (!_loop)

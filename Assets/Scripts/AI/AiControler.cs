@@ -12,8 +12,10 @@ public class AiControler : MonoBehaviour, IDamageable
     NavMeshAgent _agent;
     NavMeshObstacle _navMeshObstacle;
     CharacterController _characterController;
+    Transform _playerTransform;
     public PatrolPath patrolPath;
     public bool patrol;
+    HitBox _hitBox;
 
 
     bool _hasAttackToken;
@@ -26,8 +28,14 @@ public class AiControler : MonoBehaviour, IDamageable
     public float IdleTime { get { return _idleTime; } }
 
     public AiAnimatorManager AnimatorManager { get { return _animatorManager; } }
+    public Transform PlayerTransfrom { get { if(_playerTransform == null) { _playerTransform = GameMaster.Instance.GetPlayerTransfrom(); } return _playerTransform; } }
+
+    public HitBox HitBox { get { return _hitBox; } }
 
     float _lastHitTime;
+
+    [SerializeField]
+    GameObject _deathDropObject;
 
     [SerializeField]
     float _health = 100;
@@ -40,25 +48,29 @@ public class AiControler : MonoBehaviour, IDamageable
     float _maxPoise = 100;
 
 
-    public float Health { get { return _health; } set { _health = Mathf.Clamp(value, 0, _maxHealth); } }
+    public float Health { get { return _health; } set { _health = Mathf.Clamp(value, 0, _maxHealth); OnHealthUpdate?.Invoke(_health, _maxHealth); } }
     public float MaxHealth { get { return _maxHealth; } }
 
     public float Poise { get { return _poise; } set { _poise = Mathf.Clamp(value, 0, _maxPoise); } }
 
-    public void Update()
-    {
-        //deleteme
-        OnUpdate();
-    }
+
+
+    public delegate void HealthUpdate(float health, float max);
+    public event HealthUpdate OnHealthUpdate;
+
 
     public void Awake()
     {
+        _hitBox = GetComponentInChildren<HitBox>();
+        _hitBox.Owner = this.gameObject;
+        GetComponentInChildren<EnemyUIHandler>()?.SetContext(this);
         _agent = GetComponent<NavMeshAgent>();
         _navMeshObstacle = GetComponent<NavMeshObstacle>();
         _agent.enabled = false;
         _stateMachine = new AiStateMachine(this);
         _animatorManager = new AiAnimatorManager(GetComponent<Animator>());
         _characterController = GetComponent<CharacterController>();
+        GameMaster.OnUpdateAI += OnUpdate;
     }
 
     public void OnUpdate()
@@ -78,6 +90,11 @@ public class AiControler : MonoBehaviour, IDamageable
     {
         _hasAttackToken = GameMaster.Instance.RequestAttackToken();
         return _hasAttackToken;
+    }
+
+    public void DisableCollision()
+    {
+        _characterController.enabled = false;
     }
 
     public void ReturnAttackToken()
@@ -108,6 +125,7 @@ public class AiControler : MonoBehaviour, IDamageable
 
     public void DestroySelf()
     {
+        GameMaster.OnUpdateAI -= OnUpdate;
         Destroy(this.gameObject);
     }
     private void OnGUI()
@@ -119,15 +137,20 @@ public class AiControler : MonoBehaviour, IDamageable
 
     public void Damage(float damage, float poiseDamage = 0)
     {
-        Health -= damage;
+        Health -= _stateMachine.CurrentState == _stateMachine.States.Combat() ? damage : damage * 2.5f;
         Poise -= poiseDamage;
+        _lastHitTime = Time.time;
         _animatorManager.TriggerImpact();
     }
 
     public void AddHealth(float value)
     {
-        throw new System.NotImplementedException();
+        Health += value;
     }
 
-   
+
+   public void SpawnDeathDropObject()
+    {
+        Instantiate(_deathDropObject, transform.position, Quaternion.identity);
+    }
 }

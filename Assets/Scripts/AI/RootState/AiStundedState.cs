@@ -18,7 +18,7 @@ public class AiStundedState : BaseState
             return true;
         }
         if (_context.ControlerContext.AnimatorManager.IsStunPlaying()) { return false; }
-        SwitchState(_context.States.Default());
+        SwitchState(_context.States.Combat());
         return false;
     }
 

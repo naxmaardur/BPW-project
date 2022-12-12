@@ -23,9 +23,41 @@ public class AIDefaultState : BaseState
             SwitchState(_context.States.Stunded());
             return true;
         }
+        if (CheckIfPlayerIsSeen())
+        {
+            SwitchState(_context.States.Combat());
+            return true;
+        }
+
+
         //throw new System.NotImplementedException();
         return false;
     }
+
+    bool CheckIfPlayerIsSeen()
+    {
+        float CheckDistance = 8;
+        float distance = Vector3.Distance(_context.ControlerContext.PlayerTransfrom.position, _context.ControlerContext.transform.position);
+        if(distance > CheckDistance) { return false; }
+        if (GameMaster.Instance.IsPlayerSneaking()) 
+        {
+            if (GameMaster.Instance.IsPlayerInHidingZone())
+            {
+                CheckDistance = 2;
+            }
+            else
+            {
+                CheckDistance = 4;
+            }
+        }
+        if (distance > CheckDistance) { return false; }
+        if (Vector3.Angle(_context.ControlerContext.transform.forward, _context.ControlerContext.PlayerTransfrom.position - _context.ControlerContext.transform.transform.position) > 80)
+        {
+            return false;
+        }
+        return true;
+    }
+
 
     public override void EnterState()
     {
