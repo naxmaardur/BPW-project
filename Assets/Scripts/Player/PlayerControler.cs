@@ -78,6 +78,8 @@ public class PlayerControler : MonoBehaviour, IDamageable
     public float Health { get { return _health; } set { _health = value; Mathf.Clamp(_health, 0, _maxHealth); } }
     public float MaxHealth { get { return _maxHealth; } }
 
+    public float Poise { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
     public void onAwake()
     {
        
@@ -126,7 +128,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
         castingPoint.transform.localPosition = new Vector3(0.095f, 0.5f, 0.987f);
         _magicContainer.CastingPosition = castingPoint.transform;
         _magicContainer.DisableContainer();
-        OnSpellUpdate(_magicContainer);
+        OnSpellUpdate?.Invoke(_magicContainer);
     }
 
     // Start is called before the first frame update
@@ -178,7 +180,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
         _input.Player.Disable();
     }
 
-    public void Damage(float damage)
+    public void Damage(float damage,float poiseDamage = 0)
     {
         if (invincible) { return; }
         Health -= damage;

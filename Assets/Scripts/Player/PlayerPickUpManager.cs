@@ -36,7 +36,7 @@ public class PlayerPickUpManager
         _context.MagicContainer.Spell = GameMaster.Instance.EquipableItemContainer.GetSpellById(item.ItemId);
         _context.MagicContainer.Color = _context.MagicContainer.Spell.color;
         _context.MagicContainer.SetSpellCharges(item.Count);
-        _context.OnSpellUpdate(_context.MagicContainer);
+        _context.OnSpellUpdate?.Invoke(_context.MagicContainer);
         return true;
     }
 

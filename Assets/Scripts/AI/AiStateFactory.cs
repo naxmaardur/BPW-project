@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class AiStateFactory: StateFactory
 {
+    //Root states Start with a capital letter
     public AiStateFactory(AiStateMachine currentContext)
     {
         _states["idle"] = new AiIdleState(currentContext);
-        _states["Wander"] = new AiWanderState(currentContext);
-        _states["Patrol"] = new AiPatrolState(currentContext);
-        _states["Follow"] = new AiFollowState(currentContext);
-        _states["Attack"] = new AiAttackingState(currentContext);
+        _states["wander"] = new AiWanderState(currentContext);
+        _states["patrol"] = new AiPatrolState(currentContext);
+        _states["follow"] = new AiFollowState(currentContext);
+        _states["attack"] = new AiAttackingState(currentContext);
+
+
         _states["Default"] = new AIDefaultState(currentContext);
         _states["Combat"] = new AiCombatState(currentContext);
         _states["Spawning"] = new AiSpawningState(currentContext);
         _states["Dying"] = new AiDyingState(currentContext);
+        _states["Stunded"] = new AiStundedState(currentContext);
     }
 
 
@@ -26,17 +30,17 @@ public class AiStateFactory: StateFactory
 
     public BaseState Wander()
     {
-        return _states["Wander"];
+        return _states["wander"];
     }
 
     public BaseState Patrol()
     {
-        return _states["Patrol"];
+        return _states["patrol"];
     }
 
     public BaseState Follow()
     {
-        return _states["Follow"];
+        return _states["follow"];
     }
 
     public BaseState Default()
@@ -59,5 +63,9 @@ public class AiStateFactory: StateFactory
     public BaseState Attack()
     {
         return _states["Attack"];
+    }
+    public BaseState Stunded()
+    {
+        return _states["Stunded"];
     }
 }

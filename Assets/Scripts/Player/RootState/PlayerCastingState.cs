@@ -94,8 +94,8 @@ public class PlayerCastingState : BaseState
         if (!_hascast && _context.ControlerContext.playerAnimator.GetAnimationCompletionPecentage() >= 0.4f)
         {
             _hascast = true;
-            _context.ControlerContext.MagicContainer.OnCast();
-            _context.ControlerContext.OnSpellUpdate(_context.ControlerContext.MagicContainer);
+            _context.ControlerContext.MagicContainer?.OnCast();
+            _context.ControlerContext.OnSpellUpdate?.Invoke(_context.ControlerContext.MagicContainer);
         }
 
     }

@@ -9601,7 +9601,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842dd560b3730be44b30ecda16e7e0c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 10
+  _damage: 25
+  _poiseDamage: 25
   _HitboxEnabled: 0
   _shards: {fileID: 8426881336850864956}
   _mist: {fileID: 8426881338129515678}

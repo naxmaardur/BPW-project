@@ -6,42 +6,45 @@ public class AiIdleState : BaseState
 {
     AiStateMachine _context;
     AiStateFactory _states;
+    float _IdleEndTime;
     public AiIdleState(AiStateMachine currentContext) : base(currentContext)
     {
         _context = currentContext;
     }
     public override bool CheckSwitchStates()
     {
-        throw new System.NotImplementedException();
+        if(Time.time < _IdleEndTime){ return false; }
+        if(_context.ControlerContext.patrol)
+        {
+            SwitchState(_context.States.Patrol());
+            return true;
+        }
+        SwitchState(_context.States.Wander());
+        return true;
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        _IdleEndTime = Time.time + _context.ControlerContext.IdleTime;
     }
 
     public override void InitializeSubState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void ExitState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void FixedUpdateState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void OnAnimatorMoveState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void UpdateState()
     {
-        throw new System.NotImplementedException();
     }
 }

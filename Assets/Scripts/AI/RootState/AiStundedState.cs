@@ -7,40 +7,43 @@ public class AiStundedState : BaseState
     AiStateMachine _context;
     public AiStundedState(AiStateMachine currentContext) : base(currentContext)
     {
+        _IsRootState = true;
         _context = currentContext;
     }
     public override bool CheckSwitchStates()
     {
-        throw new System.NotImplementedException();
+        if (_context.ControlerContext.Health == 0)
+        {
+            SwitchState(_context.States.Dying());
+            return true;
+        }
+        if (_context.ControlerContext.AnimatorManager.IsStunPlaying()) { return false; }
+        SwitchState(_context.States.Default());
+        return false;
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        _context.ControlerContext.AnimatorManager.TriggerStun();
     }
 
     public override void InitializeSubState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void ExitState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void FixedUpdateState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void OnAnimatorMoveState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void UpdateState()
     {
-        throw new System.NotImplementedException();
     }
 }

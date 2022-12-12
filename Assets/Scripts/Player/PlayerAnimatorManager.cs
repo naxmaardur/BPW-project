@@ -8,9 +8,8 @@ public class PlayerAnimatorManager : AnimatorManager
     
     RunTimeAnimatorListContainer _animatorContainer;
 
-    public PlayerAnimatorManager(Animator currentAnimator, RunTimeAnimatorListContainer runTimeAnimatorListContainer)
+    public PlayerAnimatorManager(Animator currentAnimator, RunTimeAnimatorListContainer runTimeAnimatorListContainer) : base(currentAnimator)
     {
-        _animator = currentAnimator;
         _animatorContainer = runTimeAnimatorListContainer;
     }
     public bool ChangeRunTimeAnimatorTo(int animatorID)

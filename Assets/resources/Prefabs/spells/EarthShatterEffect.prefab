@@ -38191,6 +38191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b58b7ed628e8bf49b4cf71dcb9e93f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 10
+  _damage: 35
+  _poiseDamage: 100
   _HitboxEnabled: 0
   _earthEffect: {fileID: 229383337866170365}

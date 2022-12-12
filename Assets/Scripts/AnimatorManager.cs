@@ -6,6 +6,12 @@ public class AnimatorManager
 {
     protected Animator _animator;
 
+    public AnimatorManager(Animator animator)
+    {
+        _animator = animator;
+    }
+
+
     protected float _targetX;
     protected float _targetY;
 

@@ -30,7 +30,7 @@ public class IceLanceHitBox : HitBox
 
         Collider[] hits;
 
-        hits = Physics.OverlapBox(_collider.center + transform.position, _scale, transform.rotation);
+        hits = Physics.OverlapBox(_collider.center + transform.position, _scale/2, transform.rotation);
         foreach (Collider col in hits)
         {
             if (col.gameObject == _owner) continue;

@@ -7,6 +7,7 @@ public class AiCombatState : BaseState
     AiStateMachine _context;
     public AiCombatState(AiStateMachine currentContext) : base(currentContext)
     {
+        _IsRootState = true;
         _context = currentContext;
     }
 

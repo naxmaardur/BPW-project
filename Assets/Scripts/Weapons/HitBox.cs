@@ -12,6 +12,8 @@ public class HitBox : MonoBehaviour
 
     [SerializeField]
     protected float _damage = 10f;
+    [SerializeField]
+    protected float _poiseDamage = 10f;
     protected BoxCollider _collider;
     protected GameObject _owner;
     [SerializeField]
@@ -43,7 +45,8 @@ public class HitBox : MonoBehaviour
 
         Collider[] hits;
 
-        hits = Physics.OverlapBox(_collider.center + transform.position, _scale, transform.rotation);
+        hits = Physics.OverlapBox(transform.TransformPoint(_collider.center), _scale/2, transform.rotation);
+        
         foreach(Collider col in hits)
         {
             if (col.gameObject == _owner) continue;
@@ -58,7 +61,7 @@ public class HitBox : MonoBehaviour
 
     protected virtual void OnHit(IDamageable dam, Collider col)
     {
-        dam.Damage(_damage);
+        dam.Damage(_damage,_poiseDamage);
         _HaveBeenHit.Add(col.gameObject);
     }
 

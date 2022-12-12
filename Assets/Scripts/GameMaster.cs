@@ -6,8 +6,10 @@ public class GameMaster : Singleton<GameMaster>
 {
     [SerializeField]
     EquipableItemContainer _equipableItemContainer;
+    PatrolPathMaster _patrolPathMaster = new();
 
     public EquipableItemContainer EquipableItemContainer { get { return _equipableItemContainer;} }
+    public PatrolPathMaster PatrolPathMaster { get { return _patrolPathMaster; } }
 
     PlayerControler _player;
 
@@ -23,6 +25,7 @@ public class GameMaster : Singleton<GameMaster>
         DontDestroyOnLoad(gameObject);
         _equipableItemContainer = new();
         _player = FindObjectOfType<PlayerControler>();
+        _patrolPathMaster.SetPatrolPaths(FindObjectsOfType<PatrolPath>());
         _player?.onAwake();
     }
 

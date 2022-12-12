@@ -7,40 +7,39 @@ public class AiDyingState : BaseState
     AiStateMachine _context;
     public AiDyingState(AiStateMachine currentContext) : base(currentContext)
     {
+        _IsRootState = true;
         _context = currentContext;
     }
     public override bool CheckSwitchStates()
     {
-        throw new System.NotImplementedException();
+        return false;
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        _context.ControlerContext.AnimatorManager.TriggerDeath();
     }
 
     public override void InitializeSubState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void ExitState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void FixedUpdateState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void OnAnimatorMoveState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void UpdateState()
     {
-        throw new System.NotImplementedException();
+        if(_context.ControlerContext.AnimatorManager.IsAnimationPlayingWithName("Death") 
+            || _context.ControlerContext.AnimatorManager.IsTransitionPlayingWithName("ToDeath")) { return; }
+        _context.ControlerContext.DestroySelf();
     }
 }

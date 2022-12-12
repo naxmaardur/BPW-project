@@ -13,7 +13,7 @@ public abstract class StateMachine
     }
     public virtual void OnCheckSwitchStates()
     {
-        _currentState.GetSubState.CheckSwitchStates();
+        _currentState.GetSubState?.CheckSwitchStates();
         _currentState.CheckSwitchStates();
     }
     public virtual void OnFixedUpdate()
