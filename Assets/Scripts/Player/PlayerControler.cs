@@ -75,7 +75,8 @@ public class PlayerControler : MonoBehaviour, IDamageable
     float _health;
     float _maxHealth = 100;
 
-    public float Health { get { return _health; } set { _health = value; Mathf.Clamp(_health, 0, _maxHealth); } }
+        
+    public float Health { get { return _health; } set { _health = value; Mathf.Clamp(_health, 0, _maxHealth); OnHealthUpdate?.Invoke(Health); } }
     public float MaxHealth { get { return _maxHealth; } }
 
     public float Poise { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
@@ -184,7 +185,6 @@ public class PlayerControler : MonoBehaviour, IDamageable
     {
         if (invincible) { return; }
         Health -= damage;
-        OnHealthUpdate?.Invoke(Health);
     }
 
 
@@ -205,7 +205,6 @@ public class PlayerControler : MonoBehaviour, IDamageable
     public void AddHealth(float value)
     {
         Health += value;
-        OnHealthUpdate?.Invoke(Health);
     }
 
 
