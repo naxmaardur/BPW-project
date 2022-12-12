@@ -128,13 +128,7 @@ public class AiControler : MonoBehaviour, IDamageable
         GameMaster.OnUpdateAI -= OnUpdate;
         Destroy(this.gameObject);
     }
-    private void OnGUI()
-    {
-        GUILayout.Label("1" + _stateMachine.CurrentState.GetType());
-        if(_stateMachine.CurrentState.GetSubState != null)
-        GUILayout.Label("2" + _stateMachine.CurrentState.GetSubState.GetType());
-    }
-
+   
     public void Damage(float damage, float poiseDamage = 0)
     {
         Health -= _stateMachine.CurrentState == _stateMachine.States.Combat() ? damage : damage * 2.5f;
@@ -153,4 +147,27 @@ public class AiControler : MonoBehaviour, IDamageable
     {
         Instantiate(_deathDropObject, transform.position, Quaternion.identity);
     }
+
+
+
+    //Delete This
+    private void OnGUI()
+    {
+        GUILayout.Label("1" + _stateMachine.CurrentState.GetType());
+        if (_stateMachine.CurrentState.GetSubState != null)
+            GUILayout.Label("2" + _stateMachine.CurrentState.GetSubState.GetType());
+    }
+
+    public Vector3[] path;
+    public void OnDrawGizmos()
+    {
+        if(path != null)
+        {
+            foreach(Vector3 v in path)
+            {
+                Gizmos.DrawCube(v, new Vector3(1, 1, 1));
+            }
+        }
+    }
+
 }

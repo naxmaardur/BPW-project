@@ -70,7 +70,7 @@ public class AiFollowState : BaseState
     {
         Vector3 direction = UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, point);
         float movementfloat = Mathf.Clamp01(Mathf.Abs(direction.x) + Mathf.Abs(direction.y));
-        float turningMod = 1f;
+        float turningMod = 0;
         float turnSpeed = _context.ControlerContext.TurningSpeed + turningMod * movementfloat;
 
         float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;

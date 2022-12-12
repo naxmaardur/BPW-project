@@ -333,7 +333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100176, guid: 3f66ec18c6ffcf240b207b9dd6e16dd0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400176, guid: 3f66ec18c6ffcf240b207b9dd6e16dd0, type: 3}
       propertyPath: m_RootOrder
@@ -414,6 +414,7 @@ MonoBehaviour:
   _maxHealth: 100
   _poise: 100
   _maxPoise: 100
+  path: []
 --- !u!208 &32799642
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -1247,7 +1248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100174, guid: f75629ed147815946908501d373f6272, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400174, guid: f75629ed147815946908501d373f6272, type: 3}
       propertyPath: m_RootOrder
@@ -1328,6 +1329,7 @@ MonoBehaviour:
   _maxHealth: 100
   _poise: 100
   _maxPoise: 100
+  path: []
 --- !u!208 &377170124
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -1825,19 +1827,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400136, guid: ad56668130e3181418c6a21506af8e02, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.007928848
       objectReference: {fileID: 0}
     - target: {fileID: 400136, guid: ad56668130e3181418c6a21506af8e02, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400136, guid: ad56668130e3181418c6a21506af8e02, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.99996865
       objectReference: {fileID: 0}
     - target: {fileID: 400136, guid: ad56668130e3181418c6a21506af8e02, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400136, guid: ad56668130e3181418c6a21506af8e02, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1845,7 +1847,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400136, guid: ad56668130e3181418c6a21506af8e02, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -180.909
       objectReference: {fileID: 0}
     - target: {fileID: 400136, guid: ad56668130e3181418c6a21506af8e02, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -2598,6 +2600,7 @@ MonoBehaviour:
   _maxHealth: 100
   _poise: 100
   _maxPoise: 100
+  path: []
 --- !u!195 &1054067773
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4081,7 +4084,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2d4f9a240a904e247b8a5c0a54b37ef2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 2d4f9a240a904e247b8a5c0a54b37ef2, type: 3}
       propertyPath: m_Controller
@@ -4118,6 +4121,7 @@ MonoBehaviour:
   _maxHealth: 100
   _poise: 100
   _maxPoise: 100
+  path: []
 --- !u!208 &1914870850
 NavMeshObstacle:
   m_ObjectHideFlags: 0

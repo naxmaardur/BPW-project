@@ -54,7 +54,7 @@ public class AiWanderState : BaseState
        if(Vector3.Distance(_path[_poistionInPath],_context.ControlerContext.transform.position) < 1)
         {
             _poistionInPath++;
-            if(_poistionInPath > _path.Length - 1) { _path = null; return; }
+            if(_poistionInPath >= _path.Length) { _path = null; return; }
         }
         RotateToPoint(_path[_poistionInPath]);
 

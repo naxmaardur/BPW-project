@@ -22,7 +22,7 @@ public class AIFightingState : BaseState
         }
         if (_context.ControlerContext.HasAttackToken)
         {
-            SwitchState(_context.States.Attack());
+           // SwitchState(_context.States.Attack());
             return true;
         }
 
@@ -73,23 +73,26 @@ public class AIFightingState : BaseState
         {
             _poistionInPath++;
             
-            if (_poistionInPath > _path.Length - 1) { GetnewRandomPoint(); }
+            if (_poistionInPath >= _path.Length) { GetnewRandomPoint(); }
         }
+        RotateToPoint(_context.ControlerContext.PlayerTransfrom.position);
 
         Vector3 direction = UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, _path[_poistionInPath]);
-        direction = Quaternion.Euler(0, _context.ControlerContext.transform.rotation.eulerAngles.y, 0) * direction;
+        Debug.DrawRay(_context.ControlerContext.transform.position, direction, Color.green);
+        direction = _context.ControlerContext.transform.rotation * direction;
         direction = direction.normalized;
+        Debug.DrawRay(_context.ControlerContext.transform.position, direction,Color.red);
         _context.ControlerContext.AnimatorManager.SetMovementXWithDamp(direction.x);
-        _context.ControlerContext.AnimatorManager.SetMovementYWithDamp(direction.y);
+        _context.ControlerContext.AnimatorManager.SetMovementYWithDamp(direction.z);
 
 
-        RotateToPoint(_context.ControlerContext.PlayerTransfrom.position);
     }
 
     void GetnewRandomPoint()
     {
         Vector3 targetPoint = new Vector3(_lastPoint.x + Random.Range(-3.5f, 3.5f), _lastPoint.y, _lastPoint.z + Random.Range(-3.5f, 3.5f));
         _path = _context.ControlerContext.CalculatePath(targetPoint);
+        _context.ControlerContext.path = _path;
         _poistionInPath = 0;
         if (_path == null) { GetnewRandomPoint(); }
     }
