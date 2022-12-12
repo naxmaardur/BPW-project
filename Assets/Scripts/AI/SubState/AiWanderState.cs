@@ -8,6 +8,7 @@ public class AiWanderState : BaseState
     Vector3[] _path;
     Vector3 _originPoint;
     int _poistionInPath;
+    bool _requestingPath;
 
     public AiWanderState(AiStateMachine currentContext) : base(currentContext)
     {
@@ -50,7 +51,7 @@ public class AiWanderState : BaseState
 
     protected override void UpdateState()
     {
-       if(_path == null) { return; }
+       if(_path == null || _requestingPath) { return; }
        if(Vector3.Distance(_path[_poistionInPath],_context.ControlerContext.transform.position) < 1)
         {
             _poistionInPath++;
@@ -77,10 +78,11 @@ public class AiWanderState : BaseState
 
     void GetnewRandomPoint()
     {
+        _requestingPath = true;
         Vector3 targetPoint = new Vector3(_originPoint.x + Random.Range(-10, 11), _originPoint.y, _originPoint.z + Random.Range(-10, 11));
         _path = _context.ControlerContext.CalculatePath(targetPoint);
         _poistionInPath = 0;
-        if(_path == null) { GetnewRandomPoint(); }
+        _requestingPath = false;
     }
 
 

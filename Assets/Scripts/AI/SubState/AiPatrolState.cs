@@ -8,7 +8,7 @@ public class AiPatrolState : BaseState
     Vector3[] _path;
     int _pathIndex;
     bool _loop;
-    
+
 
     public AiPatrolState(AiStateMachine currentContext) : base(currentContext)
     {

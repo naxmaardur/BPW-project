@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(CharacterController)), RequireComponent(typeof(NavMeshAgent)),RequireComponent(typeof(NavMeshObstacle))]
+[RequireComponent(typeof(CharacterController)),RequireComponent(typeof(NavMeshObstacle))]
 
 public class AiControler : MonoBehaviour, IDamageable
 {
     AiStateMachine _stateMachine;
     AiAnimatorManager _animatorManager;
-    NavMeshAgent _agent;
     NavMeshObstacle _navMeshObstacle;
     CharacterController _characterController;
     Transform _playerTransform;
@@ -64,9 +63,7 @@ public class AiControler : MonoBehaviour, IDamageable
         _hitBox = GetComponentInChildren<HitBox>();
         _hitBox.Owner = this.gameObject;
         GetComponentInChildren<EnemyUIHandler>()?.SetContext(this);
-        _agent = GetComponent<NavMeshAgent>();
         _navMeshObstacle = GetComponent<NavMeshObstacle>();
-        _agent.enabled = false;
         _stateMachine = new AiStateMachine(this);
         _animatorManager = new AiAnimatorManager(GetComponent<Animator>());
         _characterController = GetComponent<CharacterController>();
@@ -88,6 +85,7 @@ public class AiControler : MonoBehaviour, IDamageable
 
     public bool RequestAttackToken()
     {
+        if(Time.time - _lastHitTime < 1) { return false; }
         _hasAttackToken = GameMaster.Instance.RequestAttackToken();
         return _hasAttackToken;
     }
@@ -105,14 +103,13 @@ public class AiControler : MonoBehaviour, IDamageable
 
     public Vector3[] CalculatePath(Vector3 position)
     {
-        NavMeshHit myNavHit;
-        if (NavMesh.SamplePosition(position, out myNavHit, 100, -1)) { position = myNavHit.position; }
-        else { return null; }
-        NavMeshPath path = new NavMeshPath();
         _navMeshObstacle.enabled = false;
-        _agent.enabled = true;
-        _agent.CalculatePath(position, path);
-        _agent.enabled = false;
+
+        NavMeshHit myNavHit;
+        if (NavMesh.SamplePosition(position, out myNavHit, 100, -1)) { position = myNavHit.position;  }
+        else { _navMeshObstacle.enabled = true; return null;  }
+        NavMeshPath path = new NavMeshPath();
+        if(!NavMesh.CalculatePath(transform.position,position, NavMesh.AllAreas, path)){ _navMeshObstacle.enabled = true; return null;}
         _navMeshObstacle.enabled = true;
 
         return path.corners;
@@ -146,28 +143,6 @@ public class AiControler : MonoBehaviour, IDamageable
    public void SpawnDeathDropObject()
     {
         Instantiate(_deathDropObject, transform.position, Quaternion.identity);
-    }
-
-
-
-    //Delete This
-    private void OnGUI()
-    {
-        GUILayout.Label("1" + _stateMachine.CurrentState.GetType());
-        if (_stateMachine.CurrentState.GetSubState != null)
-            GUILayout.Label("2" + _stateMachine.CurrentState.GetSubState.GetType());
-    }
-
-    public Vector3[] path;
-    public void OnDrawGizmos()
-    {
-        if(path != null)
-        {
-            foreach(Vector3 v in path)
-            {
-                Gizmos.DrawCube(v, new Vector3(1, 1, 1));
-            }
-        }
     }
 
 }

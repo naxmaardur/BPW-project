@@ -8,6 +8,7 @@ public class AiFollowState : BaseState
     Vector3[] _path;
     int _poistionInPath;
     Vector3 _lastPoint;
+    bool _requestingPath;
     public AiFollowState(AiStateMachine currentContext) : base(currentContext)
     {
         _context = currentContext;
@@ -27,7 +28,7 @@ public class AiFollowState : BaseState
     {
         _context.ControlerContext.AnimatorManager.SetRunforward(true);
         _lastPoint = _context.ControlerContext.PlayerTransfrom.position;
-        _path = _context.ControlerContext.CalculatePath(_lastPoint);
+        RequestPath();
     }
 
     public override void InitializeSubState()
@@ -54,10 +55,11 @@ public class AiFollowState : BaseState
     {
         if(Vector3.Distance(_lastPoint, _context.ControlerContext.PlayerTransfrom.position) > 1)
         {
+            
             _lastPoint = _context.ControlerContext.PlayerTransfrom.position;
-            _path = _context.ControlerContext.CalculatePath(_lastPoint);
+            
         }
-        if (_path == null) { return; }
+        if (_path == null || _requestingPath) { return; }
         if (Vector3.Distance(_path[_poistionInPath], _context.ControlerContext.transform.position) < 1)
         {
             _poistionInPath++;
@@ -76,5 +78,12 @@ public class AiFollowState : BaseState
         float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
         float angle = Mathf.SmoothDampAngle(_context.ControlerContext.transform.eulerAngles.y, targetAngle, ref _context.ControlerContext.turnSmoothVelocity, turnSpeed);
         _context.ControlerContext.transform.rotation = Quaternion.Euler(0f, angle, 0f);
+    }
+
+    void RequestPath()
+    {
+        _requestingPath = true;
+        _path = _context.ControlerContext.CalculatePath(_lastPoint);
+        _requestingPath = false;
     }
 }

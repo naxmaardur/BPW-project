@@ -9,20 +9,21 @@ public class AIFightingState : BaseState
     int _poistionInPath;
     Vector3 _lastPoint;
     Coroutine _animatorUpdateFloats;
+    bool _requestingPath;
     public AIFightingState(AiStateMachine currentContext) : base(currentContext)
     {
         _context = currentContext;
     }
     public override bool CheckSwitchStates()
     {
-        if (Vector3.Distance(_context.ControlerContext.transform.position, _context.ControlerContext.PlayerTransfrom.position) > 4)
+        if (Vector3.Distance(_context.ControlerContext.transform.position, _context.ControlerContext.PlayerTransfrom.position) > 4.5f)
         {
             SwitchState(_context.States.Follow());
             return true;
         }
         if (_context.ControlerContext.HasAttackToken)
         {
-           // SwitchState(_context.States.Attack());
+            SwitchState(_context.States.Attack());
             return true;
         }
 
@@ -58,7 +59,8 @@ public class AIFightingState : BaseState
 
     protected override void UpdateState()
     {
-        if(Vector3.Distance(_context.ControlerContext.transform.position,_context.ControlerContext.PlayerTransfrom.position) < 2.5f && !_context.ControlerContext.HasAttackToken)
+        if(Vector3.Distance(_context.ControlerContext.transform.position,_context.ControlerContext.PlayerTransfrom.position) < 2.5f && !_context.ControlerContext.HasAttackToken &&
+            Vector3.Angle(_context.ControlerContext.transform.forward, _context.ControlerContext.PlayerTransfrom.position - _context.ControlerContext.transform.transform.position) < 80)
         {
             _context.ControlerContext.RequestAttackToken();
         }
@@ -67,7 +69,7 @@ public class AIFightingState : BaseState
             _lastPoint = _context.ControlerContext.PlayerTransfrom.position;
             GetnewRandomPoint();
         }
-        if (_path == null) { return; }
+        if (_path == null || _requestingPath) { return; }
         Debug.DrawLine(_context.ControlerContext.transform.position, _path[_poistionInPath]);
         if (Vector3.Distance(_path[_poistionInPath], _context.ControlerContext.transform.position) < 0.5f)
         {
@@ -79,7 +81,7 @@ public class AIFightingState : BaseState
 
         Vector3 direction = UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, _path[_poistionInPath]);
         Debug.DrawRay(_context.ControlerContext.transform.position, direction, Color.green);
-        direction = _context.ControlerContext.transform.rotation * direction;
+        direction = Quaternion.Euler(0, -_context.ControlerContext.transform.rotation.eulerAngles.y, 0) * direction;
         direction = direction.normalized;
         Debug.DrawRay(_context.ControlerContext.transform.position, direction,Color.red);
         _context.ControlerContext.AnimatorManager.SetMovementXWithDamp(direction.x);
@@ -90,18 +92,18 @@ public class AIFightingState : BaseState
 
     void GetnewRandomPoint()
     {
+        _requestingPath = true;
         Vector3 targetPoint = new Vector3(_lastPoint.x + Random.Range(-3.5f, 3.5f), _lastPoint.y, _lastPoint.z + Random.Range(-3.5f, 3.5f));
         _path = _context.ControlerContext.CalculatePath(targetPoint);
-        _context.ControlerContext.path = _path;
         _poistionInPath = 0;
-        if (_path == null) { GetnewRandomPoint(); }
+        _requestingPath = false;
     }
 
     void RotateToPoint(Vector3 point)
     {
         Vector3 direction = UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, point);
         float movementfloat = Mathf.Clamp01(Mathf.Abs(direction.x) + Mathf.Abs(direction.y));
-        float turningMod = 0.2f;
+        float turningMod = 0f;
         float turnSpeed = _context.ControlerContext.TurningSpeed + turningMod * movementfloat;
 
         float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
