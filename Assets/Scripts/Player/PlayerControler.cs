@@ -126,6 +126,8 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
         _input.Player.Cast.performed += ctx => { _CastPressed = true; };
         _input.Player.Cast.canceled += ctx => { _CastPressed = false; _canCast = true; };
+        _input.Player.Pause.started += ctx => { GameMaster.Instance.PauseGame(); };
+        EnableInput();
         StartCoroutine(playerAnimator.Updatefloats()); 
         ChangeWeaponTo(0);
         GameObject MCO = (GameObject)Resources.Load("Prefabs/spells/Spellcontainer", typeof(GameObject));
@@ -182,10 +184,20 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
     private void OnEnable()
     {
-        _input.Player.Enable();
+        if (_hasAwoken) { EnableInput(); }
     }
 
     private void OnDisable()
+    {
+        DisableInput();
+    }
+
+    public void EnableInput()
+    {
+        _input.Player.Enable();
+    }
+
+    public void DisableInput()
     {
         _input.Player.Disable();
     }
