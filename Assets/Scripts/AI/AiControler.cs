@@ -68,6 +68,7 @@ public class AiControler : MonoBehaviour, IDamageable
         _animatorManager = new AiAnimatorManager(GetComponent<Animator>());
         _characterController = GetComponent<CharacterController>();
         GameMaster.OnUpdateAI += OnUpdate;
+        GameMaster.OnRestartGameScene += DestroySelf;
     }
 
     public void OnUpdate()
@@ -123,8 +124,11 @@ public class AiControler : MonoBehaviour, IDamageable
     public void DestroySelf()
     {
         GameMaster.OnUpdateAI -= OnUpdate;
+        GameMaster.OnRestartGameScene -= DestroySelf;
         Destroy(this.gameObject);
     }
+
+   
    
     public void Damage(float damage, float poiseDamage = 0)
     {

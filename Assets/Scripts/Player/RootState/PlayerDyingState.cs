@@ -14,36 +14,36 @@ public class PlayerDyingState : BaseState
 
     public override bool CheckSwitchStates()
     {
-        throw new System.NotImplementedException();
+        if(_context.ControlerContext.playerAnimator.TransitioningToDead())
+        {
+            SwitchState(_context.States.Respawn());
+            return true;
+        }
+        return false;
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        _context.ControlerContext.playerAnimator.TriggerDie();
     }
 
     public override void InitializeSubState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void ExitState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void FixedUpdateState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void OnAnimatorMoveState()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void UpdateState()
     {
-        throw new System.NotImplementedException();
     }
 }

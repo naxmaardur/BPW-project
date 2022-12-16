@@ -15,6 +15,7 @@ public class PlayerStateFactory : StateFactory
         _states["Attacking"] = new PlayerAttackingState(currentContext);
         _states["Casting"] = new PlayerCastingState(currentContext);
         _states["Dying"] = new PlayerDyingState(currentContext);
+        _states["Respawn"] = new PlayerRespawningState(currentContext);
     }
 
 
@@ -55,6 +56,10 @@ public class PlayerStateFactory : StateFactory
     public BaseState Dying()
     {
         return _states["Dying"];
+    }
+    public BaseState Respawn()
+    {
+        return _states["Respawn"];
     }
     public BaseState Dodge()
     {

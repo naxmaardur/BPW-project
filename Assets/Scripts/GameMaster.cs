@@ -20,14 +20,13 @@ public class GameMaster : Singleton<GameMaster>
 
     public Camera Cam {  get { return _cam; } }
 
-    public delegate void UpdateHitboxes();
-    public static event UpdateHitboxes OnUpdateGlobalHitboxes;
+    public delegate void GameMasterEvent();
+    public static event GameMasterEvent OnUpdateGlobalHitboxes;
 
-    public delegate void UpdateAI();
-    public static event UpdateAI OnUpdateAI;
-    public delegate void Pause();
-    public static event Pause OnPause;
-    public static event Pause OnUnPause;
+    public static event GameMasterEvent OnUpdateAI;
+    public static event GameMasterEvent OnPause;
+    public static event GameMasterEvent OnUnPause;
+    public static event GameMasterEvent OnRestartGameScene;
 
     int _attackTokens = 5;
 
@@ -91,7 +90,10 @@ public class GameMaster : Singleton<GameMaster>
         OnUnPause?.Invoke();
     }
 
-    
+    public void RestartGameScene()
+    {
+        OnRestartGameScene?.Invoke();
+    }
 
 
     // Update is called once per frame

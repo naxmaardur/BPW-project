@@ -35,6 +35,14 @@ public class PlayerAnimatorManager : AnimatorManager
     {
         return _animator.GetInteger("AttackComboPos");
     }
+    public void TriggerDie()
+    {
+        _animator.SetTrigger("Die");
+    }
+    public void TriggerRespawn()
+    {
+        _animator.SetTrigger("Respawn");
+    }
     public void TriggerDodge()
     {
         _animator.SetTrigger("Dodge");
@@ -64,6 +72,15 @@ public class PlayerAnimatorManager : AnimatorManager
     {
         return IsTransitionPlayingWithName("ToCast");
     }
+    public bool TransitioningToDead()
+    {
+        return IsTransitionPlayingWithName("ToDead");
+    }
+    public bool TransitioningFromRespawn()
+    {
+        return IsTransitionPlayingWithName("FromRespawn");
+    }
+
     public bool IsDodgePlaying()
     {
         return IsAnimationPlayingWithName("Dive Forward");

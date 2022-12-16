@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public class PlayerControler : MonoBehaviour, IDamageable
 {
+    Transform _PlayerSpawnPoint;
+
     PlayerStateMachine _PlayerStateMachine;
     CharacterController _characterController;
     PlayerAnimatorManager _playerAnimator;
@@ -54,6 +56,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
     public SpellUpdate OnSpellUpdate;
 
 
+    public Transform PlayerSpawnPoint { get { return _PlayerSpawnPoint; } }
     public HitBox CurrentWeaponHitBox { get { return _currentWeaponHitBox; } }
     public MagicContainer MagicContainer {get { return _magicContainer; } }
     public RunTimeAnimatorListContainer AnimatorListContainer { get { return _animatorListContainer; } }
@@ -141,6 +144,9 @@ public class PlayerControler : MonoBehaviour, IDamageable
         _magicContainer.CastingPosition = castingPoint.transform;
         _magicContainer.DisableContainer();
         OnSpellUpdate?.Invoke(_magicContainer);
+
+        _PlayerSpawnPoint = Instantiate(new GameObject(), transform.position, transform.rotation).transform;
+        _PlayerSpawnPoint.gameObject.name = "PLayerSpawnPoint";
     }
 
     // Start is called before the first frame update
