@@ -25,6 +25,7 @@ public class GameState : GameMasterBaseState
 
     public override void EnterState()
     {
+        _context.ControlerContext.Player?.onAwake();
         _context.ControlerContext.Player?.EnableInput();
         Time.timeScale = 1.0f;
     }

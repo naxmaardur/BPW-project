@@ -147,6 +147,8 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
         _PlayerSpawnPoint = Instantiate(new GameObject(), transform.position, transform.rotation).transform;
         _PlayerSpawnPoint.gameObject.name = "PLayerSpawnPoint";
+        _weaponTransform.position = _weaponPoint.position;
+        _weaponTransform.rotation = _weaponPoint.rotation;
     }
 
     // Start is called before the first frame update
@@ -171,7 +173,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
     private void OnAnimatorMove()
     {
-        _PlayerStateMachine.OnAnimatorMoveState();
+        _PlayerStateMachine?.OnAnimatorMoveState();
     }
 
     private void AlignEquipedObjectsWithPoints()
