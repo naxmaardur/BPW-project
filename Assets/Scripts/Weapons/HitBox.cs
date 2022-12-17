@@ -21,6 +21,7 @@ public class HitBox : MonoBehaviour
     protected List<GameObject> _HaveBeenHit = new();
     public GameObject Owner { get { return _owner; } set { if(_owner == null) { _owner = value; } } }
     protected Vector3 _scale;
+
     private void Awake()
     {
         OnAwake();

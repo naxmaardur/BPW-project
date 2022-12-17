@@ -7,6 +7,12 @@ using UnityEngine.AI;
 
 public class AiControler : MonoBehaviour, IDamageable
 {
+    [SerializeField]
+    AudioClip _hitSound;
+    [SerializeField]
+    AudioClip _deathSound;
+    AudioSource _audioSource;
+
     AiStateMachine _stateMachine;
     AiAnimatorManager _animatorManager;
     NavMeshObstacle _navMeshObstacle;
@@ -60,8 +66,9 @@ public class AiControler : MonoBehaviour, IDamageable
 
     public void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
         _hitBox = GetComponentInChildren<HitBox>();
-        _hitBox.Owner = this.gameObject;
+        if(_hitBox != null) { _hitBox.Owner = this.gameObject; }
         GetComponentInChildren<EnemyUIHandler>()?.SetContext(this);
         _navMeshObstacle = GetComponent<NavMeshObstacle>();
         _stateMachine = new AiStateMachine(this);
@@ -86,6 +93,7 @@ public class AiControler : MonoBehaviour, IDamageable
 
     public bool RequestAttackToken()
     {
+        if(_hitBox == null) { return false; }
         if(Time.time - _lastHitTime < 1) { return false; }
         _hasAttackToken = GameMaster.Instance.RequestAttackToken();
         return _hasAttackToken;
@@ -132,10 +140,26 @@ public class AiControler : MonoBehaviour, IDamageable
    
     public void Damage(float damage, float poiseDamage = 0)
     {
+        
         Health -= _stateMachine.CurrentState == _stateMachine.States.Combat() ? damage : damage * 2.5f;
         Poise -= poiseDamage;
         _lastHitTime = Time.time;
         _animatorManager.TriggerImpact();
+        if (damage > 0)
+        {
+            if (Health <= 0)
+            {
+                _audioSource.clip = _deathSound;
+                _audioSource.pitch = 1;
+                _audioSource.Play();
+            }
+            else
+            {
+                _audioSource.clip = _hitSound;
+                _audioSource.pitch = Random.Range(0.9f,1.1f);
+                _audioSource.Play();
+            }
+        }
     }
 
     public void AddHealth(float value)

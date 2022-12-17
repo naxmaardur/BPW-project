@@ -14,6 +14,8 @@ public class PlayerControler : MonoBehaviour, IDamageable
     InteractionEventManager _interactionEventManager;
 
     HitBox _currentWeaponHitBox;
+    [SerializeField]
+    HitBox _rollHitBox;
     MagicContainer _magicContainer;
 
     [SerializeField]
@@ -58,6 +60,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
     public Transform PlayerSpawnPoint { get { return _PlayerSpawnPoint; } }
     public HitBox CurrentWeaponHitBox { get { return _currentWeaponHitBox; } }
+    public HitBox CurrentRollHitBox { get { return _rollHitBox; } }
     public MagicContainer MagicContainer {get { return _magicContainer; } }
     public RunTimeAnimatorListContainer AnimatorListContainer { get { return _animatorListContainer; } }
     public PlayerAnimatorManager playerAnimator { get { return _playerAnimator; } }
@@ -187,6 +190,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
     public void Move(Vector3 velocity)
     {
+        velocity.y = -9  * Time.deltaTime;
         _characterController.Move(velocity);
     }
 

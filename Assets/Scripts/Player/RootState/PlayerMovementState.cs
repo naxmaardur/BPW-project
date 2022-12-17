@@ -101,7 +101,10 @@ public class PlayerMovementState : BaseState
         if(GetSubState == _context.States.Run()) { turningMod = 0.5f; }
         float turnSpeed = _context.ControlerContext.TurningSpeed + turningMod * movementfloat;
 
-        float targetAngle = Mathf.Atan2(_context.ControlerContext.GetCurrentMovement.x, _context.ControlerContext.GetCurrentMovement.y) * Mathf.Rad2Deg + _context.ControlerContext.GetCam.eulerAngles.y;
+
+
+        Debug.Log(Mathf.Abs(_context.ControlerContext.GetCam.eulerAngles.y));
+        float targetAngle = Mathf.Atan2(_context.ControlerContext.GetCurrentMovement.x, _context.ControlerContext.GetCurrentMovement.y) * Mathf.Rad2Deg + Mathf.Abs(_context.ControlerContext.GetCam.rotation.y) ;
         float angle = Mathf.SmoothDampAngle(_context.ControlerContext.transform.eulerAngles.y, targetAngle, ref _context.ControlerContext.turnSmoothVelocity, turnSpeed);
         _context.ControlerContext.transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }

@@ -42,6 +42,7 @@ public class PlayerDodgeState : BaseState
         _context.ControlerContext.invincible = true;
         _context.ControlerContext.playerAnimator.TriggerDodge();
         _checkCooldown = 0.7f + Time.time;
+        _context.ControlerContext.CurrentRollHitBox.EnableHitBox();
     }
 
     public override void InitializeSubState()
@@ -50,6 +51,7 @@ public class PlayerDodgeState : BaseState
 
     protected override void ExitState()
     {
+        _context.ControlerContext.CurrentRollHitBox.DisableHitBox();
         _context.ControlerContext.ResetShouldDodge();
     }
 
@@ -63,6 +65,7 @@ public class PlayerDodgeState : BaseState
 
     protected override void UpdateState()
     {
+        _context.ControlerContext.CurrentRollHitBox.OnUpdate();
         if (_context.ControlerContext.playerAnimator.GetAnimationCompletionPecentage() > 0.70f && _context.ControlerContext.invincible)
         {
             _context.ControlerContext.invincible = false;

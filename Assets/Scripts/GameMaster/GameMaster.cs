@@ -37,6 +37,7 @@ public class GameMaster : Singleton<GameMaster>
         _input = new();
         _input.UI.Pause.started += ctx => { if (_gameMasterStateMachine.CurrentState != _gameMasterStateMachine.States.Default()) { UnPauseGame(); } };
         _input.UI.Enable();
+        if(Instance != null) { Destroy(this.gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
         _gameMasterStateMachine = new(this);
