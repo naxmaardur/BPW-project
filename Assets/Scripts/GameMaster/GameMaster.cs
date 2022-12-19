@@ -62,16 +62,14 @@ public class GameMaster : Singleton<GameMaster>
     public void StartGame()
     {
         _input.UI.Disable();
-        _gameMasterStateMachine.CurrentState = (GameMasterBaseState)_gameMasterStateMachine.States.CutScene();
-        CutSceneState cutSceneState  = (CutSceneState)_gameMasterStateMachine.CurrentState;
-        cutSceneState.EnterState();
-        cutSceneState.NextState = (GameMasterBaseState)_gameMasterStateMachine.States.Game();
+        CutSceneStart();
         SceneManager.LoadSceneAsync(1);
     }
 
     public void QuitGame()
     {
-        Application.Quit();
+        _gameMasterStateMachine.CurrentState = (GameMasterBaseState)_gameMasterStateMachine.States.Quit();
+        _gameMasterStateMachine.CurrentState.EnterState();
     }
 
 
@@ -112,6 +110,21 @@ public class GameMaster : Singleton<GameMaster>
     {
         OnCutSceneEnd?.Invoke();
     }
+
+    public void CutSceneStart(bool EndCutScene = false)
+    {
+        RestartGameScene();
+        _gameMasterStateMachine.CurrentState = (GameMasterBaseState)_gameMasterStateMachine.States.CutScene();
+        CutSceneState cutSceneState = (CutSceneState)_gameMasterStateMachine.CurrentState;
+        cutSceneState.EnterState();
+        if (EndCutScene)
+        { 
+
+            cutSceneState.NextState = _gameMasterStateMachine.States.Quit(); 
+        }
+        else { cutSceneState.NextState = _gameMasterStateMachine.States.Game(); }
+    }
+
     public void GetNewPlayer()
     {
         _player = FindObjectOfType<PlayerControler>();

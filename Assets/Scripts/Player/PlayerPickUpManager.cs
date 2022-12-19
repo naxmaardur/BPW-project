@@ -32,10 +32,17 @@ public class PlayerPickUpManager
 
     public bool PickUpMagic(PickUpItem item)
     {
-        if(_context.MagicContainer.Spell != null) { return false; }
-        _context.MagicContainer.Spell = GameMaster.Instance.EquipableItemContainer.GetSpellById(item.ItemId);
+        MagicSpell spell = GameMaster.Instance.EquipableItemContainer.GetSpellById(item.ItemId); 
+        if (_context.MagicContainer.Spell != null) 
+        { 
+            if(_context.MagicContainer.Spell != spell)
+            {
+                return false;
+            }
+        }
+        _context.MagicContainer.Spell = spell;
         _context.MagicContainer.Color = _context.MagicContainer.Spell.color;
-        _context.MagicContainer.SetSpellCharges(item.Count);
+        _context.MagicContainer.AddSpellCharges(item.Count);
         _context.OnSpellUpdate?.Invoke(_context.MagicContainer);
         return true;
     }

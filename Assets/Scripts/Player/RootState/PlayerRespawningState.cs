@@ -28,6 +28,7 @@ public class PlayerRespawningState : BaseState
         _context.ControlerContext.Health = 10000;
         _context.ControlerContext.transform.position = _context.ControlerContext.PlayerSpawnPoint.position;
         _context.ControlerContext.transform.rotation = _context.ControlerContext.PlayerSpawnPoint.rotation;
+        _context.ControlerContext.PlaySource();
     }
 
     public override void InitializeSubState()

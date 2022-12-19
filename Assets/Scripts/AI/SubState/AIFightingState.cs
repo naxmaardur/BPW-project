@@ -59,8 +59,9 @@ public class AIFightingState : BaseState
 
     protected override void UpdateState()
     {
+
         if(Vector3.Distance(_context.ControlerContext.transform.position,_context.ControlerContext.PlayerTransfrom.position) < 2.5f && !_context.ControlerContext.HasAttackToken &&
-            Vector3.Angle(_context.ControlerContext.transform.forward, _context.ControlerContext.PlayerTransfrom.position - _context.ControlerContext.transform.transform.position) < 80)
+            Vector3.Angle(_context.ControlerContext.transform.forward, _context.ControlerContext.PlayerTransfrom.position - _context.ControlerContext.transform.transform.position) < 40)
         {
             _context.ControlerContext.RequestAttackToken();
         }

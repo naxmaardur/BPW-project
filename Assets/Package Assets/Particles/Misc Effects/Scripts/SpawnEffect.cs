@@ -13,6 +13,7 @@ public class SpawnEffect : MonoBehaviour {
     Renderer _renderer;
 
     int shaderProperty;
+    public bool loop;
 
 	void Start ()
     {
@@ -35,8 +36,11 @@ public class SpawnEffect : MonoBehaviour {
         }
         else
         {
-            //ps.Play();
-            timer = 0;
+            if (loop)
+            {
+                //ps.Play();
+                timer = 0;
+            }
         }
 
 

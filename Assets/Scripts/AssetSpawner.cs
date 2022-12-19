@@ -10,6 +10,9 @@ public class AssetSpawner : MonoBehaviour
     bool _spawnAtStart;
     bool _HasSpawned;
 
+    [SerializeField]
+    Transform _assetParent;
+    
     GameObject _spawnedAsset;
 
 
@@ -29,6 +32,11 @@ public class AssetSpawner : MonoBehaviour
         if(_HasSpawned || _spawnedAsset != null) { return; }
         _HasSpawned = true;
         _spawnedAsset = Instantiate(_ToSpawn, transform.position, transform.rotation);
+
+        if(_assetParent != null)
+        {
+            _spawnedAsset.transform.SetParent(_assetParent);
+        }
     }
 
     private void ResetGameScene()

@@ -21,6 +21,7 @@ public class MenuHandler : MonoBehaviour
     public void StartGameButton()
     {
         GameMaster.Instance.StartGame();
+        gameObject.SetActive(false);
     }
 
     public void ContinueGameButton()

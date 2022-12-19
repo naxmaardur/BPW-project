@@ -46,9 +46,9 @@ public class MagicContainer : MonoBehaviour
     }
     
 
-    public void SetSpellCharges(int value)
+    public void AddSpellCharges(int value)
     {
-        _spellCharges = value;
+        _spellCharges += value;
     }
 
     public void EnableContainer()

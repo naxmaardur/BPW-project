@@ -24,7 +24,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
     Transform _magicPoint;
     Transform _weaponTransform;
     Transform _magicTransform;
-
+    AudioSource _source;
 
     PlayerInput _input;
     Vector2 _currentMovement;
@@ -98,8 +98,9 @@ public class PlayerControler : MonoBehaviour, IDamageable
     {
         if (_hasAwoken) { return; }
         _hasAwoken = true;
+        _source = GetComponent<AudioSource>();
         _interactionEventManager = new InteractionEventManager();
-        Health = _maxHealth;
+        //Health = _maxHealth;
         _PlayerStateMachine = new PlayerStateMachine(this);
         _pickUpManager = new PlayerPickUpManager(this);
         _playerAnimator = new PlayerAnimatorManager(GetComponent<Animator>(), _animatorListContainer);
@@ -152,6 +153,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
         _PlayerSpawnPoint.gameObject.name = "PLayerSpawnPoint";
         _weaponTransform.position = _weaponPoint.position;
         _weaponTransform.rotation = _weaponPoint.rotation;
+        OnHealthUpdate?.Invoke(Health);
     }
 
     // Start is called before the first frame update
@@ -202,6 +204,11 @@ public class PlayerControler : MonoBehaviour, IDamageable
     private void OnDisable()
     {
         DisableInput();
+    }
+
+    public void PlaySource()
+    {
+        _source.Play();
     }
 
     public void EnableInput()

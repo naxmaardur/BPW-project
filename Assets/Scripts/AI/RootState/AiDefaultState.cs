@@ -59,8 +59,15 @@ public class AIDefaultState : BaseState
     }
 
 
+    void OnHealthUpdate(float health,float max)
+    {
+        SwitchState(_context.States.Combat());
+    }
+
+
     public override void EnterState()
     {
+        _context.ControlerContext.OnHealthUpdate += OnHealthUpdate;
         InitializeSubState();
         _rootMotion = Vector3.zero;
     }
@@ -79,7 +86,7 @@ public class AIDefaultState : BaseState
 
     protected override void ExitState()
     {
-
+        _context.ControlerContext.OnHealthUpdate -= OnHealthUpdate;
     }
 
     protected override void FixedUpdateState()

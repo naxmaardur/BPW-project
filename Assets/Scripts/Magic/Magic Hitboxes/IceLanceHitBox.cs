@@ -14,10 +14,14 @@ public class IceLanceHitBox : HitBox
     [SerializeField]
     float _speed = 15f;
     float _maxLifeTime = 5f;
+    [SerializeField]
+    AudioClip _clip;
+    AudioSource _source;
 
     protected override void OnAwake()
     {
         base.OnAwake();
+        _source = GetComponent<AudioSource>();
         GameMaster.OnUpdateGlobalHitboxes += OnUpdate;
         _maxLifeTime = _maxLifeTime + Time.time;
     }
@@ -50,6 +54,8 @@ public class IceLanceHitBox : HitBox
     {
         _HitboxEnabled = false;
         _hit = true;
+        _source.clip = _clip;
+        _source.Play();
         _shards.Play();
         _mist.Play();
         _meshRenderer.enabled = false;

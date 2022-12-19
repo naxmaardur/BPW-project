@@ -11,6 +11,7 @@ public class GameMasterStateFactory : StateFactory
         _states["Game"] = new GameState(currentContext);
         _states["Menu"] = new MenuState(currentContext);
         _states["CutScene"] = new CutSceneState(currentContext);
+        _states["Quit"] = new QuitState(currentContext);
     }
 
 
@@ -30,6 +31,11 @@ public class GameMasterStateFactory : StateFactory
     public BaseState CutScene()
     {
         return _states["CutScene"];
+    }
+
+    public BaseState Quit()
+    {
+        return _states["Quit"];
     }
 
 }
