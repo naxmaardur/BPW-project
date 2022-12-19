@@ -103,7 +103,6 @@ public class PlayerMovementState : BaseState
 
 
 
-        Debug.Log(Mathf.Abs(_context.ControlerContext.GetCam.eulerAngles.y));
         float targetAngle = Mathf.Atan2(_context.ControlerContext.GetCurrentMovement.x, _context.ControlerContext.GetCurrentMovement.y) * Mathf.Rad2Deg + Mathf.Abs(_context.ControlerContext.GetCam.rotation.y) ;
         float angle = Mathf.SmoothDampAngle(_context.ControlerContext.transform.eulerAngles.y, targetAngle, ref _context.ControlerContext.turnSmoothVelocity, turnSpeed);
         _context.ControlerContext.transform.rotation = Quaternion.Euler(0f, angle, 0f);

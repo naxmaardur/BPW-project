@@ -10,6 +10,8 @@ public class AssetSpawner : MonoBehaviour
     bool _spawnAtStart;
     bool _HasSpawned;
 
+    GameObject _spawnedAsset;
+
 
     private void Awake()
     {
@@ -22,22 +24,17 @@ public class AssetSpawner : MonoBehaviour
         GameMaster.OnRestartGameScene -= ResetGameScene;
     }
 
-    private void Spawn()
+    public void Spawn()
     {
-        if(_HasSpawned) { return; }
+        if(_HasSpawned || _spawnedAsset != null) { return; }
         _HasSpawned = true;
-        Instantiate(_ToSpawn, transform.position, transform.rotation);
-    }
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Spawn();
+        _spawnedAsset = Instantiate(_ToSpawn, transform.position, transform.rotation);
     }
 
     private void ResetGameScene()
     {
         _HasSpawned = false;
+        if(_spawnedAsset != null) { Destroy(_spawnedAsset); }
         if(_spawnAtStart) { Spawn(); }
     }
 

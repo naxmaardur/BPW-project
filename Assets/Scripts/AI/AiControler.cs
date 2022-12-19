@@ -126,6 +126,7 @@ public class AiControler : MonoBehaviour, IDamageable
 
     public void Move(Vector3 velocity)
     {
+        velocity.y = -9 * Time.deltaTime;
         _characterController.Move(velocity);
     }
 

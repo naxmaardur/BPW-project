@@ -206,12 +206,12 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
     public void EnableInput()
     {
-        _input.Player.Enable();
+        _input?.Player.Enable();
     }
 
     public void DisableInput()
     {
-        _input.Player.Disable();
+        _input?.Player.Disable();
     }
 
     public void Damage(float damage,float poiseDamage = 0)
@@ -246,6 +246,11 @@ public class PlayerControler : MonoBehaviour, IDamageable
         return _PlayerStateMachine.CurrentState == _PlayerStateMachine.States.Sneak();
     }
 
+    public void SetHeight(float value, Vector3 offset)
+    {
+        _characterController.height = value;
+        _characterController.center = offset;
+    }
 
     /*private void OnGUI()
     {

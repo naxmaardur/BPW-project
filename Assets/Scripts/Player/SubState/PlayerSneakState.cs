@@ -48,6 +48,7 @@ public class PlayerSneakState : BaseState
     public override void EnterState()
     {
         _context.ControlerContext.playerAnimator.SetSneaking(true);
+        _context.ControlerContext.SetHeight(1f, new Vector3(0,-0.5f,0));
     }
 
     public override void InitializeSubState()
@@ -57,6 +58,7 @@ public class PlayerSneakState : BaseState
     protected override void ExitState()
     {
         _context.ControlerContext.playerAnimator.SetSneaking(false);
+        _context.ControlerContext.SetHeight(2f,Vector3.zero);
     }
 
     protected override void FixedUpdateState()
