@@ -11,6 +11,14 @@ PrefabInstance:
       propertyPath: patrol
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6778715138843326761, guid: debac57a58eda59449427d1f6d6e639d, type: 3}
+      propertyPath: _health
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778715138843326761, guid: debac57a58eda59449427d1f6d6e639d, type: 3}
+      propertyPath: _maxHealth
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6778715138993948347, guid: debac57a58eda59449427d1f6d6e639d, type: 3}
       propertyPath: m_Controller
       value: 

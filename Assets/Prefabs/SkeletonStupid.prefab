@@ -2109,8 +2109,8 @@ MonoBehaviour:
   patrol: 0
   turnSmoothVelocity: 0
   _deathDropObject: {fileID: 1887085579512721931, guid: 5da3047c81c81b94c8ad9b0057a07095, type: 3}
-  _health: 100
-  _maxHealth: 100
+  _health: 10
+  _maxHealth: 10
   _poise: 100
   _maxPoise: 100
 --- !u!82 &157661528594384582
