@@ -35,8 +35,7 @@ public class GameMaster : Singleton<GameMaster>
     private void Awake()
     {
         _input = new();
-        _input.UI.Pause.started += ctx => { if (_gameMasterStateMachine.CurrentState != _gameMasterStateMachine.States.Default()) { UnPauseGame(); } };
-        _input.UI.Enable();
+        _input.UI.Pause.started += ctx => { UnPauseGame(); };
         if(Instance != null) { Destroy(this.gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
@@ -75,10 +74,7 @@ public class GameMaster : Singleton<GameMaster>
 
     public void PauseGame()
     {
-        if(_gameMasterStateMachine.CurrentState == _gameMasterStateMachine.States.Menu())
-        {
-            return;
-        }
+        if(_gameMasterStateMachine.CurrentState != _gameMasterStateMachine.States.Game()){return;}
         _gameMasterStateMachine.CurrentState = (GameMasterBaseState)_gameMasterStateMachine.States.Menu();
         _gameMasterStateMachine.CurrentState.EnterState();
         _input.UI.Enable();
@@ -87,6 +83,7 @@ public class GameMaster : Singleton<GameMaster>
 
     public void UnPauseGame()
     {
+        if (_gameMasterStateMachine.CurrentState != _gameMasterStateMachine.States.Menu()) { return; }
         _gameMasterStateMachine.CurrentState = (GameMasterBaseState)_gameMasterStateMachine.States.Game();
         _gameMasterStateMachine.CurrentState.EnterState();
         _input.UI.Disable();
@@ -116,13 +113,13 @@ public class GameMaster : Singleton<GameMaster>
         RestartGameScene();
         _gameMasterStateMachine.CurrentState = (GameMasterBaseState)_gameMasterStateMachine.States.CutScene();
         CutSceneState cutSceneState = (CutSceneState)_gameMasterStateMachine.CurrentState;
-        cutSceneState.EnterState();
         if (EndCutScene)
-        { 
-
-            cutSceneState.NextState = _gameMasterStateMachine.States.Quit(); 
+        {
+            cutSceneState.NextState = _gameMasterStateMachine.States.Quit();
         }
         else { cutSceneState.NextState = _gameMasterStateMachine.States.Game(); }
+        cutSceneState.EnterState();
+        
     }
 
     public void GetNewPlayer()

@@ -27,7 +27,7 @@ public class AiAttackingState : BaseState
     public override void EnterState()
     {
         _context.ControlerContext.AnimatorManager.TriggerAttack();
-        _hitboxStartCooldown = Time.time + 0.5f;
+        _hitboxStartCooldown = Time.time + 1f;
         _hitBoxEnabled = false;
     }
 

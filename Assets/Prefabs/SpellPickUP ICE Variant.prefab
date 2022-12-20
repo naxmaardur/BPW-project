@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4732889227169969384, guid: 8692cd823d9b8184790ba262a6c4179f, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 11400000, guid: 9266f6b3c829dd940a5b268a47d2854e, type: 2}
     - target: {fileID: 4732889227169969385, guid: 8692cd823d9b8184790ba262a6c4179f, type: 3}
       propertyPath: m_Name
       value: SpellPickUP ICE Variant

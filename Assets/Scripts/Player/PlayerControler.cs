@@ -250,7 +250,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
 
     public bool IsSneaking()
     {
-        return _PlayerStateMachine.CurrentState == _PlayerStateMachine.States.Sneak();
+        return _PlayerStateMachine.CurrentState.GetSubState == _PlayerStateMachine.States.Sneak();
     }
 
     public void SetHeight(float value, Vector3 offset)

@@ -24,10 +24,13 @@ public class AiControler : MonoBehaviour, IDamageable
 
 
     bool _hasAttackToken;
+    [SerializeField]
     float _turningSpeed = 1;
     public float turnSmoothVelocity = 0;
     float _idleTime = 2;
 
+
+    
     public bool HasAttackToken { get { return _hasAttackToken; } }
     public float TurningSpeed {  get { return _turningSpeed; } }
     public float IdleTime { get { return _idleTime; } }
@@ -52,6 +55,11 @@ public class AiControler : MonoBehaviour, IDamageable
     [SerializeField]
     float _maxPoise = 100;
 
+    [SerializeField]
+    float _lookDistance = 8;
+
+    public float LookDistance { get { return _lookDistance; } }
+
 
     public float Health { get { return _health; } set { _health = Mathf.Clamp(value, 0, _maxHealth); OnHealthUpdate?.Invoke(_health, _maxHealth); } }
     public float MaxHealth { get { return _maxHealth; } }
@@ -63,7 +71,7 @@ public class AiControler : MonoBehaviour, IDamageable
     public delegate void HealthUpdate(float health, float max);
     public event HealthUpdate OnHealthUpdate;
 
-
+    
     public void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
@@ -110,12 +118,12 @@ public class AiControler : MonoBehaviour, IDamageable
         GameMaster.Instance.ReturnAttackToken();
     }
 
-    public Vector3[] CalculatePath(Vector3 position)
+    public Vector3[] CalculatePath(Vector3 position, float maxDistance = 3)
     {
         _navMeshObstacle.enabled = false;
 
         NavMeshHit myNavHit;
-        if (NavMesh.SamplePosition(position, out myNavHit, 100, -1)) { position = myNavHit.position;  }
+        if (NavMesh.SamplePosition(position, out myNavHit, maxDistance, -1)) { position = myNavHit.position;  }
         else { _navMeshObstacle.enabled = true; return null;  }
         NavMeshPath path = new NavMeshPath();
         if(!NavMesh.CalculatePath(transform.position,position, NavMesh.AllAreas, path)){ _navMeshObstacle.enabled = true; return null;}
@@ -130,10 +138,14 @@ public class AiControler : MonoBehaviour, IDamageable
         _characterController.Move(velocity);
     }
 
-    public void DestroySelf()
+    public void OnDisable()
     {
         GameMaster.OnUpdateAI -= OnUpdate;
         GameMaster.OnRestartGameScene -= DestroySelf;
+    }
+
+    public void DestroySelf()
+    {
         Destroy(this.gameObject);
     }
 
@@ -173,5 +185,10 @@ public class AiControler : MonoBehaviour, IDamageable
     {
         Instantiate(_deathDropObject, transform.position, Quaternion.identity);
     }
+
+
+
+
+    
 
 }

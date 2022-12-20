@@ -1903,13 +1903,15 @@ MonoBehaviour:
   _hitSound: {fileID: 8300000, guid: f5852cd140d4af34d85f0bcb9b822dba, type: 3}
   _deathSound: {fileID: 8300000, guid: aa1ddb6c13bc63f46babcc255d5a45b1, type: 3}
   patrolPath: {fileID: 0}
-  patrol: 1
+  patrol: 0
   turnSmoothVelocity: 0
   _deathDropObject: {fileID: 1887085579512721931, guid: 5da3047c81c81b94c8ad9b0057a07095, type: 3}
   _health: 100
   _maxHealth: 100
   _poise: 100
   _maxPoise: 100
+  _lookDistance: 8
+  path: []
 --- !u!82 &-7093903413683206120
 AudioSource:
   m_ObjectHideFlags: 0

@@ -57,13 +57,13 @@ public class AiFollowState : BaseState
         {
             
             _lastPoint = _context.ControlerContext.PlayerTransfrom.position;
-            
+            RequestPath();
         }
         if (_path == null || _requestingPath) { return; }
+        if (_poistionInPath > _path.Length - 1) { _path = null; return; }
         if (Vector3.Distance(_path[_poistionInPath], _context.ControlerContext.transform.position) < 1)
         {
             _poistionInPath++;
-            if (_poistionInPath > _path.Length - 1) { _path = null; return; }
         }
         RotateToPoint(_path[_poistionInPath]);
     }
@@ -72,8 +72,7 @@ public class AiFollowState : BaseState
     {
         Vector3 direction = UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, point);
         float movementfloat = Mathf.Clamp01(Mathf.Abs(direction.x) + Mathf.Abs(direction.y));
-        float turningMod = 0;
-        float turnSpeed = _context.ControlerContext.TurningSpeed + turningMod * movementfloat;
+        float turnSpeed = 0f;
 
         float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
         float angle = Mathf.SmoothDampAngle(_context.ControlerContext.transform.eulerAngles.y, targetAngle, ref _context.ControlerContext.turnSmoothVelocity, turnSpeed);

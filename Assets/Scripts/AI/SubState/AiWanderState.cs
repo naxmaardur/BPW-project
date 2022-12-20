@@ -80,7 +80,7 @@ public class AiWanderState : BaseState
     {
         _requestingPath = true;
         Vector3 targetPoint = new Vector3(_originPoint.x + Random.Range(-10, 11), _originPoint.y, _originPoint.z + Random.Range(-10, 11));
-        _path = _context.ControlerContext.CalculatePath(targetPoint);
+        _path = _context.ControlerContext.CalculatePath(targetPoint, 100);
         _poistionInPath = 0;
         _requestingPath = false;
     }

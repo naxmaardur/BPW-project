@@ -6,7 +6,6 @@ using UnityEngine.Timeline;
 public class QuitState : GameMasterBaseState
 {
     GameMasterStateMachine _context;
-    public BaseState NextState;
 
 
     public QuitState(GameMasterStateMachine currentContext) : base(currentContext)

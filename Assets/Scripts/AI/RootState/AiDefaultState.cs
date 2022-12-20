@@ -6,6 +6,7 @@ public class AIDefaultState : BaseState
 {
     AiStateMachine _context;
     Vector3 _rootMotion;
+    bool _shouldBeInCombat = false;
     public AIDefaultState(AiStateMachine currentContext) : base(currentContext)
     {
         _IsRootState = true;
@@ -28,7 +29,11 @@ public class AIDefaultState : BaseState
             SwitchState(_context.States.Combat());
             return true;
         }
-
+        if (_shouldBeInCombat)
+        {
+            SwitchState(_context.States.Combat());
+            return true;
+        }
 
         //throw new System.NotImplementedException();
         return false;
@@ -36,20 +41,22 @@ public class AIDefaultState : BaseState
 
     bool CheckIfPlayerIsSeen()
     {
-        float CheckDistance = 8;
+        float CheckDistance = _context.ControlerContext.LookDistance;
         float distance = Vector3.Distance(_context.ControlerContext.PlayerTransfrom.position, _context.ControlerContext.transform.position);
-        if(distance > CheckDistance) { return false; }
+        //if(distance > CheckDistance) { return false; }
         if (GameMaster.Instance.IsPlayerSneaking()) 
         {
             if (GameMaster.Instance.IsPlayerInHidingZone())
             {
-                CheckDistance = 2;
+                CheckDistance = CheckDistance / 8;
             }
             else
             {
-                CheckDistance = 4;
+                CheckDistance = CheckDistance / 4;
             }
         }
+
+        Debug.DrawLine(_context.ControlerContext.transform.position, (UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, _context.ControlerContext.PlayerTransfrom.position) * CheckDistance) + _context.ControlerContext.transform.position);
         if (distance > CheckDistance) { return false; }
         if (Vector3.Angle(_context.ControlerContext.transform.forward, _context.ControlerContext.PlayerTransfrom.position - _context.ControlerContext.transform.transform.position) > 80)
         {
@@ -61,7 +68,7 @@ public class AIDefaultState : BaseState
 
     void OnHealthUpdate(float health,float max)
     {
-        SwitchState(_context.States.Combat());
+        _shouldBeInCombat = true;
     }
 
 

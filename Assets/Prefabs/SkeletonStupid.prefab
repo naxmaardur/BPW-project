@@ -2113,6 +2113,7 @@ MonoBehaviour:
   _maxHealth: 10
   _poise: 100
   _maxPoise: 100
+  _lookDistance: 0
 --- !u!82 &157661528594384582
 AudioSource:
   m_ObjectHideFlags: 0
