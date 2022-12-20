@@ -9,7 +9,6 @@ public class PlayerWalkState : BaseState
     {
         _context = currentContext;
     }
-
     public override bool CheckSwitchStates()
     {
         if (_context.ControlerContext.IsShouldDodgeSet)
@@ -41,32 +40,21 @@ public class PlayerWalkState : BaseState
         }
         return false;
     }
-
     public override void EnterState()
     {
-       // throw new System.NotImplementedException();
     }
-
     public override void InitializeSubState()
     {
-       // throw new System.NotImplementedException();
     }
-
     protected override void ExitState()
     {
-       // throw new System.NotImplementedException();
     }
-
     protected override void FixedUpdateState()
     {
-       // throw new System.NotImplementedException();
     }
-
     protected override void OnAnimatorMoveState()
     {
-      //  throw new System.NotImplementedException();
     }
-
     protected override void UpdateState()
     {
     }

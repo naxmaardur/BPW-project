@@ -6,8 +6,7 @@ using UnityEngine;
 public class RunTimeAnimatorListContainer
 {
     [SerializeField]
-    private RuntimeAnimatorController[] _animators; 
-    
+    private RuntimeAnimatorController[] _animators;
     public int AnimatorsCount()
     {
         return _animators.Length;
@@ -17,5 +16,4 @@ public class RunTimeAnimatorListContainer
         if (_animators.Length - 1 < pos) { return null; }
         return _animators[pos];
     }
-
 }

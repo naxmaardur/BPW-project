@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AiStateFactory: StateFactory
+public class AiStateFactory : StateFactory
 {
     //Root states Start with a capital letter
     public AiStateFactory(AiStateMachine currentContext)

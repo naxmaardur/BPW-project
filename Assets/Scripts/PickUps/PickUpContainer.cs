@@ -6,9 +6,6 @@ public class PickUpContainer : MonoBehaviour
 {
     public bool automaticPickUP;
     public PickUpItem item;
-
-
-
     private void OnTriggerEnter(Collider other)
     {
         if (automaticPickUP)
@@ -23,7 +20,6 @@ public class PickUpContainer : MonoBehaviour
             }
         }
     }
-
     public bool PickUpWithoutDestroy(PlayerControler player)
     {
         return player.PickUpItem(item);

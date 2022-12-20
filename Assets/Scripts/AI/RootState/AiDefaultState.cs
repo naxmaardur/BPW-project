@@ -14,12 +14,12 @@ public class AIDefaultState : BaseState
     }
     public override bool CheckSwitchStates()
     {
-        if(_context.ControlerContext.Health == 0)
+        if (_context.ControlerContext.Health == 0)
         {
             SwitchState(_context.States.Dying());
             return true;
         }
-        if(_context.ControlerContext.Poise == 0)
+        if (_context.ControlerContext.Poise == 0)
         {
             SwitchState(_context.States.Stunded());
             return true;
@@ -44,7 +44,7 @@ public class AIDefaultState : BaseState
         float CheckDistance = _context.ControlerContext.LookDistance;
         float distance = Vector3.Distance(_context.ControlerContext.PlayerTransfrom.position, _context.ControlerContext.transform.position);
         //if(distance > CheckDistance) { return false; }
-        if (GameMaster.Instance.IsPlayerSneaking()) 
+        if (GameMaster.Instance.IsPlayerSneaking())
         {
             if (GameMaster.Instance.IsPlayerInHidingZone())
             {
@@ -66,7 +66,7 @@ public class AIDefaultState : BaseState
     }
 
 
-    void OnHealthUpdate(float health,float max)
+    void OnHealthUpdate(float health, float max)
     {
         _shouldBeInCombat = true;
     }

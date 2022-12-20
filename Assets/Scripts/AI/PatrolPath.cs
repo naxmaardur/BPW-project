@@ -17,23 +17,23 @@ public class PatrolPath : MonoBehaviour
     {
         int index = 0;
         float distance = Mathf.Infinity;
-        for(int i =0; i < _path.Length; i++)
+        for (int i = 0; i < _path.Length; i++)
         {
-            if(Vector3.Distance(position,_path[i]) < distance)
+            if (Vector3.Distance(position, _path[i]) < distance)
             {
                 distance = Vector3.Distance(position, _path[i]);
                 index = i;
             }
         }
 
-        return new PathData(index,distance, _path,_loop);
+        return new PathData(index, distance, _path, _loop);
     }
 
 
 
     private void OnDrawGizmos()
     {
-        
+
         for (int i = 0; i < _path.Length; i++)
         {
             Gizmos.color = Color.yellow;

@@ -9,7 +9,6 @@ public class PlayerSneakState : BaseState
     {
         _context = currentContext;
     }
-
     public override bool CheckSwitchStates()
     {
         if (_context.ControlerContext.IsShouldDodgeSet)
@@ -44,33 +43,25 @@ public class PlayerSneakState : BaseState
         }
         return false;
     }
-
     public override void EnterState()
     {
         _context.ControlerContext.playerAnimator.SetSneaking(true);
-        _context.ControlerContext.SetHeight(1f, new Vector3(0,-0.5f,0));
+        _context.ControlerContext.SetHeight(1f, new Vector3(0, -0.5f, 0));
     }
-
     public override void InitializeSubState()
     {
     }
-
     protected override void ExitState()
     {
         _context.ControlerContext.playerAnimator.SetSneaking(false);
-        _context.ControlerContext.SetHeight(2f,Vector3.zero);
+        _context.ControlerContext.SetHeight(2f, Vector3.zero);
     }
-
     protected override void FixedUpdateState()
     {
-       // throw new System.NotImplementedException();
     }
-
     protected override void OnAnimatorMoveState()
     {
-       // throw new System.NotImplementedException();
     }
-
     protected override void UpdateState()
     {
     }

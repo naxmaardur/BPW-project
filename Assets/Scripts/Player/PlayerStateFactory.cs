@@ -17,34 +17,26 @@ public class PlayerStateFactory : StateFactory
         _states["Dying"] = new PlayerDyingState(currentContext);
         _states["Respawn"] = new PlayerRespawningState(currentContext);
     }
-
-
     public BaseState Idle()
     {
         return _states["idle"];
     }
-
-
     public BaseState Walk()
     {
         return _states["walk"];
     }
-
     public BaseState Run()
     {
         return _states["run"];
     }
-
     public BaseState Sneak()
     {
         return _states["sneak"];
     }
-
     public BaseState Movement()
     {
         return _states["Movement"];
     }
-
     public BaseState Attacking()
     {
         return _states["Attacking"];

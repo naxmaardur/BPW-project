@@ -10,46 +10,36 @@ public class EnemyUIHandler : MonoBehaviour
     float _lastHealthUpdate;
     CanvasGroup _canvasGroup;
     Coroutine _fadeOut;
-
     public void SetContext(AiControler context)
     {
         _context = context;
         _context.OnHealthUpdate += OnHealthUpdate;
     }
-
-
-
-
     private void Awake()
     {
         _healthBar = GetComponentInChildren<HealthBar>();
         _canvasGroup = GetComponentInChildren<CanvasGroup>();
         _canvasGroup.alpha = 0;
     }
-
     public void OnHealthUpdate(float health, float max)
     {
         _healthBar.ScaleHealthBasedOnValue(health, max);
         _lastHealthUpdate = Time.time;
-        if(_fadeOut != null)
+        if (_fadeOut != null)
         {
             StopCoroutine(_fadeOut);
             _fadeOut = null;
         }
         _canvasGroup.alpha = 1;
     }
-
-
     private void Update()
     {
         transform.LookAt(GameMaster.Instance.Cam.transform);
-        if(_fadeOut == null && _lastHealthUpdate < Time.time - 6)
+        if (_fadeOut == null && _lastHealthUpdate < Time.time - 6)
         {
             _fadeOut = StartCoroutine(FadeOutUI());
         }
     }
-
-
     IEnumerator FadeOutUI()
     {
         float alphaMinus = 0.25f;
@@ -59,7 +49,4 @@ public class EnemyUIHandler : MonoBehaviour
             _canvasGroup.alpha -= alphaMinus * Time.deltaTime;
         }
     }
-
-
-
 }

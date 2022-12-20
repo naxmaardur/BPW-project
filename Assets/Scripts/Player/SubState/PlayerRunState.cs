@@ -9,7 +9,6 @@ public class PlayerRunState : BaseState
     {
         _context = currentContext;
     }
-
     public override bool CheckSwitchStates()
     {
         if (_context.ControlerContext.IsShouldDodgeSet)
@@ -41,34 +40,23 @@ public class PlayerRunState : BaseState
         }
         return false;
     }
-
     public override void EnterState()
     {
         _context.ControlerContext.playerAnimator.SetRunning(true);
-        //throw new System.NotImplementedException();
     }
-
     public override void InitializeSubState()
     {
-        //throw new System.NotImplementedException();
     }
-
     protected override void ExitState()
     {
         _context.ControlerContext.playerAnimator.SetRunning(false);
-        // throw new System.NotImplementedException();
     }
-
     protected override void FixedUpdateState()
     {
-        //throw new System.NotImplementedException();
     }
-
     protected override void OnAnimatorMoveState()
     {
-        //throw new System.NotImplementedException();
     }
-
     protected override void UpdateState()
     {
     }

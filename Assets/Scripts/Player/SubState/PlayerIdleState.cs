@@ -10,7 +10,6 @@ public class PlayerIdleState : BaseState
     {
         _context = currentContext;
     }
-
     public override bool CheckSwitchStates()
     {
 
@@ -26,11 +25,6 @@ public class PlayerIdleState : BaseState
                 _context.ControlerContext.ResetShouldDodge();
             }
         }
-
-
-
-
-
         if (_context.ControlerContext.IsShouldSneakSet)
         {
             SwitchState(_context.States.Sneak());
@@ -46,32 +40,22 @@ public class PlayerIdleState : BaseState
         }
         return false;
     }
-
     public override void EnterState()
     {
-      //  throw new System.NotImplementedException();
     }
-
     public override void InitializeSubState()
     {
-        //throw new System.NotImplementedException();
     }
-
     protected override void ExitState()
     {
-      //  throw new System.NotImplementedException();
     }
-
     protected override void FixedUpdateState()
     {
-       // throw new System.NotImplementedException();
     }
 
     protected override void OnAnimatorMoveState()
     {
-        //throw new System.NotImplementedException();
     }
-
     protected override void UpdateState()
     {
     }

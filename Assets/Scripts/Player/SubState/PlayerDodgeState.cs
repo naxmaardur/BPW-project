@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class PlayerDodgeState : BaseState
 {
-
     PlayerStateMachine _context;
     float _checkCooldown;
     public PlayerDodgeState(PlayerStateMachine currentContext) : base(currentContext)
     {
         _context = currentContext;
     }
-
     public override bool CheckSwitchStates()
     {
-        if (_checkCooldown > Time.time){ return false; }
-
-            //throw new System.NotImplementedException();
-            if (_context.ControlerContext.playerAnimator.IsDodgePlaying()) { return false; }
-
+        if (_checkCooldown > Time.time) { return false; }
+        if (_context.ControlerContext.playerAnimator.IsDodgePlaying()) { return false; }
         if (_context.ControlerContext.IsShouldSneakSet)
         {
             SwitchState(_context.States.Sneak());
@@ -36,7 +31,6 @@ public class PlayerDodgeState : BaseState
         SwitchState(_context.States.Idle());
         return true;
     }
-
     public override void EnterState()
     {
         _context.ControlerContext.invincible = true;
@@ -44,11 +38,9 @@ public class PlayerDodgeState : BaseState
         _checkCooldown = 0.7f + Time.time;
         _context.ControlerContext.CurrentRollHitBox.EnableHitBox();
     }
-
     public override void InitializeSubState()
     {
     }
-
     protected override void ExitState()
     {
         _context.ControlerContext.CurrentRollHitBox.DisableHitBox();
@@ -58,11 +50,9 @@ public class PlayerDodgeState : BaseState
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
     }
-
     protected override void UpdateState()
     {
         _context.ControlerContext.CurrentRollHitBox.OnUpdate();

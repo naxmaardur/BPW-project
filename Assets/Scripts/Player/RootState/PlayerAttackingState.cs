@@ -14,7 +14,6 @@ public class PlayerAttackingState : BaseState
         _IsRootState = true;
         _context = currentContext;
     }
-
     public override bool CheckSwitchStates()
     {
 
@@ -23,7 +22,7 @@ public class PlayerAttackingState : BaseState
             SwitchState(_context.States.Dying());
             return true;
         }
-        if(GetSubState == _context.States.Dodge())
+        if (GetSubState == _context.States.Dodge())
         {
             SwitchState(_context.States.Movement());
             return true;
@@ -38,10 +37,9 @@ public class PlayerAttackingState : BaseState
             return true;
         }
         SwitchState(_context.States.Movement());
-        
+
         return true;
     }
-
     public override void EnterState()
     {
         _context.ControlerContext.CurrentWeaponHitBox.EnableHitBox();
@@ -50,7 +48,6 @@ public class PlayerAttackingState : BaseState
         NextCombo();
         _context.ControlerContext.playerAnimator.SetAttack(true);
     }
-
     public override void InitializeSubState()
     {
 
@@ -76,18 +73,15 @@ public class PlayerAttackingState : BaseState
         }
 
     }
-
     protected override void ExitState()
     {
         _context.ControlerContext.CurrentWeaponHitBox.DisableHitBox();
         _context.ControlerContext.playerAnimator.SetAttack(false);
         _lastAttackEnd = Time.time;
     }
-
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
         Vector3 rootMotion = _rootMotion;
@@ -96,7 +90,6 @@ public class PlayerAttackingState : BaseState
         rootMotion += deltaPos;
         _rootMotion = rootMotion;
     }
-
     protected override void UpdateState()
     {
         _context.ControlerContext.CurrentWeaponHitBox.OnUpdate();
@@ -107,8 +100,8 @@ public class PlayerAttackingState : BaseState
             _context.ControlerContext.playerAnimator.SetAttack(false);
             _lastAttackEnd = Time.time;
         }
-            
-        if(!_shouldResetAttack && _context.ControlerContext.playerAnimator.IsAnimationPlaying() && _context.ControlerContext.IsShouldAttackSet)
+
+        if (!_shouldResetAttack && _context.ControlerContext.playerAnimator.IsAnimationPlaying() && _context.ControlerContext.IsShouldAttackSet)
         {
             _context.ControlerContext.playerAnimator.SetAttack(true);
         }
@@ -119,8 +112,6 @@ public class PlayerAttackingState : BaseState
         _context.ControlerContext.Move(_rootMotion);
         _rootMotion = Vector3.zero;
     }
-
-
     private void NextCombo()
     {
         _shouldResetAttack = true;
@@ -137,5 +128,4 @@ public class PlayerAttackingState : BaseState
             _context.ControlerContext.playerAnimator.SetAttackComboPos(0);
         }
     }
-
 }

@@ -60,7 +60,7 @@ public class AIFightingState : BaseState
     protected override void UpdateState()
     {
 
-        if(Vector3.Distance(_context.ControlerContext.transform.position,_context.ControlerContext.PlayerTransfrom.position) < 2.5f && !_context.ControlerContext.HasAttackToken &&
+        if (Vector3.Distance(_context.ControlerContext.transform.position, _context.ControlerContext.PlayerTransfrom.position) < 2.5f && !_context.ControlerContext.HasAttackToken &&
             Vector3.Angle(_context.ControlerContext.transform.forward, _context.ControlerContext.PlayerTransfrom.position - _context.ControlerContext.transform.transform.position) < 40)
         {
             _context.ControlerContext.RequestAttackToken();
@@ -75,7 +75,7 @@ public class AIFightingState : BaseState
         if (Vector3.Distance(_path[_poistionInPath], _context.ControlerContext.transform.position) < 0.5f)
         {
             _poistionInPath++;
-            
+
             if (_poistionInPath >= _path.Length) { GetnewRandomPoint(); }
         }
         RotateToPoint(_context.ControlerContext.PlayerTransfrom.position);
@@ -84,7 +84,7 @@ public class AIFightingState : BaseState
         Debug.DrawRay(_context.ControlerContext.transform.position, direction, Color.green);
         direction = Quaternion.Euler(0, -_context.ControlerContext.transform.rotation.eulerAngles.y, 0) * direction;
         direction = direction.normalized;
-        Debug.DrawRay(_context.ControlerContext.transform.position, direction,Color.red);
+        Debug.DrawRay(_context.ControlerContext.transform.position, direction, Color.red);
         _context.ControlerContext.AnimatorManager.SetMovementXWithDamp(direction.x);
         _context.ControlerContext.AnimatorManager.SetMovementYWithDamp(direction.z);
 

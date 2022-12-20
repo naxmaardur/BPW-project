@@ -5,17 +5,15 @@ using UnityEngine;
 public class PlayerMovementState : BaseState
 {
     PlayerStateMachine _context;
-
     Vector3 _rootMotion;
     public PlayerMovementState(PlayerStateMachine currentContext) : base(currentContext)
     {
         _IsRootState = true;
         _context = currentContext;
     }
-
     public override bool CheckSwitchStates()
     {
-        if(_context.ControlerContext.IsShouldCastSet && GetSubState != _context.States.Dodge())
+        if (_context.ControlerContext.IsShouldCastSet && GetSubState != _context.States.Dodge())
         {
             SwitchState(_context.States.Casting());
             return true;
@@ -25,7 +23,7 @@ public class PlayerMovementState : BaseState
             SwitchState(_context.States.Attacking());
             return true;
         }
-        if(_context.ControlerContext.Health <= 0)
+        if (_context.ControlerContext.Health <= 0)
         {
             SwitchState(_context.States.Dying());
             return true;
@@ -33,13 +31,11 @@ public class PlayerMovementState : BaseState
 
         return false;
     }
-
     public override void EnterState()
     {
         _rootMotion = Vector3.zero;
         InitializeSubState();
     }
-
     public override void InitializeSubState()
     {
         if (!_context.ControlerContext.IsMovementPressed)
@@ -63,17 +59,14 @@ public class PlayerMovementState : BaseState
             _context.States.Walk().EnterState();
         }
     }
-
     protected override void ExitState()
     {
-       // throw new System.NotImplementedException();
+        // throw new System.NotImplementedException();
     }
-
     protected override void FixedUpdateState()
     {
         //throw new System.NotImplementedException();
     }
-
     protected override void OnAnimatorMoveState()
     {
         Vector3 rootMotion = _rootMotion;
@@ -82,7 +75,6 @@ public class PlayerMovementState : BaseState
         rootMotion += deltaPos;
         _rootMotion = rootMotion;
     }
-
     protected override void UpdateState()
     {
         if (GetSubState != _context.States.Idle())
@@ -93,19 +85,14 @@ public class PlayerMovementState : BaseState
         _rootMotion = Vector3.zero;
 
     }
-
     public void HandleRotation()
     {
         float movementfloat = Mathf.Clamp01(Mathf.Abs(_context.ControlerContext.GetCurrentMovement.x) + Mathf.Abs(_context.ControlerContext.GetCurrentMovement.y));
         float turningMod = 0.2f;
-        if(GetSubState == _context.States.Run()) { turningMod = 0.5f; }
+        if (GetSubState == _context.States.Run()) { turningMod = 0.5f; }
         float turnSpeed = _context.ControlerContext.TurningSpeed + turningMod * movementfloat;
-
-
-
-        float targetAngle = Mathf.Atan2(_context.ControlerContext.GetCurrentMovement.x, _context.ControlerContext.GetCurrentMovement.y) * Mathf.Rad2Deg + Mathf.Abs(_context.ControlerContext.GetCam.rotation.y) ;
+        float targetAngle = Mathf.Atan2(_context.ControlerContext.GetCurrentMovement.x, _context.ControlerContext.GetCurrentMovement.y) * Mathf.Rad2Deg + Mathf.Abs(_context.ControlerContext.GetCam.rotation.y);
         float angle = Mathf.SmoothDampAngle(_context.ControlerContext.transform.eulerAngles.y, targetAngle, ref _context.ControlerContext.turnSmoothVelocity, turnSpeed);
         _context.ControlerContext.transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
-
 }

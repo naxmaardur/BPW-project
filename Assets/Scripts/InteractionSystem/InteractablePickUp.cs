@@ -7,7 +7,7 @@ using UnityEngine;
 public class InteractablePickUp : Interactable
 {
 
-    
+
     [SerializeField] MeshRenderer[] highlights;
     PickUpContainer _pickUp;
 

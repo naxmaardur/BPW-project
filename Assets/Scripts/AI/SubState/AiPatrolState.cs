@@ -28,7 +28,7 @@ public class AiPatrolState : BaseState
     {
         _context.ControlerContext.AnimatorManager.SetWalkforward(true);
         if (_path != null) { return; }
-       if(_context.ControlerContext.patrolPath != null)
+        if (_context.ControlerContext.patrolPath != null)
         {
             PathData data = _context.ControlerContext.patrolPath.GetDataOfClostestPatrolPoint(_context.ControlerContext.transform.position);
             _path = data.path;
@@ -52,7 +52,7 @@ public class AiPatrolState : BaseState
     protected override void ExitState()
     {
         _context.ControlerContext.AnimatorManager.SetWalkforward(false);
-        if (_pathIndex > _path.Length -1)
+        if (_pathIndex > _path.Length - 1)
         {
             if (!_loop)
             {

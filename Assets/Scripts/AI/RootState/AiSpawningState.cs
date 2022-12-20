@@ -12,38 +12,33 @@ public class AiSpawningState : BaseState
     }
     public override bool CheckSwitchStates()
     {
-       if(_context.ControlerContext.AnimatorManager.IsAnimationPlayingWithName("Spawning")) { return false; }
-       SwitchState(_context.States.Default());
-       return true;
+        if (_context.ControlerContext.AnimatorManager.IsAnimationPlayingWithName("Spawning")) { return false; }
+        SwitchState(_context.States.Default());
+        return true;
     }
 
     public override void EnterState()
     {
-        ///
     }
 
     public override void InitializeSubState()
     {
-     //has no SubStates.
+        throw new System.NotImplementedException();
     }
 
     protected override void ExitState()
     {
-       // throw new System.NotImplementedException();
     }
 
     protected override void FixedUpdateState()
     {
-     //   throw new System.NotImplementedException();
     }
 
     protected override void OnAnimatorMoveState()
     {
-     //   throw new System.NotImplementedException();
     }
 
     protected override void UpdateState()
     {
-     //   throw new System.NotImplementedException();
     }
 }

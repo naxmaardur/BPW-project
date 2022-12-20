@@ -21,7 +21,7 @@ public class CutSceneState : GameMasterBaseState
     }
     public void OnCutSceneEnd()
     {
-        if(NextState == null) { NextState = _context.States.Game(); }
+        if (NextState == null) { NextState = _context.States.Game(); }
         SwitchState(NextState);
     }
     public override bool CheckSwitchStates()

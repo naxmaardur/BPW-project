@@ -8,7 +8,7 @@ public abstract class Interactable : MonoBehaviour
 {
     protected Vector3 originalScale;
     protected bool active;
-    private  void Start()
+    private void Start()
     {
         originalScale = transform.localScale;
     }

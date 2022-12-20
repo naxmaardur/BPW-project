@@ -12,7 +12,6 @@ public class PlayerCastingState : BaseState
         _IsRootState = true;
         _context = currentContext;
     }
-
     public override bool CheckSwitchStates()
     {
         if (_context.ControlerContext.Health <= 0)
@@ -28,7 +27,6 @@ public class PlayerCastingState : BaseState
         SwitchState(_context.States.Movement());
         return true;
     }
-
     public override void EnterState()
     {
         _hascast = false;
@@ -37,7 +35,6 @@ public class PlayerCastingState : BaseState
         InitializeSubState();
         _context.ControlerContext.playerAnimator.TriggerCast();
     }
-
     public override void InitializeSubState()
     {
 
@@ -63,7 +60,6 @@ public class PlayerCastingState : BaseState
         }
 
     }
-
     protected override void ExitState()
     {
         _context.ControlerContext.MagicContainer.DisableContainer();
@@ -71,11 +67,9 @@ public class PlayerCastingState : BaseState
         //_context.ResetShouldAttack();
         //_context.ControlerContext.playerAnimator.SetAttack(false);
     }
-
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
         Vector3 rootMotion = _rootMotion;
@@ -84,7 +78,6 @@ public class PlayerCastingState : BaseState
         rootMotion += deltaPos;
         _rootMotion = rootMotion;
     }
-
     protected override void UpdateState()
     {
         _context.ControlerContext.Move(_rootMotion);
@@ -99,5 +92,4 @@ public class PlayerCastingState : BaseState
         }
 
     }
-
 }

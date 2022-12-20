@@ -9,7 +9,6 @@ public class DestroyAfterSeconds : MonoBehaviour
     {
         StartCoroutine(Wait());
     }
-
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(seconds);

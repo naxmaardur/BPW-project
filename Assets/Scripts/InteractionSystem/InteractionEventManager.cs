@@ -14,5 +14,4 @@ public class InteractionEventManager
         if (interactionEvent == null) return;
         interactionEvent(interactor);
     }
-
 }

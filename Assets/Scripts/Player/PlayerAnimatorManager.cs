@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class PlayerAnimatorManager : AnimatorManager
 {
-    
     RunTimeAnimatorListContainer _animatorContainer;
-
     public PlayerAnimatorManager(Animator currentAnimator, RunTimeAnimatorListContainer runTimeAnimatorListContainer) : base(currentAnimator)
     {
         _animatorContainer = runTimeAnimatorListContainer;
@@ -67,7 +65,6 @@ public class PlayerAnimatorManager : AnimatorManager
     {
         return IsTransitionPlayingWithName("FromAttack");
     }
-
     public bool TransitioningToCast()
     {
         return IsTransitionPlayingWithName("ToCast");
@@ -80,10 +77,8 @@ public class PlayerAnimatorManager : AnimatorManager
     {
         return IsTransitionPlayingWithName("FromRespawn");
     }
-
     public bool IsDodgePlaying()
     {
         return IsAnimationPlayingWithName("Dive Forward");
     }
-
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(CharacterController)),RequireComponent(typeof(NavMeshObstacle))]
+[RequireComponent(typeof(CharacterController)), RequireComponent(typeof(NavMeshObstacle))]
 
 public class AiControler : MonoBehaviour, IDamageable
 {
@@ -30,13 +30,13 @@ public class AiControler : MonoBehaviour, IDamageable
     float _idleTime = 2;
 
 
-    
+
     public bool HasAttackToken { get { return _hasAttackToken; } }
-    public float TurningSpeed {  get { return _turningSpeed; } }
+    public float TurningSpeed { get { return _turningSpeed; } }
     public float IdleTime { get { return _idleTime; } }
 
     public AiAnimatorManager AnimatorManager { get { return _animatorManager; } }
-    public Transform PlayerTransfrom { get { if(_playerTransform == null) { _playerTransform = GameMaster.Instance.GetPlayerTransfrom(); } return _playerTransform; } }
+    public Transform PlayerTransfrom { get { if (_playerTransform == null) { _playerTransform = GameMaster.Instance.GetPlayerTransfrom(); } return _playerTransform; } }
 
     public HitBox HitBox { get { return _hitBox; } }
 
@@ -71,12 +71,12 @@ public class AiControler : MonoBehaviour, IDamageable
     public delegate void HealthUpdate(float health, float max);
     public event HealthUpdate OnHealthUpdate;
 
-    
+
     public void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
         _hitBox = GetComponentInChildren<HitBox>();
-        if(_hitBox != null) { _hitBox.Owner = this.gameObject; }
+        if (_hitBox != null) { _hitBox.Owner = this.gameObject; }
         GetComponentInChildren<EnemyUIHandler>()?.SetContext(this);
         _navMeshObstacle = GetComponent<NavMeshObstacle>();
         _stateMachine = new AiStateMachine(this);
@@ -90,7 +90,7 @@ public class AiControler : MonoBehaviour, IDamageable
     {
         _stateMachine.OnUpdate();
         _stateMachine.OnCheckSwitchStates();
-        if (_poise != _maxPoise && _lastHitTime + 6 < Time.time){ _poise = _maxPoise; }
+        if (_poise != _maxPoise && _lastHitTime + 6 < Time.time) { _poise = _maxPoise; }
     }
 
     private void OnAnimatorMove()
@@ -101,8 +101,8 @@ public class AiControler : MonoBehaviour, IDamageable
 
     public bool RequestAttackToken()
     {
-        if(_hitBox == null) { return false; }
-        if(Time.time - _lastHitTime < 1) { return false; }
+        if (_hitBox == null) { return false; }
+        if (Time.time - _lastHitTime < 1) { return false; }
         _hasAttackToken = GameMaster.Instance.RequestAttackToken();
         return _hasAttackToken;
     }
@@ -123,10 +123,10 @@ public class AiControler : MonoBehaviour, IDamageable
         _navMeshObstacle.enabled = false;
 
         NavMeshHit myNavHit;
-        if (NavMesh.SamplePosition(position, out myNavHit, maxDistance, -1)) { position = myNavHit.position;  }
-        else { _navMeshObstacle.enabled = true; return null;  }
+        if (NavMesh.SamplePosition(position, out myNavHit, maxDistance, -1)) { position = myNavHit.position; }
+        else { _navMeshObstacle.enabled = true; return null; }
         NavMeshPath path = new NavMeshPath();
-        if(!NavMesh.CalculatePath(transform.position,position, NavMesh.AllAreas, path)){ _navMeshObstacle.enabled = true; return null;}
+        if (!NavMesh.CalculatePath(transform.position, position, NavMesh.AllAreas, path)) { _navMeshObstacle.enabled = true; return null; }
         _navMeshObstacle.enabled = true;
 
         return path.corners;
@@ -149,11 +149,11 @@ public class AiControler : MonoBehaviour, IDamageable
         Destroy(this.gameObject);
     }
 
-   
-   
+
+
     public void Damage(float damage, float poiseDamage = 0)
     {
-        
+
         Health -= _stateMachine.CurrentState == _stateMachine.States.Combat() ? damage : damage * 2.5f;
         Poise -= poiseDamage;
         _lastHitTime = Time.time;
@@ -169,7 +169,7 @@ public class AiControler : MonoBehaviour, IDamageable
             else
             {
                 _audioSource.clip = _hitSound;
-                _audioSource.pitch = Random.Range(0.9f,1.1f);
+                _audioSource.pitch = Random.Range(0.9f, 1.1f);
                 _audioSource.Play();
             }
         }
@@ -181,7 +181,7 @@ public class AiControler : MonoBehaviour, IDamageable
     }
 
 
-   public void SpawnDeathDropObject()
+    public void SpawnDeathDropObject()
     {
         Instantiate(_deathDropObject, transform.position, Quaternion.identity);
     }
@@ -189,6 +189,6 @@ public class AiControler : MonoBehaviour, IDamageable
 
 
 
-    
+
 
 }

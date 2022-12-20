@@ -13,7 +13,6 @@ public class HiddingZone : MonoBehaviour
             player.InHiddingZone = true;
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
         PlayerControler player = other.GetComponent<PlayerControler>();

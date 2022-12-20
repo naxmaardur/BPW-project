@@ -18,7 +18,7 @@ public class AiWanderState : BaseState
 
     public override bool CheckSwitchStates()
     {
-        if(_path != null) { return false; }
+        if (_path != null) { return false; }
         SwitchState(_context.States.Idle());
         return true;
     }
@@ -41,7 +41,7 @@ public class AiWanderState : BaseState
 
     protected override void FixedUpdateState()
     {
-       // throw new System.NotImplementedException();
+        // throw new System.NotImplementedException();
     }
 
     protected override void OnAnimatorMoveState()
@@ -51,11 +51,11 @@ public class AiWanderState : BaseState
 
     protected override void UpdateState()
     {
-       if(_path == null || _requestingPath) { return; }
-       if(Vector3.Distance(_path[_poistionInPath],_context.ControlerContext.transform.position) < 1)
+        if (_path == null || _requestingPath) { return; }
+        if (Vector3.Distance(_path[_poistionInPath], _context.ControlerContext.transform.position) < 1)
         {
             _poistionInPath++;
-            if(_poistionInPath >= _path.Length) { _path = null; return; }
+            if (_poistionInPath >= _path.Length) { _path = null; return; }
         }
         RotateToPoint(_path[_poistionInPath]);
 

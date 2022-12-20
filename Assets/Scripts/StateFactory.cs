@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class StateFactory
 {
-
     protected StateMachine _stateMachine;
-    protected Dictionary<string, BaseState> _states = new Dictionary<string, BaseState>();
+    protected Dictionary<string, BaseState> _states = new();
 }

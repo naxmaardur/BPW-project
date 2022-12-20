@@ -10,7 +10,6 @@ public class SpawnEffectSpell : MagicSpell
         this.color = color;
         CastingEffect = (GameObject)Resources.Load(ResourcePath, typeof(GameObject));
     }
-
     public override void Cast(GameObject gameObject, Transform castingLocation)
     {
         GameObject effect = Object.Instantiate(CastingEffect, castingLocation.position, castingLocation.rotation);

@@ -11,12 +11,9 @@ public class HealthBar : MonoBehaviour
     GameObject _healthLingeringSpriteObject;
     [SerializeField]
     AnimationCurve _healthCurve;
-
     float _targethealth = 1;
     Coroutine _healthLingeringCoroutine;
     Coroutine _healthCoroutine;
-
-
     IEnumerator ScaleTransformOverTime(float a, float b, float t, Transform transform)
     {
         float counter = 0f;
@@ -30,8 +27,6 @@ public class HealthBar : MonoBehaviour
             yield return null;
         }
     }
-
-
     // The curve makes it so that the health displayed is lower then then actual health you have, making the last 25% of the bar the last 50% of your health.
     // this is to increase tension 
     public void ScaleHealthBasedOnValue(float health, float maxHealth)

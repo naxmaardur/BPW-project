@@ -10,17 +10,14 @@ public abstract class BaseState
     protected bool _IsRootState;
     public BaseState GetSubState { get { return _currentSubState; } }
     public BaseState GetSuperState { get { return _currentSuperState; } }
-
     protected BaseState(StateMachine currentContext)
     {
         _ctx = currentContext;
     }
-
     public abstract void EnterState();
     protected abstract void ExitState();
     public abstract bool CheckSwitchStates();
     public abstract void InitializeSubState();
-
     protected abstract void UpdateState();
     protected abstract void FixedUpdateState();
     protected abstract void OnAnimatorMoveState();
@@ -46,7 +43,6 @@ public abstract class BaseState
             _currentSubState.OnAnimatorMoveStates();
     }
 
-    //State Changing
     protected void SwitchState(BaseState newState)
     {
         ExitState();
@@ -62,7 +58,6 @@ public abstract class BaseState
     {
         _currentSuperState = newSuperState;
     }
-
     protected void SetSubState(BaseState newSubState)
     {
         _currentSubState = newSubState;

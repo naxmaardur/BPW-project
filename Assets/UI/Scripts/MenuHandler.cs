@@ -6,13 +6,11 @@ public class MenuHandler : MonoBehaviour
 {
     [SerializeField]
     GameObject _panel;
-
     public void Awake()
     {
         GameMaster.OnPause += OnPause;
         GameMaster.OnUnPause += OnUnPause;
     }
-
     private void OnDisable()
     {
         GameMaster.OnPause -= OnPause;
@@ -23,17 +21,14 @@ public class MenuHandler : MonoBehaviour
         GameMaster.Instance.StartGame();
         gameObject.SetActive(false);
     }
-
     public void ContinueGameButton()
     {
         GameMaster.Instance.UnPauseGame();
     }
-
     public void QuitGameButton()
     {
         GameMaster.Instance.QuitGame();
     }
-
     public void OnPause()
     {
         _panel.SetActive(true);
@@ -42,5 +37,4 @@ public class MenuHandler : MonoBehaviour
     {
         _panel.SetActive(false);
     }
-
 }

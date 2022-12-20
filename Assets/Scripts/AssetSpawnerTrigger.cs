@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class AssetSpawnerTrigger : MonoBehaviour
 {
-
     [SerializeField]
     AssetSpawner[] _assetSpawners;
-
     private void OnTriggerEnter(Collider other)
     {
 
@@ -19,5 +17,4 @@ public class AssetSpawnerTrigger : MonoBehaviour
             }
         }
     }
-
 }

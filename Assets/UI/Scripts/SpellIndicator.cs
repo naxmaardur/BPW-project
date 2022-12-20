@@ -7,10 +7,8 @@ public class SpellIndicator : MonoBehaviour
 {
     [SerializeField]
     Image _gemImage;
-
     [SerializeField]
     Image[] _spellNotches;
-
     public void SetSpellNotches(int count)
     {
         int i = 0;
@@ -20,10 +18,8 @@ public class SpellIndicator : MonoBehaviour
         }
         
     }
-
     public void SetGemColor(Color color)
     {
         _gemImage.color = color;
     }
-
 }

@@ -18,11 +18,11 @@ public class PatrolPathMaster
 
     public PathData GetClostestPath(Vector3 postion)
     {
-        PathData closest = new PathData(0,Mathf.Infinity,null,false);
-        foreach(PatrolPath path in _patrolPaths)
+        PathData closest = new PathData(0, Mathf.Infinity, null, false);
+        foreach (PatrolPath path in _patrolPaths)
         {
             PathData data = path.GetDataOfClostestPatrolPoint(postion);
-            if(data.distance < closest.distance) { closest = data; }
+            if (data.distance < closest.distance) { closest = data; }
         }
         return closest;
     }

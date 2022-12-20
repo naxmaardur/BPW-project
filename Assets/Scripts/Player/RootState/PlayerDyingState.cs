@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerDyingState : BaseState
 {
     PlayerStateMachine _context;
-
     public PlayerDyingState(PlayerStateMachine currentContext) : base(currentContext)
     {
         _IsRootState = true;
@@ -14,7 +13,7 @@ public class PlayerDyingState : BaseState
 
     public override bool CheckSwitchStates()
     {
-        if(_context.ControlerContext.playerAnimator.TransitioningToDead())
+        if (_context.ControlerContext.playerAnimator.TransitioningToDead())
         {
             SwitchState(_context.States.Respawn());
             return true;

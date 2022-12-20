@@ -10,22 +10,16 @@ public class InteractableEventSubscriber : MonoBehaviour
     [SerializeField] float reach;
     [SerializeField] LayerMask layerMask;
 
-
-
-
     Interactable currentInteractable;
+
     // Start is called before the first frame update
     void Start()
     {
         lastposition = transform.position;
-        
     }
-
-
-
     void OnEnable()
     {
-            StartCoroutine(CheckInteractables());
+        StartCoroutine(CheckInteractables());
     }
     IEnumerator CheckInteractables()
     {
@@ -37,10 +31,10 @@ public class InteractableEventSubscriber : MonoBehaviour
 
             RaycastHit[] sphereHits;
             sphereHits = Physics.SphereCastAll(transform.position, reach, transform.forward, 200, layerMask);
-            
+
             if (sphereHits.Length == 0)
             {
-                if(currentInteractable != null)
+                if (currentInteractable != null)
                 {
                     currentInteractable.Isactive(false);
                     currentInteractable = null;
@@ -52,7 +46,6 @@ public class InteractableEventSubscriber : MonoBehaviour
             foreach (RaycastHit hit in sphereHits)
             {
                 if (hit.transform.gameObject == gameObject) continue;
-                //if (hit.transform.tag != "Interactable") continue;
                 if (DistancefromMe(hit.transform.position) > DistancefromMe(currentClostesthit.transform.position)) continue;
                 currentClostesthit = hit;
             }
@@ -65,19 +58,13 @@ public class InteractableEventSubscriber : MonoBehaviour
         }
 
     }
-
     float DistancefromMe(Vector3 v)
     {
         return Vector3.Distance(v, transform.position);
     }
-
-    
-
-
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(transform.position, reach);
-        
+
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerControler : MonoBehaviour, IDamageable
 {
     Transform _PlayerSpawnPoint;
-
     PlayerStateMachine _PlayerStateMachine;
     CharacterController _characterController;
     PlayerAnimatorManager _playerAnimator;
@@ -12,12 +11,10 @@ public class PlayerControler : MonoBehaviour, IDamageable
     RunTimeAnimatorListContainer _animatorListContainer = new();
     PlayerPickUpManager _pickUpManager;
     InteractionEventManager _interactionEventManager;
-
     HitBox _currentWeaponHitBox;
     [SerializeField]
     HitBox _rollHitBox;
     MagicContainer _magicContainer;
-
     [SerializeField]
     Transform _weaponPoint;
     [SerializeField]
@@ -25,7 +22,6 @@ public class PlayerControler : MonoBehaviour, IDamageable
     Transform _weaponTransform;
     Transform _magicTransform;
     AudioSource _source;
-
     PlayerInput _input;
     Vector2 _currentMovement;
     Vector2 _currentLookInput;
@@ -48,20 +44,15 @@ public class PlayerControler : MonoBehaviour, IDamageable
     bool _hasAwoken;
     [SerializeField]
     bool _inHiddingZone;
-
     public bool invincible = false;
-
     public delegate void HealthUpdate(float health);
     public HealthUpdate OnHealthUpdate;
-
     public delegate void SpellUpdate(MagicContainer container);
     public SpellUpdate OnSpellUpdate;
-
-
     public Transform PlayerSpawnPoint { get { return _PlayerSpawnPoint; } }
     public HitBox CurrentWeaponHitBox { get { return _currentWeaponHitBox; } }
     public HitBox CurrentRollHitBox { get { return _rollHitBox; } }
-    public MagicContainer MagicContainer {get { return _magicContainer; } }
+    public MagicContainer MagicContainer { get { return _magicContainer; } }
     public RunTimeAnimatorListContainer AnimatorListContainer { get { return _animatorListContainer; } }
     public PlayerAnimatorManager playerAnimator { get { return _playerAnimator; } }
     public bool IsMovementPressed { get { return _movementPressed; } }
@@ -76,23 +67,16 @@ public class PlayerControler : MonoBehaviour, IDamageable
     public Vector2 GetCurrentLookInput { get { return _currentLookInput; } }
     public float TurningSpeed { get { return _turningSpeed; } }
     public Transform GetCam { get { return _camera.transform; } }
-
     public bool IsShouldAttackSet { get { return _shouldAttack; } }
     public bool IsShouldCastSet { get { return _shouldCast; } }
-
     public bool InHiddingZone { get { return _inHiddingZone; } set { _inHiddingZone = value; } }
 
     [SerializeField]
     float _health;
     float _maxHealth = 100;
-
-        
     public float Health { get { return _health; } set { _health = value; Mathf.Clamp(_health, 0, _maxHealth); OnHealthUpdate?.Invoke(Health); } }
     public float MaxHealth { get { return _maxHealth; } }
-
     public float Poise { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-    
 
     public void onAwake()
     {
@@ -135,7 +119,7 @@ public class PlayerControler : MonoBehaviour, IDamageable
         _input.Player.Cast.canceled += ctx => { _CastPressed = false; _canCast = true; };
         _input.Player.Pause.started += ctx => { GameMaster.Instance.PauseGame(); };
         EnableInput();
-        StartCoroutine(playerAnimator.Updatefloats()); 
+        StartCoroutine(playerAnimator.Updatefloats());
         ChangeWeaponTo(0);
         GameObject MCO = (GameObject)Resources.Load("Prefabs/spells/Spellcontainer", typeof(GameObject));
         MCO = Instantiate(MCO, Vector3.zero, Quaternion.identity);
@@ -155,118 +139,85 @@ public class PlayerControler : MonoBehaviour, IDamageable
         _weaponTransform.rotation = _weaponPoint.rotation;
         OnHealthUpdate?.Invoke(Health);
     }
-
-    // Start is called before the first frame update
     void Start()
     {
 
     }
-
-    // Update is called once per frame
     public void OnUpdate()
     {
         if (_attackPressed && !_shouldAttack && _canAttack && _lastAttackCompleted && !_shouldCast)
         { _shouldAttack = true; _canAttack = false; }
         if (_CastPressed && _canCast && !_shouldCast && !_shouldAttack)
         { _shouldCast = true; _canCast = false; }
-
         _PlayerStateMachine.OnUpdate();
         _PlayerStateMachine.OnCheckSwitchStates();
-
         AlignEquipedObjectsWithPoints();
     }
-
     private void OnAnimatorMove()
     {
         _PlayerStateMachine?.OnAnimatorMoveState();
     }
-
     private void AlignEquipedObjectsWithPoints()
     {
         _weaponTransform.position = _weaponPoint.position;
         _weaponTransform.rotation = _weaponPoint.rotation;
-        if(_magicTransform == null){ return; }
+        if (_magicTransform == null) { return; }
         _magicTransform.position = _magicPoint.position;
         _magicTransform.rotation = _magicPoint.rotation;
     }
-
     public void Move(Vector3 velocity)
     {
-        velocity.y = -9  * Time.deltaTime;
+        velocity.y = -9 * Time.deltaTime;
         _characterController.Move(velocity);
     }
-
     private void OnEnable()
     {
         if (_hasAwoken) { EnableInput(); }
     }
-
     private void OnDisable()
     {
         DisableInput();
     }
-
     public void PlaySource()
     {
         _source.Play();
     }
-
     public void EnableInput()
     {
         _input?.Player.Enable();
     }
-
     public void DisableInput()
     {
         _input?.Player.Disable();
     }
-
-    public void Damage(float damage,float poiseDamage = 0)
+    public void Damage(float damage, float poiseDamage = 0)
     {
         if (invincible) { return; }
         Health -= damage;
     }
-
-
     public bool PickUpItem(PickUpItem item)
     {
         return _pickUpManager.PickUpItem(item);
     }
-
     public void ChangeWeaponTo(int id)
     {
         GameObject tempNewWeaponContainer = Instantiate(GameMaster.Instance.EquipableItemContainer.GetWeaponById(id), Vector3.zero, Quaternion.identity);
         _currentWeaponHitBox = tempNewWeaponContainer.GetComponent<HitBox>();
-        if (_weaponTransform != null){Destroy(_weaponTransform.gameObject);}
+        if (_weaponTransform != null) { Destroy(_weaponTransform.gameObject); }
         _weaponTransform = tempNewWeaponContainer.transform;
         _currentWeaponHitBox.Owner = gameObject;
-    } 
-
+    }
     public void AddHealth(float value)
     {
         Health += value;
     }
-
-
     public bool IsSneaking()
     {
         return _PlayerStateMachine.CurrentState.GetSubState == _PlayerStateMachine.States.Sneak();
     }
-
     public void SetHeight(float value, Vector3 offset)
     {
         _characterController.height = value;
         _characterController.center = offset;
     }
-
-    /*private void OnGUI()
-    {
-        GUILayout.Label("1" + _PlayerStateMachine.CurrentState.GetType());
-        GUILayout.Label("2" + _PlayerStateMachine.CurrentState.GetSubState.GetType());
-        GUILayout.Label("_shouldAttack " + _shouldAttack);
-        GUILayout.Label("_canAttack " + _canAttack);
-        GUILayout.Label("_attackPressed " + _attackPressed);
-        GUILayout.Label("_lastAttackCompleted " + _lastAttackCompleted);
-
-    }*/
 }

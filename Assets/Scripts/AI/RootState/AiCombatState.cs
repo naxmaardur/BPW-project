@@ -35,7 +35,7 @@ public class AiCombatState : BaseState
 
     public override void InitializeSubState()
     {
-        if(Vector3.Distance(_context.ControlerContext.PlayerTransfrom.position,_context.ControlerContext.transform.position) > 4)
+        if (Vector3.Distance(_context.ControlerContext.PlayerTransfrom.position, _context.ControlerContext.transform.position) > 4)
         {
             SetSubState(_context.States.Follow());
             GetSubState.EnterState();

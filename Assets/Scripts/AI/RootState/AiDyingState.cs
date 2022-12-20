@@ -40,7 +40,7 @@ public class AiDyingState : BaseState
 
     protected override void UpdateState()
     {
-        if(_context.ControlerContext.AnimatorManager.IsAnimationPlayingWithName("Death") 
+        if (_context.ControlerContext.AnimatorManager.IsAnimationPlayingWithName("Death")
             || _context.ControlerContext.AnimatorManager.IsTransitionPlayingWithName("ToDeath")) { return; }
         _context.ControlerContext.DestroySelf();
     }

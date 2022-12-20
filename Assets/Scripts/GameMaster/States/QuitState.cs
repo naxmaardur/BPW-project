@@ -13,8 +13,8 @@ public class QuitState : GameMasterBaseState
         _IsRootState = true;
         _context = currentContext;
     }
-    
-   
+
+
     public override bool CheckSwitchStates()
     {
         return false;
@@ -31,7 +31,7 @@ public class QuitState : GameMasterBaseState
 
     protected override void ExitState()
     {
-       
+
     }
 
     protected override void FixedUpdateState()

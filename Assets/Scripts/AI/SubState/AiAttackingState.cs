@@ -20,7 +20,7 @@ public class AiAttackingState : BaseState
 
     bool AttackIsPlaying()
     {
-        if(_context.ControlerContext.AnimatorManager.IsTransitionPlayingWithName("FromAttack")) { return false; }
+        if (_context.ControlerContext.AnimatorManager.IsTransitionPlayingWithName("FromAttack")) { return false; }
         return true;
     }
 
@@ -53,15 +53,15 @@ public class AiAttackingState : BaseState
     protected override void UpdateState()
     {
         _context.ControlerContext.HitBox.OnUpdate();
-        if(!_hitBoxEnabled && Time.time < _hitboxStartCooldown)
+        if (!_hitBoxEnabled && Time.time < _hitboxStartCooldown)
         {
             _context.ControlerContext.HitBox.EnableHitBox();
             _hitBoxEnabled = true;
         }
-        if(_hitBoxEnabled && _context.ControlerContext.AnimatorManager.GetAnimationCompletionPecentage() > 75)
+        if (_hitBoxEnabled && _context.ControlerContext.AnimatorManager.GetAnimationCompletionPecentage() > 75)
         {
             _context.ControlerContext.HitBox.DisableHitBox();
         }
-    
+
     }
 }

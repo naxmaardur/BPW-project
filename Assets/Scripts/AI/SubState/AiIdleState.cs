@@ -13,8 +13,8 @@ public class AiIdleState : BaseState
     }
     public override bool CheckSwitchStates()
     {
-        if(Time.time < _IdleEndTime){ return false; }
-        if(_context.ControlerContext.patrol)
+        if (Time.time < _IdleEndTime) { return false; }
+        if (_context.ControlerContext.patrol)
         {
             SwitchState(_context.States.Patrol());
             return true;

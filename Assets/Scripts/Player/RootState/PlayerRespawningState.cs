@@ -5,13 +5,11 @@ using UnityEngine;
 public class PlayerRespawningState : BaseState
 {
     PlayerStateMachine _context;
-
     public PlayerRespawningState(PlayerStateMachine currentContext) : base(currentContext)
     {
         _IsRootState = true;
         _context = currentContext;
     }
-
     public override bool CheckSwitchStates()
     {
         if (_context.ControlerContext.playerAnimator.TransitioningFromRespawn())
@@ -20,7 +18,6 @@ public class PlayerRespawningState : BaseState
         }
         return false;
     }
-
     public override void EnterState()
     {
         GameMaster.Instance.RestartGameScene();
@@ -30,23 +27,18 @@ public class PlayerRespawningState : BaseState
         _context.ControlerContext.transform.rotation = _context.ControlerContext.PlayerSpawnPoint.rotation;
         _context.ControlerContext.PlaySource();
     }
-
     public override void InitializeSubState()
     {
     }
-
     protected override void ExitState()
     {
     }
-
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
     }
-
     protected override void UpdateState()
     {
     }

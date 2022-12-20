@@ -11,14 +11,14 @@ public class GameMaster : Singleton<GameMaster>
     PatrolPathMaster _patrolPathMaster = new();
     PlayerInput _input;
 
-    public EquipableItemContainer EquipableItemContainer { get { return _equipableItemContainer;} }
+    public EquipableItemContainer EquipableItemContainer { get { return _equipableItemContainer; } }
     public PatrolPathMaster PatrolPathMaster { get { return _patrolPathMaster; } }
 
     PlayerControler _player;
     public PlayerControler Player { get { return _player; } }
     Camera _cam;
 
-    public Camera Cam {  get { return _cam; } }
+    public Camera Cam { get { return _cam; } }
 
     public delegate void GameMasterEvent();
     public static event GameMasterEvent OnUpdateGlobalHitboxes;
@@ -36,7 +36,7 @@ public class GameMaster : Singleton<GameMaster>
     {
         _input = new();
         _input.UI.Pause.started += ctx => { UnPauseGame(); };
-        if(Instance != null) { Destroy(this.gameObject); return; }
+        if (Instance != null) { Destroy(this.gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
         _gameMasterStateMachine = new(this);
@@ -44,12 +44,12 @@ public class GameMaster : Singleton<GameMaster>
         SceneManager.sceneLoaded += LocateNewReferences;
     }
 
-    
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     void LocateNewReferences(Scene current, LoadSceneMode mode)
@@ -74,7 +74,7 @@ public class GameMaster : Singleton<GameMaster>
 
     public void PauseGame()
     {
-        if(_gameMasterStateMachine.CurrentState != _gameMasterStateMachine.States.Game()){return;}
+        if (_gameMasterStateMachine.CurrentState != _gameMasterStateMachine.States.Game()) { return; }
         _gameMasterStateMachine.CurrentState = (GameMasterBaseState)_gameMasterStateMachine.States.Menu();
         _gameMasterStateMachine.CurrentState.EnterState();
         _input.UI.Enable();
@@ -119,7 +119,7 @@ public class GameMaster : Singleton<GameMaster>
         }
         else { cutSceneState.NextState = _gameMasterStateMachine.States.Game(); }
         cutSceneState.EnterState();
-        
+
     }
 
     public void GetNewPlayer()
@@ -139,7 +139,7 @@ public class GameMaster : Singleton<GameMaster>
     }
     public bool RequestAttackToken()
     {
-        if(_attackTokens <= 0) { return false; }
+        if (_attackTokens <= 0) { return false; }
         _attackTokens--;
         return true;
     }
@@ -153,14 +153,14 @@ public class GameMaster : Singleton<GameMaster>
     public bool IsPlayerSneaking()
     {
         bool isSneaking = false;
-        if(_player != null && _player.IsSneaking()) { isSneaking = true; }
+        if (_player != null && _player.IsSneaking()) { isSneaking = true; }
         return isSneaking;
     }
-    
+
     public bool IsPlayerInHidingZone()
     {
         bool inHidingZone = false;
-        if(_player != null && _player.InHiddingZone) { inHidingZone = true; }
+        if (_player != null && _player.InHiddingZone) { inHidingZone = true; }
         return inHidingZone;
     }
 

@@ -15,7 +15,7 @@ public class AiFollowState : BaseState
     }
     public override bool CheckSwitchStates()
     {
-        if(Vector3.Distance(_context.ControlerContext.transform.position, _context.ControlerContext.PlayerTransfrom.position) <= 4)
+        if (Vector3.Distance(_context.ControlerContext.transform.position, _context.ControlerContext.PlayerTransfrom.position) <= 4)
         {
             SwitchState(_context.States.Fighting());
             return true;
@@ -53,9 +53,9 @@ public class AiFollowState : BaseState
 
     protected override void UpdateState()
     {
-        if(Vector3.Distance(_lastPoint, _context.ControlerContext.PlayerTransfrom.position) > 1)
+        if (Vector3.Distance(_lastPoint, _context.ControlerContext.PlayerTransfrom.position) > 1)
         {
-            
+
             _lastPoint = _context.ControlerContext.PlayerTransfrom.position;
             RequestPath();
         }

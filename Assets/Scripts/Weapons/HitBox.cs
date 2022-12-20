@@ -9,7 +9,6 @@ public class HitBox : MonoBehaviour
         This Hitbox script is to do collision detection with out the need of ridgidbodies which slightly saves on performance.
         it also doubles as the only scripted needed to ever deal damage to a IDamagble.
     */
-
     [SerializeField]
     protected float _damage = 10f;
     [SerializeField]
@@ -19,21 +18,18 @@ public class HitBox : MonoBehaviour
     [SerializeField]
     protected bool _HitboxEnabled;
     protected List<GameObject> _HaveBeenHit = new();
-    public GameObject Owner { get { return _owner; } set { if(_owner == null) { _owner = value; } } }
+    public GameObject Owner { get { return _owner; } set { if (_owner == null) { _owner = value; } } }
     protected Vector3 _scale;
-
     private void Awake()
     {
         OnAwake();
     }
-
     protected virtual void OnAwake()
     {
         _collider = GetComponent<BoxCollider>();
         _collider.enabled = false;
         CalculateScale();
     }
-
     protected void CalculateScale()
     {
         _scale = new Vector3(_collider.size.x * transform.lossyScale.x,
@@ -46,9 +42,9 @@ public class HitBox : MonoBehaviour
 
         Collider[] hits;
 
-        hits = Physics.OverlapBox(transform.TransformPoint(_collider.center), _scale/2, transform.rotation);
-        
-        foreach(Collider col in hits)
+        hits = Physics.OverlapBox(transform.TransformPoint(_collider.center), _scale / 2, transform.rotation);
+
+        foreach (Collider col in hits)
         {
             if (col.gameObject == _owner) continue;
             if (_HaveBeenHit.Contains(col.gameObject)) continue;
@@ -59,18 +55,15 @@ public class HitBox : MonoBehaviour
             }
         }
     }
-
     protected virtual void OnHit(IDamageable dam, Collider col)
     {
-        dam.Damage(_damage,_poiseDamage);
+        dam.Damage(_damage, _poiseDamage);
         _HaveBeenHit.Add(col.gameObject);
     }
-
     public void ResetHitList()
     {
         _HaveBeenHit.Clear();
     }
-
     public void DisableHitBox()
     {
         ResetHitList();

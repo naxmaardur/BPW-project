@@ -17,7 +17,6 @@ public class IceLanceHitBox : HitBox
     [SerializeField]
     AudioClip _clip;
     AudioSource _source;
-
     protected override void OnAwake()
     {
         base.OnAwake();
@@ -25,16 +24,15 @@ public class IceLanceHitBox : HitBox
         GameMaster.OnUpdateGlobalHitboxes += OnUpdate;
         _maxLifeTime = _maxLifeTime + Time.time;
     }
-
     public override void OnUpdate()
     {
-        if(_maxLifeTime <= Time.time && !_hit) { HasHitObject(); }
+        if (_maxLifeTime <= Time.time && !_hit) { HasHitObject(); }
         if (!_hit) { transform.position += transform.forward * _speed * Time.deltaTime; }
         if (!_HitboxEnabled) { return; }
 
         Collider[] hits;
 
-        hits = Physics.OverlapBox(_collider.center + transform.position, _scale/2, transform.rotation);
+        hits = Physics.OverlapBox(_collider.center + transform.position, _scale / 2, transform.rotation);
         foreach (Collider col in hits)
         {
             if (col.gameObject == _owner) continue;
@@ -47,9 +45,6 @@ public class IceLanceHitBox : HitBox
             }
         }
     }
-
-    
-
     void HasHitObject()
     {
         _HitboxEnabled = false;
@@ -61,13 +56,11 @@ public class IceLanceHitBox : HitBox
         _meshRenderer.enabled = false;
         StartCoroutine(waitForEndofPartical());
     }
-
     IEnumerator waitForEndofPartical()
     {
         yield return new WaitWhile(() => _shards != null && _mist != null);
         DestroySelf();
     }
-
     void DestroySelf()
     {
         GameMaster.OnUpdateGlobalHitboxes -= OnUpdate;
