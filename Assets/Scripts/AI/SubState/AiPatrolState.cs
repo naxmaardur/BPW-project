@@ -8,8 +8,6 @@ public class AiPatrolState : BaseState
     Vector3[] _path;
     int _pathIndex;
     bool _loop;
-
-
     public AiPatrolState(AiStateMachine currentContext) : base(currentContext)
     {
         _context = currentContext;
@@ -23,7 +21,6 @@ public class AiPatrolState : BaseState
         }
         return false;
     }
-
     public override void EnterState()
     {
         _context.ControlerContext.AnimatorManager.SetWalkforward(true);
@@ -43,44 +40,35 @@ public class AiPatrolState : BaseState
             _loop = data.loop;
         }
     }
-
     public override void InitializeSubState()
     {
         throw new System.NotImplementedException();
     }
-
     protected override void ExitState()
     {
         _context.ControlerContext.AnimatorManager.SetWalkforward(false);
-        if (_pathIndex > _path.Length - 1)
+        if (_pathIndex < _path.Length - 1) { return; }
+        if (!_loop)
         {
-            if (!_loop)
-            {
-                _path = null;
-                _context.ControlerContext.patrol = false;
-            }
-            else
-            {
-                _pathIndex = 0;
-            }
+            _path = null;
+            _context.ControlerContext.patrol = false;
+        }
+        else
+        {
+            _pathIndex = 0;
         }
     }
-
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
     }
-
     protected override void UpdateState()
     {
         if (_path == null) { return; }
         RotateToPoint(_path[_pathIndex]);
     }
-
-
     void RotateToPoint(Vector3 point)
     {
         Vector3 direction = UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, point);

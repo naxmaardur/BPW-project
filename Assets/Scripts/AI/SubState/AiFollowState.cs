@@ -20,37 +20,28 @@ public class AiFollowState : BaseState
             SwitchState(_context.States.Fighting());
             return true;
         }
-
         return false;
     }
-
     public override void EnterState()
     {
         _context.ControlerContext.AnimatorManager.SetRunforward(true);
         _lastPoint = _context.ControlerContext.PlayerTransfrom.position;
         RequestPath();
     }
-
     public override void InitializeSubState()
     {
         throw new System.NotImplementedException();
     }
-
     protected override void ExitState()
     {
         _context.ControlerContext.AnimatorManager.SetRunforward(false);
     }
-
     protected override void FixedUpdateState()
     {
-        //throw new System.NotImplementedException();
     }
-
     protected override void OnAnimatorMoveState()
     {
-        //throw new System.NotImplementedException();
     }
-
     protected override void UpdateState()
     {
         if (Vector3.Distance(_lastPoint, _context.ControlerContext.PlayerTransfrom.position) > 1)
@@ -67,7 +58,6 @@ public class AiFollowState : BaseState
         }
         RotateToPoint(_path[_poistionInPath]);
     }
-
     void RotateToPoint(Vector3 point)
     {
         Vector3 direction = UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, point);
@@ -78,7 +68,6 @@ public class AiFollowState : BaseState
         float angle = Mathf.SmoothDampAngle(_context.ControlerContext.transform.eulerAngles.y, targetAngle, ref _context.ControlerContext.turnSmoothVelocity, turnSpeed);
         _context.ControlerContext.transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
-
     void RequestPath()
     {
         _requestingPath = true;

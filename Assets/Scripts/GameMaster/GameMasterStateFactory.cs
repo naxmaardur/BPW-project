@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameMasterStateFactory : StateFactory
 {
-
     public GameMasterStateFactory(GameMasterStateMachine currentContext)
     {
         _states["Default"] = new DefaultState(currentContext);
@@ -13,13 +12,10 @@ public class GameMasterStateFactory : StateFactory
         _states["CutScene"] = new CutSceneState(currentContext);
         _states["Quit"] = new QuitState(currentContext);
     }
-
-
     public BaseState Default()
     {
         return _states["Default"];
     }
-
     public BaseState Game()
     {
         return _states["Game"];
@@ -32,10 +28,8 @@ public class GameMasterStateFactory : StateFactory
     {
         return _states["CutScene"];
     }
-
     public BaseState Quit()
     {
         return _states["Quit"];
     }
-
 }

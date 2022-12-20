@@ -17,31 +17,25 @@ public class AiAttackingState : BaseState
         SwitchState(_context.States.Combat());
         return true;
     }
-
     bool AttackIsPlaying()
     {
         if (_context.ControlerContext.AnimatorManager.IsTransitionPlayingWithName("FromAttack")) { return false; }
         return true;
     }
-
     public override void EnterState()
     {
         _context.ControlerContext.AnimatorManager.TriggerAttack();
         _hitboxStartCooldown = Time.time + 1f;
         _hitBoxEnabled = false;
     }
-
     public override void InitializeSubState()
     {
-        throw new System.NotImplementedException();
     }
-
     protected override void ExitState()
     {
         _context.ControlerContext.ReturnAttackToken();
         _context.ControlerContext.HitBox.DisableHitBox();
     }
-
     protected override void FixedUpdateState()
     {
     }
@@ -49,7 +43,6 @@ public class AiAttackingState : BaseState
     protected override void OnAnimatorMoveState()
     {
     }
-
     protected override void UpdateState()
     {
         _context.ControlerContext.HitBox.OnUpdate();
@@ -62,6 +55,5 @@ public class AiAttackingState : BaseState
         {
             _context.ControlerContext.HitBox.DisableHitBox();
         }
-
     }
 }

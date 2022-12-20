@@ -14,30 +14,24 @@ public class AiDyingState : BaseState
     {
         return false;
     }
-
     public override void EnterState()
     {
         _context.ControlerContext.AnimatorManager.TriggerDeath();
         _context.ControlerContext.DisableCollision();
         _context.ControlerContext.SpawnDeathDropObject();
     }
-
     public override void InitializeSubState()
     {
     }
-
     protected override void ExitState()
     {
     }
-
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
     }
-
     protected override void UpdateState()
     {
         if (_context.ControlerContext.AnimatorManager.IsAnimationPlayingWithName("Death")

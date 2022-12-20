@@ -14,27 +14,21 @@ public class DefaultState : GameMasterBaseState
     {
         return false;
     }
-
     public override void EnterState()
     {
     }
-
     public override void InitializeSubState()
     {
     }
-
     protected override void ExitState()
     {
     }
-
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
     }
-
     protected override void UpdateState()
     {
     }

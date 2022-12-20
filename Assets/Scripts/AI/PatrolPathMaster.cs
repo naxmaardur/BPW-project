@@ -5,17 +5,10 @@ using UnityEngine;
 public class PatrolPathMaster
 {
     PatrolPath[] _patrolPaths;
-
-
-
-
-
     public void SetPatrolPaths(PatrolPath[] patrolPaths)
     {
         _patrolPaths = patrolPaths;
     }
-
-
     public PathData GetClostestPath(Vector3 postion)
     {
         PathData closest = new PathData(0, Mathf.Infinity, null, false);
@@ -26,5 +19,4 @@ public class PatrolPathMaster
         }
         return closest;
     }
-
 }

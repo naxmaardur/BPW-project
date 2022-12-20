@@ -9,46 +9,35 @@ public class AiWanderState : BaseState
     Vector3 _originPoint;
     int _poistionInPath;
     bool _requestingPath;
-
     public AiWanderState(AiStateMachine currentContext) : base(currentContext)
     {
         _context = currentContext;
         _originPoint = currentContext.ControlerContext.transform.position;
     }
-
     public override bool CheckSwitchStates()
     {
         if (_path != null) { return false; }
         SwitchState(_context.States.Idle());
         return true;
     }
-
     public override void EnterState()
     {
         _context.ControlerContext.AnimatorManager.SetWalkforward(true);
         GetnewRandomPoint();
     }
-
     public override void InitializeSubState()
     {
-        //throw new System.NotImplementedException();
     }
-
     protected override void ExitState()
     {
         _context.ControlerContext.AnimatorManager.SetWalkforward(false);
     }
-
     protected override void FixedUpdateState()
     {
-        // throw new System.NotImplementedException();
     }
-
     protected override void OnAnimatorMoveState()
     {
-        //throw new System.NotImplementedException();
     }
-
     protected override void UpdateState()
     {
         if (_path == null || _requestingPath) { return; }
@@ -61,8 +50,6 @@ public class AiWanderState : BaseState
 
 
     }
-
-
     void RotateToPoint(Vector3 point)
     {
         Vector3 direction = UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, point);
@@ -74,8 +61,6 @@ public class AiWanderState : BaseState
         float angle = Mathf.SmoothDampAngle(_context.ControlerContext.transform.eulerAngles.y, targetAngle, ref _context.ControlerContext.turnSmoothVelocity, turnSpeed);
         _context.ControlerContext.transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
-
-
     void GetnewRandomPoint()
     {
         _requestingPath = true;
@@ -84,6 +69,4 @@ public class AiWanderState : BaseState
         _poistionInPath = 0;
         _requestingPath = false;
     }
-
-
 }

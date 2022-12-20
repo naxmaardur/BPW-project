@@ -6,20 +6,15 @@ using UnityEngine.Timeline;
 public class QuitState : GameMasterBaseState
 {
     GameMasterStateMachine _context;
-
-
     public QuitState(GameMasterStateMachine currentContext) : base(currentContext)
     {
         _IsRootState = true;
         _context = currentContext;
     }
-
-
     public override bool CheckSwitchStates()
     {
         return false;
     }
-
     public override void EnterState()
     {
         Application.Quit();
@@ -31,7 +26,6 @@ public class QuitState : GameMasterBaseState
 
     protected override void ExitState()
     {
-
     }
 
     protected override void FixedUpdateState()

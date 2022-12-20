@@ -22,28 +22,22 @@ public class AiIdleState : BaseState
         SwitchState(_context.States.Wander());
         return true;
     }
-
     public override void EnterState()
     {
         _IdleEndTime = Time.time + _context.ControlerContext.IdleTime;
     }
-
     public override void InitializeSubState()
     {
     }
-
     protected override void ExitState()
     {
     }
-
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
     }
-
     protected override void UpdateState()
     {
     }

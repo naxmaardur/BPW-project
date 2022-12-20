@@ -11,7 +11,6 @@ public class AiCombatState : BaseState
         _IsRootState = true;
         _context = currentContext;
     }
-
     public override bool CheckSwitchStates()
     {
         if (_context.ControlerContext.Health == 0)
@@ -26,13 +25,11 @@ public class AiCombatState : BaseState
         }
         return false;
     }
-
     public override void EnterState()
     {
         InitializeSubState();
         _rootMotion = Vector3.zero;
     }
-
     public override void InitializeSubState()
     {
         if (Vector3.Distance(_context.ControlerContext.PlayerTransfrom.position, _context.ControlerContext.transform.position) > 4)
@@ -46,16 +43,13 @@ public class AiCombatState : BaseState
             GetSubState.EnterState();
         }
     }
-
     protected override void ExitState()
     {
 
     }
-
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
         Vector3 rootMotion = _rootMotion;
@@ -64,7 +58,6 @@ public class AiCombatState : BaseState
         rootMotion += deltaPos;
         _rootMotion = rootMotion;
     }
-
     protected override void UpdateState()
     {
         _context.ControlerContext.Move(_rootMotion);

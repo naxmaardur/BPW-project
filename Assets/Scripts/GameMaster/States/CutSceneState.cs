@@ -7,8 +7,6 @@ public class CutSceneState : GameMasterBaseState
 {
     GameMasterStateMachine _context;
     public BaseState NextState;
-
-
     public CutSceneState(GameMasterStateMachine currentContext) : base(currentContext)
     {
         _IsRootState = true;
@@ -37,20 +35,16 @@ public class CutSceneState : GameMasterBaseState
     public override void InitializeSubState()
     {
     }
-
     protected override void ExitState()
     {
         GameMaster.OnCutSceneEnd -= OnCutSceneEnd;
     }
-
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
     }
-
     protected override void UpdateState()
     {
     }

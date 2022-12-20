@@ -29,7 +29,6 @@ public class AIFightingState : BaseState
 
         return false;
     }
-
     public override void EnterState()
     {
         _context.ControlerContext.AnimatorManager.SetCombatMovement(true);
@@ -37,26 +36,21 @@ public class AIFightingState : BaseState
         GetnewRandomPoint();
         _animatorUpdateFloats = _context.ControlerContext.StartCoroutine(_context.ControlerContext.AnimatorManager.Updatefloats());
     }
-
     public override void InitializeSubState()
     {
         throw new System.NotImplementedException();
     }
-
     protected override void ExitState()
     {
         _context.ControlerContext.StopCoroutine(_animatorUpdateFloats);
         _context.ControlerContext.AnimatorManager.SetCombatMovement(false);
     }
-
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
     }
-
     protected override void UpdateState()
     {
 
@@ -75,11 +69,9 @@ public class AIFightingState : BaseState
         if (Vector3.Distance(_path[_poistionInPath], _context.ControlerContext.transform.position) < 0.5f)
         {
             _poistionInPath++;
-
             if (_poistionInPath >= _path.Length) { GetnewRandomPoint(); }
         }
         RotateToPoint(_context.ControlerContext.PlayerTransfrom.position);
-
         Vector3 direction = UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, _path[_poistionInPath]);
         Debug.DrawRay(_context.ControlerContext.transform.position, direction, Color.green);
         direction = Quaternion.Euler(0, -_context.ControlerContext.transform.rotation.eulerAngles.y, 0) * direction;
@@ -87,10 +79,7 @@ public class AIFightingState : BaseState
         Debug.DrawRay(_context.ControlerContext.transform.position, direction, Color.red);
         _context.ControlerContext.AnimatorManager.SetMovementXWithDamp(direction.x);
         _context.ControlerContext.AnimatorManager.SetMovementYWithDamp(direction.z);
-
-
     }
-
     void GetnewRandomPoint()
     {
         _requestingPath = true;
@@ -99,7 +88,6 @@ public class AIFightingState : BaseState
         _poistionInPath = 0;
         _requestingPath = false;
     }
-
     void RotateToPoint(Vector3 point)
     {
         Vector3 direction = UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, point);

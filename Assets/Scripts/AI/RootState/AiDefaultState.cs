@@ -34,51 +34,42 @@ public class AIDefaultState : BaseState
             SwitchState(_context.States.Combat());
             return true;
         }
-
-        //throw new System.NotImplementedException();
         return false;
     }
-
     bool CheckIfPlayerIsSeen()
     {
         float CheckDistance = _context.ControlerContext.LookDistance;
         float distance = Vector3.Distance(_context.ControlerContext.PlayerTransfrom.position, _context.ControlerContext.transform.position);
-        //if(distance > CheckDistance) { return false; }
-        if (GameMaster.Instance.IsPlayerSneaking())
-        {
-            if (GameMaster.Instance.IsPlayerInHidingZone())
-            {
-                CheckDistance = CheckDistance / 8;
-            }
-            else
-            {
-                CheckDistance = CheckDistance / 4;
-            }
-        }
-
+        if (distance > CheckDistance) { return false; }
+        CheckDistance = CalcCheckDistance(CheckDistance);
         Debug.DrawLine(_context.ControlerContext.transform.position, (UtilityFunctions.Vector3Direction(_context.ControlerContext.transform.position, _context.ControlerContext.PlayerTransfrom.position) * CheckDistance) + _context.ControlerContext.transform.position);
         if (distance > CheckDistance) { return false; }
-        if (Vector3.Angle(_context.ControlerContext.transform.forward, _context.ControlerContext.PlayerTransfrom.position - _context.ControlerContext.transform.transform.position) > 80)
-        {
-            return false;
-        }
+        if (Vector3.Angle(_context.ControlerContext.transform.forward, _context.ControlerContext.PlayerTransfrom.position - _context.ControlerContext.transform.transform.position) > 80) { return false; }
         return true;
     }
-
-
+    float CalcCheckDistance(float CheckDistance = 8)
+    {
+        if (!GameMaster.Instance.IsPlayerSneaking()) { return CheckDistance; }
+        if (GameMaster.Instance.IsPlayerInHidingZone())
+        {
+            CheckDistance = CheckDistance / 8;
+        }
+        else
+        {
+            CheckDistance = CheckDistance / 4;
+        }
+        return CheckDistance;
+    }
     void OnHealthUpdate(float health, float max)
     {
         _shouldBeInCombat = true;
     }
-
-
     public override void EnterState()
     {
         _context.ControlerContext.OnHealthUpdate += OnHealthUpdate;
         InitializeSubState();
         _rootMotion = Vector3.zero;
     }
-
     public override void InitializeSubState()
     {
         if (_context.ControlerContext.patrol)
@@ -90,17 +81,13 @@ public class AIDefaultState : BaseState
         SetSubState(_context.States.Wander());
         _context.States.Wander().EnterState();
     }
-
     protected override void ExitState()
     {
         _context.ControlerContext.OnHealthUpdate -= OnHealthUpdate;
     }
-
     protected override void FixedUpdateState()
     {
-
     }
-
     protected override void OnAnimatorMoveState()
     {
         Vector3 rootMotion = _rootMotion;
@@ -109,7 +96,6 @@ public class AIDefaultState : BaseState
         rootMotion += deltaPos;
         _rootMotion = rootMotion;
     }
-
     protected override void UpdateState()
     {
         _context.ControlerContext.Move(_rootMotion);

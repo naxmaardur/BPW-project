@@ -7,8 +7,6 @@ public class AiAnimatorManager : AnimatorManager
     public AiAnimatorManager(Animator animator) : base(animator)
     {
     }
-
-
     public void SetWalkforward(bool b)
     {
         _animator.SetBool("WalkForward", b);
@@ -17,12 +15,10 @@ public class AiAnimatorManager : AnimatorManager
     {
         _animator.SetBool("RunForward", b);
     }
-
     public void SetCombatMovement(bool b)
     {
         _animator.SetBool("Combat", b);
     }
-
     public void TriggerDeath()
     {
         _animator.SetTrigger("Die");
@@ -41,8 +37,6 @@ public class AiAnimatorManager : AnimatorManager
         _animator.SetInteger("AttackNumber", Random.Range(0, _animator.GetInteger("AttackTotal")));
         _animator.SetTrigger("Attack");
     }
-
-
     public bool IsStunPlaying()
     {
         return IsAnimationPlayingWithName("Stun") || IsAnimationPlayingWithName("Stun 0") || IsTransitionPlayingWithName("ToStun");

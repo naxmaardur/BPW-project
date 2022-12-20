@@ -21,39 +21,30 @@ public class AiStateFactory : StateFactory
         _states["Dying"] = new AiDyingState(currentContext);
         _states["Stunded"] = new AiStundedState(currentContext);
     }
-
-
     public BaseState Idle()
     {
         return _states["idle"];
     }
-
-
     public BaseState Wander()
     {
         return _states["wander"];
     }
-
     public BaseState Patrol()
     {
         return _states["patrol"];
     }
-
     public BaseState Fighting()
     {
         return _states["fighting"];
     }
-
     public BaseState Follow()
     {
         return _states["follow"];
     }
-
     public BaseState Default()
     {
         return _states["Default"];
     }
-
     public BaseState Combat()
     {
         return _states["Combat"];

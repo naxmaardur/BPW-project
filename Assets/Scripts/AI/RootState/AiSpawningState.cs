@@ -16,28 +16,22 @@ public class AiSpawningState : BaseState
         SwitchState(_context.States.Default());
         return true;
     }
-
     public override void EnterState()
     {
     }
-
     public override void InitializeSubState()
     {
         throw new System.NotImplementedException();
     }
-
     protected override void ExitState()
     {
     }
-
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
     }
-
     protected override void UpdateState()
     {
     }

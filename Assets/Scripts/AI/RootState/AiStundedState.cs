@@ -21,28 +21,22 @@ public class AiStundedState : BaseState
         SwitchState(_context.States.Combat());
         return false;
     }
-
     public override void EnterState()
     {
         _context.ControlerContext.AnimatorManager.TriggerStun();
     }
-
     public override void InitializeSubState()
     {
     }
-
     protected override void ExitState()
     {
     }
-
     protected override void FixedUpdateState()
     {
     }
-
     protected override void OnAnimatorMoveState()
     {
     }
-
     protected override void UpdateState()
     {
     }

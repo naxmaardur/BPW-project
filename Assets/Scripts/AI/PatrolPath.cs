@@ -11,8 +11,6 @@ public class PatrolPath : MonoBehaviour
     bool _loop;
     public Vector3[] Path { get { return _path; } }
     public bool Loop { get { return _loop; } }
-
-
     public PathData GetDataOfClostestPatrolPoint(Vector3 position)
     {
         int index = 0;
@@ -28,12 +26,8 @@ public class PatrolPath : MonoBehaviour
 
         return new PathData(index, distance, _path, _loop);
     }
-
-
-
     private void OnDrawGizmos()
     {
-
         for (int i = 0; i < _path.Length; i++)
         {
             Gizmos.color = Color.yellow;
@@ -50,14 +44,12 @@ public class PatrolPath : MonoBehaviour
         }
     }
 }
-
 public struct PathData
 {
     public int index;
     public float distance;
     public Vector3[] path;
     public bool loop;
-
     public PathData(int index, float distance, Vector3[] path, bool loop)
     {
         this.index = index;
