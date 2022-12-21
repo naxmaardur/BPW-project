@@ -10,19 +10,22 @@ public class GameMaster : Singleton<GameMaster>
     EquipableItemContainer _equipableItemContainer;
     PatrolPathMaster _patrolPathMaster = new();
     PlayerInput _input;
+    Camera _cam;
+    PlayerControler _player;
+    public GameObject RespawnCamera;
     public EquipableItemContainer EquipableItemContainer { get { return _equipableItemContainer; } }
     public PatrolPathMaster PatrolPathMaster { get { return _patrolPathMaster; } }
-    PlayerControler _player;
     public PlayerControler Player { get { return _player; } }
-    Camera _cam;
     public Camera Cam { get { return _cam; } }
     public delegate void GameMasterEvent();
+    public delegate void GameMasterPauseEvent(bool gameover);
     public static event GameMasterEvent OnUpdateGlobalHitboxes;
     public static event GameMasterEvent OnUpdateAI;
-    public static event GameMasterEvent OnPause;
+    public static event GameMasterPauseEvent OnPause;
     public static event GameMasterEvent OnUnPause;
     public static event GameMasterEvent OnRestartGameScene;
     public static event GameMasterEvent OnCutSceneEnd;
+
     int _attackTokens = 5;
     private void Awake()
     {
@@ -50,13 +53,13 @@ public class GameMaster : Singleton<GameMaster>
         _gameMasterStateMachine.CurrentState = (GameMasterBaseState)_gameMasterStateMachine.States.Quit();
         _gameMasterStateMachine.CurrentState.EnterState();
     }
-    public void PauseGame()
+    public void PauseGame(bool gameOver = false)
     {
         if (_gameMasterStateMachine.CurrentState != _gameMasterStateMachine.States.Game()) { return; }
         _gameMasterStateMachine.CurrentState = (GameMasterBaseState)_gameMasterStateMachine.States.Menu();
         _gameMasterStateMachine.CurrentState.EnterState();
         _input.UI.Enable();
-        OnPause?.Invoke();
+        OnPause?.Invoke(gameOver);
     }
     public void UnPauseGame()
     {
@@ -65,9 +68,16 @@ public class GameMaster : Singleton<GameMaster>
         _gameMasterStateMachine.CurrentState.EnterState();
         _input.UI.Disable();
         OnUnPause?.Invoke();
+        RespawnCamera.SetActive(false);
     }
-    public void RestartGameScene()
+    public void RestartGameScene(bool gameOver = false)
     {
+        if (gameOver)
+        {
+            Player?.DisableInput();
+            RespawnCamera.SetActive(true);
+            PauseGame(true);
+        }
         OnRestartGameScene?.Invoke();
     }
     void Update()
@@ -80,9 +90,9 @@ public class GameMaster : Singleton<GameMaster>
     }
     public void CutSceneStart(bool EndCutScene = false)
     {
-        RestartGameScene();
         _gameMasterStateMachine.CurrentState = (GameMasterBaseState)_gameMasterStateMachine.States.CutScene();
         CutSceneState cutSceneState = (CutSceneState)_gameMasterStateMachine.CurrentState;
+        RestartGameScene();
         if (EndCutScene)
         {
             cutSceneState.NextState = _gameMasterStateMachine.States.Quit();

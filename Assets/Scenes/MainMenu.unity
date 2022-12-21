@@ -2689,6 +2689,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 681607999711463365, guid: 0829fdf9d1d757e429c33ce7defbeece, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6557408230742845525, guid: 0829fdf9d1d757e429c33ce7defbeece, type: 3}
+      propertyPath: m_text
+      value: Start
+      objectReference: {fileID: 0}
+    - target: {fileID: 6557408230791360669, guid: 0829fdf9d1d757e429c33ce7defbeece, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGameButton
+      objectReference: {fileID: 0}
     - target: {fileID: 6557408231834321876, guid: 0829fdf9d1d757e429c33ce7defbeece, type: 3}
       propertyPath: m_Name
       value: MenuUI
